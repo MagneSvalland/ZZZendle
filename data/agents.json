@@ -1,0 +1,293 @@
+[
+  {
+    "id": "rina", "name": "Alexandrina Sebastiane", "rank": "S", "attribute": "Electric", "specialty": "Support", "attack_type": "Strike", "faction": "Victoria Housekeeping Co.", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Alexandrina_Sebastiane_Icon.png", "splash_image": "/images/agents/Agent_Alexandrina_Sebastiane_Portrait.png", "splash_focus": "center 60%",
+    "quote": "Your rhythm is off. Allow me to correct it.", "emojis": ["🎭", "⚡", "🪆", "💜", "🎪"]
+  },
+  {
+    "id": "alice", "name": "Alice Thymefield", "rank": "S", "attribute": "Physical", "specialty": "Anomaly", "attack_type": "Slash", "faction": "Spook Shack", "release_date": "2025-08-06", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Alice_Thymefield_Icon.png", "splash_image": "/images/agents/Agent_Alice_Thymefield_Portrait.png", "splash_focus": "center 62%",
+    "alt_splash_images": ["/images/agents/Agent_Alice_Thymefield_Sea_of_Thyme_Portrait.png"],
+    "quote": "Every experiment starts with a question. My favorite: what happens when I press this button?", "emojis": ["💀", "🔮", "🧪", "✨", "👻"]
+  },
+  {
+    "id": "anby", "name": "Anby Demara", "rank": "A", "attribute": "Electric", "specialty": "Stun", "attack_type": "Slash", "faction": "Cunning Hares", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Anby_Demara_Icon.png", "splash_image": "/images/agents/Agent_Anby_Demara_Portrait.png", "splash_focus": "center 60%",
+    "quote": "Stand down. I won't ask twice.", "emojis": ["⚡", "🗡️", "💜", "😤", "🌩️"]
+  },
+  {
+    "id": "anton", "name": "Anton Ivanov", "rank": "A", "attribute": "Electric", "specialty": "Attack", "attack_type": "Pierce", "faction": "Belobog Heavy Industries", "release_date": "2024-07-04", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Anton_Ivanov_Icon.png", "splash_image": "/images/agents/Agent_Anton_Ivanov_Portrait.png", "splash_focus": "center 50%",
+    "quote": "This drill has never failed me. I won't let it fail you either.", "emojis": ["⚡", "🔧", "🏭", "💪", "🦾"]
+  },
+  {
+    "id": "aria", "name": "Aria", "rank": "S", "attribute": "Ether", "specialty": "Anomaly", "attack_type": "Strike", "faction": "Angels of Delusion", "release_date": "2026-03-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Aria_Icon.png", "splash_image": "/images/agents/Agent_Aria_Portrait.png", "splash_focus": "center 58%",
+    "alt_splash_images": ["/images/agents/Agent_Aria_Discordant_Note_Portrait.png"],
+    "quote": "The stage is set. The audience is watching. Don't disappoint me.", "emojis": ["🎭", "✨", "🌀", "👁️", "💎"]
+  },
+  {
+    "id": "harumasa", "name": "Asaba Harumasa", "rank": "S", "attribute": "Electric", "specialty": "Attack", "attack_type": "Pierce/Slash", "faction": "Hollow Special Operations Section 6", "release_date": "2024-12-18", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Asaba_Harumasa_Icon.png", "splash_image": "/images/agents/Agent_Asaba_Harumasa_Portrait.png", "splash_focus": "center 52%",
+    "quote": "I'll shoot straight — both literally and figuratively.", "emojis": ["⚡", "🎯", "🏹", "💢", "🔵"]
+  },
+  {
+    "id": "astra", "name": "Astra Yao", "rank": "S", "attribute": "Ether", "specialty": "Support", "attack_type": "Strike", "faction": "Stars of Lyra", "release_date": "2025-01-22", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Astra_Yao_Icon.png", "splash_image": "/images/agents/Agent_Astra_Yao_Portrait.png", "splash_focus": "center 58%",
+    "alt_splash_images": ["/images/agents/Agent_Astra_Yao_Chandelier_Portrait.png"],
+    "quote": "Every song deserves the right moment. This one? Right now.", "emojis": ["🎵", "⭐", "🌟", "✨", "🎤"]
+  },
+  {
+    "id": "banyue", "name": "Banyue", "rank": "S", "attribute": "Fire", "specialty": "Rupture", "attack_type": "Strike", "faction": "Krampus Compliance Authority", "release_date": "2025-12-17", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Banyue_Icon.png", "splash_image": "/images/agents/Agent_Banyue_Portrait.png", "splash_focus": "center 62%",
+    "quote": "Fire does not forgive. Neither do I.", "emojis": ["🔥", "💥", "🌙", "⚖️", "💀"]
+  },
+  {
+    "id": "ben", "name": "Ben Bigger", "rank": "A", "attribute": "Fire", "specialty": "Defense", "attack_type": "Strike", "faction": "Belobog Heavy Industries", "release_date": "2024-07-04", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Ben_Bigger_Icon.png", "splash_image": "/images/agents/Agent_Ben_Bigger_Portrait.png", "splash_focus": "center 48%",
+    "quote": "I might not be the sharpest tool in the shed, but I know how to protect what matters.", "emojis": ["🔥", "🛡️", "💪", "🔴", "🏋️"]
+  },
+  {
+    "id": "billy", "name": "Billy Kid", "rank": "A", "attribute": "Physical", "specialty": "Attack", "attack_type": "Pierce", "faction": "Cunning Hares", "release_date": "2024-07-04", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Billy_Kid_Icon.png", "splash_image": "/images/agents/Agent_Billy_Kid_Portrait.png", "splash_focus": "center 52%",
+    "quote": "I've been waiting for a shot like this my whole career. Trust me, I won't miss.", "emojis": ["🤠", "🔫", "💥", "🎯", "⭐"]
+  },
+  {
+    "id": "burnice", "name": "Burnice White", "rank": "S", "attribute": "Fire", "specialty": "Anomaly", "attack_type": "Pierce", "faction": "Sons of Calydon", "release_date": "2024-10-16", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Burnice_White_Icon.png", "splash_image": "/images/agents/Agent_Burnice_White_Portrait.png", "splash_focus": "center 58%",
+    "quote": "Ooh, this batch is gonna be something special. Fire it up and stand way back!", "emojis": ["🔥", "💥", "🧪", "😈", "🎆"]
+  },
+  {
+    "id": "caesar", "name": "Caesar King", "rank": "S", "attribute": "Physical", "specialty": "Defense", "attack_type": "Slash/Strike", "faction": "Sons of Calydon", "release_date": "2024-09-25", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Caesar_King_Icon.png", "splash_image": "/images/agents/Agent_Caesar_King_Portrait.png", "splash_focus": "center 62%",
+    "quote": "I built this crew from nothing. You touch what's mine, you answer to me.", "emojis": ["👑", "🛡️", "🗡️", "💪", "🐉"]
+  },
+  {
+    "id": "cissia", "name": "Cissia", "rank": "S", "attribute": "Electric", "specialty": "Attack", "attack_type": "Slash", "faction": "Metropolitan Order Division", "release_date": "2026-04-15", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Cissia_Icon.png", "splash_image": "/images/agents/Agent_Cissia_Portrait.png", "splash_focus": "center 60%",
+    "quote": "Every problem has a solution. Some just require more voltage than others.", "emojis": ["⚡", "🗡️", "💙", "🔵", "⚔️"]
+  },
+  {
+    "id": "corin", "name": "Corin Wickes", "rank": "A", "attribute": "Physical", "specialty": "Attack", "attack_type": "Slash", "faction": "Victoria Housekeeping Co.", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Corin_Wickes_Icon.png", "splash_image": "/images/agents/Agent_Corin_Wickes_Portrait.png", "splash_focus": "center 65%",
+    "quote": "P-please allow me to handle this! I will have everything spotless in no time, I promise!", "emojis": ["🧹", "✨", "🗡️", "🎀", "🧽"]
+  },
+  {
+    "id": "dialyn", "name": "Dialyn", "rank": "S", "attribute": "Physical", "specialty": "Stun", "attack_type": "Slash", "faction": "Krampus Compliance Authority", "release_date": "2025-11-26", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Dialyn_Icon.png", "splash_image": "/images/agents/Agent_Dialyn_Portrait.png", "splash_focus": "center 62%",
+    "quote": "The cold has never bothered me. I was made for it.", "emojis": ["❄️", "🌊", "💀", "🗡️", "🖤"]
+  },
+  {
+    "id": "ellen", "name": "Ellen Joe", "rank": "S", "attribute": "Ice", "specialty": "Attack", "attack_type": "Slash", "faction": "Victoria Housekeeping Co.", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Ellen_Joe_Icon.png", "splash_image": "/images/agents/Agent_Ellen_Joe_Portrait.png", "splash_focus": "center 62%",
+    "alt_splash_images": ["/images/agents/Agent_Ellen_Joe_On_Campus_Portrait.png"],
+    "quote": "I'll take care of this quickly — I have a shift at the café in forty minutes.", "emojis": ["🦈", "❄️", "🗡️", "🧊", "🌊"]
+  },
+  {
+    "id": "evelyn", "name": "Evelyn Chevalier", "rank": "S", "attribute": "Fire", "specialty": "Attack", "attack_type": "Slash", "faction": "Stars of Lyra", "release_date": "2025-02-12", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Evelyn_Chevalier_Icon.png", "splash_image": "/images/agents/Agent_Evelyn_Chevalier_Portrait.png", "splash_focus": "center 55%",
+    "quote": "Passion. Style. Power. You need all three to truly shine.", "emojis": ["🔥", "💃", "⭐", "💋", "🎤"]
+  },
+  {
+    "id": "grace", "name": "Grace Howard", "rank": "S", "attribute": "Electric", "specialty": "Anomaly", "attack_type": "Pierce", "faction": "Belobog Heavy Industries", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Grace_Howard_Icon.png", "splash_image": "/images/agents/Agent_Grace_Howard_Portrait.png", "splash_focus": "center 60%",
+    "quote": "The calibration is perfect. All systems nominal. Ready to fire.", "emojis": ["⚡", "🔬", "🎯", "💡", "🔧"]
+  },
+  {
+    "id": "miyabi", "name": "Hoshimi Miyabi", "rank": "S", "attribute": "Frost", "specialty": "Anomaly", "attack_type": "Slash", "faction": "Hollow Special Operations Section 6", "release_date": "2024-12-18", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Hoshimi_Miyabi_Icon.png", "splash_image": "/images/agents/Agent_Hoshimi_Miyabi_Portrait.png", "splash_focus": "center 62%",
+    "alt_splash_images": ["/images/agents/Agent_Hoshimi_Miyabi_Dignified_Blossom_Portrait.png"],
+    "quote": "Frost and shadow — that is where I thrive.", "emojis": ["❄️", "🌸", "🌙", "🗡️", "🦋"]
+  },
+  {
+    "id": "hugo", "name": "Hugo Vlad", "rank": "S", "attribute": "Ice", "specialty": "Attack", "attack_type": "Slash", "faction": "Mockingbird", "release_date": "2025-05-14", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Hugo_Vlad_Icon.png", "splash_image": "/images/agents/Agent_Hugo_Vlad_Portrait.png", "splash_focus": "center 50%",
+    "quote": "Precision. Control. Elegance. That is what separates a fighter from an artist.", "emojis": ["🧊", "🗡️", "🎩", "🩸", "🌹"]
+  },
+  {
+    "id": "jane-doe", "name": "Jane Doe", "rank": "S", "attribute": "Physical", "specialty": "Anomaly", "attack_type": "Slash", "faction": "Criminal Investigation Special Response Team", "release_date": "2024-09-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Jane_Doe_Icon.png", "splash_image": "/images/agents/Agent_Jane_Doe_Portrait.png", "splash_focus": "center 58%",
+    "alt_splash_images": ["/images/agents/Agent_Jane_Doe_Nocturne_of_Light_Portrait.png"],
+    "quote": "I don't remember who I was before. But my body still knows how to fight.", "emojis": ["🩸", "🗡️", "🐾", "💢", "🖤"]
+  },
+  {
+    "id": "ju-fufu", "name": "Ju Fufu", "rank": "S", "attribute": "Fire", "specialty": "Stun", "attack_type": "Strike", "faction": "Yunkui Summit", "release_date": "2025-06-25", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Ju_Fufu_Icon.png", "splash_image": "/images/agents/Agent_Ju_Fufu_Portrait.png", "splash_focus": "center 60%",
+    "quote": "Is everyone ready? Good. Let me show you how it's really done.", "emojis": ["🔥", "🥁", "🐉", "💫", "🎉"]
+  },
+  {
+    "id": "koleda", "name": "Koleda Belobog", "rank": "S", "attribute": "Fire", "specialty": "Stun", "attack_type": "Strike", "faction": "Belobog Heavy Industries", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Koleda_Belobog_Icon.png", "splash_image": "/images/agents/Agent_Koleda_Belobog_Portrait.png", "splash_focus": "center 52%",
+    "quote": "You picked the wrong crew to tangle with, punk.", "emojis": ["🔥", "🔨", "💪", "⚙️", "🏭"]
+  },
+  {
+    "id": "manato", "name": "Komano Manato", "rank": "A", "attribute": "Fire", "specialty": "Rupture", "attack_type": "Slash", "faction": "Spook Shack", "release_date": "2025-10-15", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Komano_Manato_Icon.png", "splash_image": "/images/agents/Agent_Komano_Manato_Portrait.png", "splash_focus": "center 52%",
+    "alt_splash_images": ["/images/agents/Agent_Komano_Manato_White_Heart_Silhouette_Portrait.png"],
+    "quote": "Fire cleanses. Fire renews. And right now, it burns through you.", "emojis": ["🔥", "💀", "🌸", "🗡️", "🌿"]
+  },
+  {
+    "id": "lighter", "name": "Lighter", "rank": "S", "attribute": "Fire", "specialty": "Stun", "attack_type": "Strike", "faction": "Sons of Calydon", "release_date": "2024-11-27", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Lighter_Icon.png", "splash_image": "/images/agents/Agent_Lighter_Portrait.png", "splash_focus": "center 50%",
+    "quote": "Need a light? I've always got plenty to spare. Whether you want it or not.", "emojis": ["🔥", "💡", "🗡️", "😎", "🌋"]
+  },
+  {
+    "id": "lucia", "name": "Lucia Elowen", "rank": "S", "attribute": "Ether", "specialty": "Support", "attack_type": "Strike", "faction": "Spook Shack", "release_date": "2025-10-15", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Lucia_Elowen_Icon.png", "splash_image": "/images/agents/Agent_Lucia_Elowen_Portrait.png", "splash_focus": "center 60%",
+    "quote": "I'll handle this quietly. Loud endings tend to attract attention.", "emojis": ["✨", "🌀", "🔮", "💠", "🤫"]
+  },
+  {
+    "id": "lucy", "name": "Luciana de Montefio", "rank": "A", "attribute": "Fire", "specialty": "Support", "attack_type": "Strike", "faction": "Sons of Calydon", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Luciana_de_Montefio_Icon.png", "splash_image": "/images/agents/Agent_Luciana_de_Montefio_Portrait.png", "splash_focus": "center 62%",
+    "quote": "Me and my boys are gonna light this place up — and I mean that literally!", "emojis": ["🐷", "🔥", "🎵", "✨", "🌻"]
+  },
+  {
+    "id": "nangong-yu", "name": "Nangong Yu", "rank": "S", "attribute": "Ether", "specialty": "Stun", "attack_type": "Strike", "faction": "Angels of Delusion", "release_date": "2026-03-24", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Nangong_Yu_Icon.png", "splash_image": "/images/agents/Agent_Nangong_Yu_Portrait.png", "splash_focus": "center 60%",
+    "alt_splash_images": ["/images/agents/Agent_Nangong_Yu_Rhapsody's_Muse_Portrait.png"],
+    "quote": "Stillness is just another form of power. You'll understand that soon enough.", "emojis": ["✨", "🌀", "🔮", "🧿", "💫"]
+  },
+  {
+    "id": "nekomata", "name": "Nekomiya Mana", "rank": "S", "attribute": "Physical", "specialty": "Attack", "attack_type": "Slash", "faction": "Cunning Hares", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Nekomiya_Mana_Icon.png", "splash_image": "/images/agents/Agent_Nekomiya_Mana_Portrait.png", "splash_focus": "center 60%",
+    "quote": "Nyahaha! You're gonna have to be way faster than that to catch me!", "emojis": ["🐱", "🗡️", "💫", "🌸", "🎀"]
+  },
+  {
+    "id": "nicole", "name": "Nicole Demara", "rank": "A", "attribute": "Ether", "specialty": "Support", "attack_type": "Strike", "faction": "Cunning Hares", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Nicole_Demara_Icon.png", "splash_image": "/images/agents/Agent_Nicole_Demara_Portrait.png", "splash_focus": "center 65%",
+    "alt_splash_images": ["/images/agents/Agent_Nicole_Demara_Cunning_Cutie_Portrait.png"],
+    "quote": "Money makes the world go round. Lucky for me, I'm very good at making it happen.", "emojis": ["💰", "🔫", "💸", "✨", "😏"]
+  },
+  {
+    "id": "orphie", "name": "Orphie Magnusson & Magus", "rank": "S", "attribute": "Fire", "specialty": "Attack", "attack_type": "Pierce/Slash", "faction": "Obol Squad", "release_date": "2025-09-24", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Orphie_Magnusson_and_Magus_Icon.png", "splash_image": "/images/agents/Agent_Orphie_Magnusson_and_Magus_Portrait.png", "splash_focus": "center 60%",
+    "quote": "Magus and I have never failed a contract. We don't plan to start today.", "emojis": ["🎪", "🔥", "💥", "🎭", "🐉"]
+  },
+  {
+    "id": "pan-yinhu", "name": "Pan Yinhu", "rank": "A", "attribute": "Physical", "specialty": "Defense", "attack_type": "Strike", "faction": "Yunkui Summit", "release_date": "2025-06-06", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Pan_Yinhu_Icon.png", "splash_image": "/images/agents/Agent_Pan_Yinhu_Portrait.png", "splash_focus": "center 52%",
+    "alt_splash_images": ["/images/agents/Agent_Pan_Yinhu_Culinary_Jewel_Portrait.png"],
+    "quote": "A good shield doesn't just block — it buys time for others to act.", "emojis": ["🛡️", "🐯", "⛰️", "💪", "🌿"]
+  },
+  {
+    "id": "piper", "name": "Piper Wheel", "rank": "A", "attribute": "Physical", "specialty": "Anomaly", "attack_type": "Slash", "faction": "Sons of Calydon", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Piper_Wheel_Icon.png", "splash_image": "/images/agents/Agent_Piper_Wheel_Portrait.png", "splash_focus": "center 65%",
+    "quote": "If trouble's what you're after, you've found the right girl. Lucky you!", "emojis": ["🌀", "🗡️", "🐱", "✨", "💫"]
+  },
+  {
+    "id": "promeia", "name": "Promeia", "rank": "S", "attribute": "Ice", "specialty": "Anomaly", "attack_type": "Slash", "faction": "Krampus Compliance Authority", "release_date": "2026-05-06", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Promeia_Icon.png", "splash_image": "/images/agents/Agent_Promeia_Portrait.png", "splash_focus": "center 62%",
+    "quote": "Ice never lies. It preserves the truth exactly as it was.", "emojis": ["❄️", "🔮", "💀", "🌿", "🌙"]
+  },
+  {
+    "id": "pulchra", "name": "Pulchra Fellini", "rank": "A", "attribute": "Physical", "specialty": "Stun", "attack_type": "Slash", "faction": "Sons of Calydon", "release_date": "2025-03-12", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Pulchra_Fellini_Icon.png", "splash_image": "/images/agents/Agent_Pulchra_Fellini_Portrait.png", "splash_focus": "center 62%",
+    "quote": "I may not look it, but I always know exactly where to strike.", "emojis": ["🗡️", "💫", "🌸", "🎭", "✨"]
+  },
+  {
+    "id": "pyrois", "name": "Pyrois", "rank": "I", "attribute": "Ether", "specialty": "Attack", "attack_type": "Slash", "faction": "Phaethon", "release_date": "2026-06-17", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Pyrois_Icon.png", "splash_image": "/images/agents/Agent_Pyrois_Portrait.png", "splash_focus": "center 60%",
+    "quote": "I am fire without form. Do not try to contain me.", "emojis": ["✨", "🔮", "🌀", "🌌", "💎"]
+  },
+  {
+    "id": "qingyi", "name": "Qingyi", "rank": "S", "attribute": "Electric", "specialty": "Stun", "attack_type": "Strike", "faction": "Criminal Investigation Special Response Team", "release_date": "2024-08-14", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Qingyi_Icon.png", "splash_image": "/images/agents/Agent_Qingyi_Portrait.png", "splash_focus": "center 62%",
+    "quote": "The law is clear. My methods are not always as gentle as the wording.", "emojis": ["⚡", "⚖️", "👮", "🌀", "💙"]
+  },
+  {
+    "id": "seed", "name": "Seed", "rank": "S", "attribute": "Electric", "specialty": "Attack", "attack_type": "Slash/Strike", "faction": "Obol Squad", "release_date": "2025-09-04", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Seed_Icon.png", "splash_image": "/images/agents/Agent_Seed_Portrait.png", "splash_focus": "center 52%",
+    "quote": "Every signal leaves a trace. I find them. I follow them. I win.", "emojis": ["⚡", "🎯", "📡", "💥", "🔵"]
+  },
+  {
+    "id": "seth", "name": "Seth Lowell", "rank": "A", "attribute": "Electric", "specialty": "Defense", "attack_type": "Slash", "faction": "Criminal Investigation Special Response Team", "release_date": "2024-09-04", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Seth_Lowell_Icon.png", "splash_image": "/images/agents/Agent_Seth_Lowell_Portrait.png", "splash_focus": "center 50%",
+    "quote": "Proper procedure exists for a reason. We follow the rules — no exceptions.", "emojis": ["⚡", "🛡️", "📋", "🔵", "⚖️"]
+  },
+  {
+    "id": "soldier-anby", "name": "Soldier 0 - Anby", "rank": "S", "attribute": "Electric", "specialty": "Attack", "attack_type": "Slash", "faction": "Defense Force - Silver Squad", "release_date": "2025-03-12", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Soldier_0_-_Anby_Icon.png", "splash_image": "/images/agents/Agent_Soldier_0_-_Anby_Portrait.png", "splash_focus": "center 62%",
+    "quote": "New designation. Same resolve. The mission hasn't changed.", "emojis": ["⚡", "⚔️", "🛡️", "💜", "🔱"]
+  },
+  {
+    "id": "soldier-11", "name": "Soldier 11", "rank": "S", "attribute": "Fire", "specialty": "Attack", "attack_type": "Slash", "faction": "Obol Squad", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Soldier_11_Icon.png", "splash_image": "/images/agents/Agent_Soldier_11_Portrait.png", "splash_focus": "center 62%",
+    "quote": "I don't ask questions. I complete objectives.", "emojis": ["🔥", "🗡️", "🎖️", "💥", "🔴"]
+  },
+  {
+    "id": "soukaku", "name": "Soukaku", "rank": "A", "attribute": "Ice", "specialty": "Support", "attack_type": "Slash", "faction": "Hollow Special Operations Section 6", "release_date": "2024-07-04", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Soukaku_Icon.png", "splash_image": "/images/agents/Agent_Soukaku_Portrait.png", "splash_focus": "center 65%",
+    "quote": "The wind remembers all things it has touched. I simply know how to ask it.", "emojis": ["🏮", "❄️", "🎋", "🌬️", "🌊"]
+  },
+  {
+    "id": "starlight-billy", "name": "Starlight - Billy Kid", "rank": "S", "attribute": "Physical", "specialty": "Rupture", "attack_type": "Slash", "faction": "Cunning Hares", "release_date": "2026-05-27", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Starlight_-_Billy_Kid_Icon.png", "splash_image": "/images/agents/Agent_Starlight_-_Billy_Kid_Portrait.png", "splash_focus": "center 55%",
+    "quote": "Under the spotlight is where I feel most alive. And most dangerous.", "emojis": ["⭐", "🔫", "🎤", "💥", "🎆"]
+  },
+  {
+    "id": "sunna", "name": "Sunna", "rank": "S", "attribute": "Physical", "specialty": "Support", "attack_type": "Strike", "faction": "Angels of Delusion", "release_date": "2026-02-06", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Sunna_Icon.png", "splash_image": "/images/agents/Agent_Sunna_Portrait.png", "splash_focus": "center 58%",
+    "alt_splash_images": ["/images/agents/Agent_Sunna_Afternoon_Tea_Break_Portrait.png"],
+    "quote": "Let the warmth protect you. That is what I am here for.", "emojis": ["☀️", "🌟", "🛡️", "💛", "✨"]
+  },
+  {
+    "id": "trigger", "name": "Trigger", "rank": "S", "attribute": "Electric", "specialty": "Stun", "attack_type": "Pierce", "faction": "Obol Squad", "release_date": "2025-04-02", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Trigger_Icon.png", "splash_image": "/images/agents/Agent_Trigger_Portrait.png", "splash_focus": "center 65%",
+    "quote": "Click. Bang. Done. I like to keep things simple.", "emojis": ["⚡", "🔫", "💥", "🎯", "👁️"]
+  },
+  {
+    "id": "yanagi", "name": "Tsukishiro Yanagi", "rank": "S", "attribute": "Electric", "specialty": "Anomaly", "attack_type": "Slash", "faction": "Hollow Special Operations Section 6", "release_date": "2024-11-06", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Tsukishiro_Yanagi_Icon.png", "splash_image": "/images/agents/Agent_Tsukishiro_Yanagi_Portrait.png", "splash_focus": "center 62%",
+    "quote": "Lightning does not choose where it strikes. On this battlefield, neither do I.", "emojis": ["⚡", "🌩️", "🗡️", "🌸", "🦋"]
+  },
+  {
+    "id": "yuzuha", "name": "Ukinami Yuzuha", "rank": "S", "attribute": "Physical", "specialty": "Support", "attack_type": "Strike", "faction": "Spook Shack", "release_date": "2025-07-16", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Ukinami_Yuzuha_Icon.png", "splash_image": "/images/agents/Agent_Ukinami_Yuzuha_Portrait.png", "splash_focus": "center 62%",
+    "alt_splash_images": ["/images/agents/Agent_Ukinami_Yuzuha_Tanuki_in_Broad_Daylight_Portrait.png"],
+    "quote": "I'll stand between you and the danger. That's the only job that matters.", "emojis": ["🛡️", "🌊", "🌸", "💙", "✨"]
+  },
+  {
+    "id": "velina", "name": "Velina Airgid", "rank": "S", "attribute": "Wind", "specialty": "Anomaly", "attack_type": "Slash", "faction": "External Strategy Department", "release_date": "2026-06-17", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Velina_Airgid_Icon.png", "splash_image": "/images/agents/Agent_Velina_Airgid_Portrait.png", "splash_focus": "center 60%",
+    "alt_splash_images": ["/images/agents/Agent_Velina_Airgid_Shade_of_Leisure_Portrait.png"],
+    "quote": "The wind carries whispers from everywhere. I just know how to listen.", "emojis": ["🌬️", "🍃", "🌀", "💚", "🎋"]
+  },
+  {
+    "id": "vivian", "name": "Vivian Banshee", "rank": "S", "attribute": "Ether", "specialty": "Anomaly", "attack_type": "Slash", "faction": "Mockingbird", "release_date": "2025-04-23", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Vivian_Banshee_Icon.png", "splash_image": "/images/agents/Agent_Vivian_Banshee_Portrait.png", "splash_focus": "center 58%",
+    "alt_splash_images": ["/images/agents/Agent_Vivian_Banshee_Iris_of_the_Shore_Portrait.png"],
+    "quote": "My voice carries further than you think. Into places you can't follow.", "emojis": ["🌀", "✨", "🔮", "💜", "👻"]
+  },
+  {
+    "id": "von-lycaon", "name": "Von Lycaon", "rank": "S", "attribute": "Ice", "specialty": "Stun", "attack_type": "Strike", "faction": "Victoria Housekeeping Co.", "release_date": "2024-07-04", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Von_Lycaon_Icon.png", "splash_image": "/images/agents/Agent_Von_Lycaon_Portrait.png", "splash_focus": "center 50%",
+    "quote": "Order must be maintained at all times. I simply ensure that it is.", "emojis": ["🐺", "🌙", "❄️", "🎩", "⚖️"]
+  },
+  {
+    "id": "ye-shunguang", "name": "Ye Shunguang", "rank": "S", "attribute": "Honed Edge", "specialty": "Attack", "attack_type": "Slash", "faction": "Yunkui Summit", "release_date": "2025-12-30", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Ye_Shunguang_Icon.png", "splash_image": "/images/agents/Agent_Ye_Shunguang_Portrait.png", "splash_focus": "center 50%",
+    "alt_splash_images": ["/images/agents/Agent_Ye_Shunguang_Enlightened_Mind_Portrait.png", "/images/agents/Agent_Ye_Shunguang_Touch_of_Dawnlight_Portrait.png"],
+    "quote": "A single edge, honed to perfection. That is all I need.", "emojis": ["⚔️", "🌟", "💎", "🗡️", "⛩️"]
+  },
+  {
+    "id": "yidhari", "name": "Yidhari Murphy", "rank": "S", "attribute": "Ice", "specialty": "Rupture", "attack_type": "Strike", "faction": "Spook Shack", "release_date": "2025-11-05", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Yidhari_Murphy_Icon.png", "splash_image": "/images/agents/Agent_Yidhari_Murphy_Portrait.png", "splash_focus": "center 62%",
+    "quote": "Ice is patience given form. I have plenty of both.", "emojis": ["❄️", "🔮", "💀", "🌿", "💙"]
+  },
+  {
+    "id": "yixuan", "name": "Yixuan", "rank": "S", "attribute": "Auric Ink", "specialty": "Rupture", "attack_type": "Strike", "faction": "Yunkui Summit", "release_date": "2025-06-06", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Yixuan_Icon.png", "splash_image": "/images/agents/Agent_Yixuan_Portrait.png", "splash_focus": "center 65%",
+    "alt_splash_images": ["/images/agents/Agent_Yixuan_Trails_of_Ink_Portrait.png"],
+    "quote": "Every stroke of ink tells a story. Mine end battles.", "emojis": ["🖌️", "📜", "✨", "🌺", "💜"]
+  },
+  {
+    "id": "zhao", "name": "Zhao", "rank": "S", "attribute": "Ice", "specialty": "Defense", "attack_type": "Slash", "faction": "Krampus Compliance Authority", "release_date": "2025-12-30", "gender": "Male",
+    "icon_image": "/images/agents/Agent_Zhao_Icon.png", "splash_image": "/images/agents/Agent_Zhao_Portrait.png", "splash_focus": "center 50%",
+    "quote": "Defense is not retreat. Defense is the foundation of victory.", "emojis": ["🧊", "🛡️", "❄️", "🐲", "⚔️"]
+  },
+  {
+    "id": "zhu-yuan", "name": "Zhu Yuan", "rank": "S", "attribute": "Ether", "specialty": "Attack", "attack_type": "Pierce", "faction": "Criminal Investigation Special Response Team", "release_date": "2024-07-24", "gender": "Female",
+    "icon_image": "/images/agents/Agent_Zhu_Yuan_Icon.png", "splash_image": "/images/agents/Agent_Zhu_Yuan_Portrait.png", "splash_focus": "center 65%",
+    "quote": "Hands where I can see them. You're under arrest — cooperate and this goes smoothly.", "emojis": ["👮", "🔫", "⚖️", "🌀", "✨"]
+  }
+]
