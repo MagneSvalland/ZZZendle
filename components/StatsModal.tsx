@@ -46,7 +46,7 @@ export default function StatsModal({ mode, stats, streakData, shareText, onClose
 
         {/* Header */}
         <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-zinc-800">
-          <div className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Statistikk</div>
+          <div className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Statistics</div>
           <button onClick={onClose} className="text-zinc-600 hover:text-zinc-300 transition-colors text-lg leading-none">✕</button>
         </div>
 
@@ -54,15 +54,15 @@ export default function StatsModal({ mode, stats, streakData, shareText, onClose
 
           {/* Top stats row */}
           <div className="grid grid-cols-4 gap-2">
-            <StatBox value={stats.played} label="Spilt" />
-            <StatBox value={`${winPct}%`} label="Seiret" />
+            <StatBox value={stats.played} label="Played" />
+            <StatBox value={`${winPct}%`} label="Won" />
             <StatBox value={streakData.streak} label="Streak" />
-            <StatBox value={streakData.bestStreak} label="Beste" />
+            <StatBox value={streakData.bestStreak} label="Best" />
           </div>
 
           {/* Distribution */}
           <div>
-            <div className="text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Gjetningfordeling</div>
+            <div className="text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Guess Distribution</div>
             <div className="flex flex-col gap-1.5">
               {DIST_KEYS.map(k => {
                 const count = stats.distribution[k] ?? 0
@@ -103,7 +103,7 @@ export default function StatsModal({ mode, stats, streakData, shareText, onClose
                     : 'bg-yellow-500 text-black hover:bg-yellow-400'
                 }`}
               >
-                {copied ? '✓ Kopiert!' : 'Del resultater'}
+                {copied ? '✓ Copied!' : 'Share results'}
               </button>
             </div>
           )}

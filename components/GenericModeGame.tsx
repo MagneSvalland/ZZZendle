@@ -200,7 +200,7 @@ export default function GenericModeGame({
             <button
               onClick={() => setStatsOpen(true)}
               className="text-zinc-500 hover:text-zinc-200 transition-colors text-xl leading-none"
-              title="Statistikk"
+              title="Statistics"
             >
               📊
             </button>
@@ -413,7 +413,7 @@ function ModeResultPanel({
               copied ? 'bg-green-600 text-white' : 'bg-yellow-500 text-black hover:bg-yellow-400'
             }`}
           >
-            {copied ? '✓ Kopiert!' : 'Del'}
+            {copied ? '✓ Copied!' : 'Share'}
           </button>
           <button
             onClick={onOpenStats}
