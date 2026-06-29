@@ -164,7 +164,7 @@ function SplashChallenge({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetAgent.id])
 
-  const zoomLevels = [1600, 800, 350, 150, 130]
+  const zoomLevels = [800, 350, 150, 130]
   const bgSize = isOver
     ? 'contain'
     : `${zoomLevels[Math.min(wrongGuesses, zoomLevels.length - 1)]}%`
