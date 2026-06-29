@@ -4,6 +4,7 @@ import "./globals.css";
 import { DevAuthProvider } from "@/contexts/DevAuthContext";
 import DevPanel from "@/components/DevPanel";
 import { Analytics } from "@vercel/analytics/next";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +54,7 @@ export default function RootLayout({
           <div className="relative z-10 flex flex-col min-h-full">
             {children}
           </div>
+          <Footer />
           <DevPanel />
         </DevAuthProvider>
         <Analytics />
