@@ -7,6 +7,7 @@ import { getAgentForMode, getRecentAgentIds } from '@/lib/getAgentOfTheDay'
 import { useDevAuth } from '@/contexts/DevAuthContext'
 import { loadStats, recordResult, getPuzzleNumber, buildShareText, defaultStats, type StatsData } from '@/lib/stats'
 import { getEffectiveDate } from '@/lib/date'
+import SocialLinks from './SocialLinks'
 import { SPLASH_SCHEDULE_EXT_KEY } from './SplashConfigurator'
 import ZZZdleLogo from './ZZZdleLogo'
 import StatsModal from './StatsModal'
@@ -301,6 +302,8 @@ export default function GenericModeGame({
             onClose={() => setStatsOpen(false)}
           />
         )}
+
+        <SocialLinks />
 
         {/* Debug — only shown when logged in as dev */}
         {isDevAuth && (

@@ -1,12 +1,16 @@
 export const DEBUG_DATE_KEY = 'zzzendle-debug-date'
 
+function getETDateStr(): string {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(new Date())
+}
+
 export function getEffectiveDate(): string {
-  if (typeof window === 'undefined') return new Date().toLocaleDateString('en-CA')
+  if (typeof window === 'undefined') return getETDateStr()
   try {
     const override = localStorage.getItem(DEBUG_DATE_KEY)
     if (override) return override
   } catch { /* ignore */ }
-  return new Date().toLocaleDateString('en-CA')
+  return getETDateStr()
 }
 
 export function advanceDebugDate(): string {
