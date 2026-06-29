@@ -18,6 +18,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'ZZZendle — Daily ZZZ Agent Guessing Game',
   description: 'Guess the daily Zenless Zone Zero agent. New agent every day!',
+  icons: {
+    icon: '/icon.png',
+    apple: '/icon.png',
+  },
 };
 
 export default function RootLayout({
