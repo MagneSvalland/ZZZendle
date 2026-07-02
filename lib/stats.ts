@@ -60,7 +60,7 @@ export function buildShareText(opts: {
 }): string {
   const { mode, puzzleNumber, status, guessCount, comparisons } = opts
   const icon = MODE_ICONS[mode] ?? '🎮'
-  const score = status === 'won' ? `${guessCount}/8` : 'X/8'
+  const score = status === 'won' ? `${guessCount}` : 'X'
 
   let grid: string
   if (comparisons && comparisons.length > 0) {
@@ -76,5 +76,5 @@ export function buildShareText(opts: {
     grid = squares.join('')
   }
 
-  return `ZZZdle ${icon} #${puzzleNumber} ${score}\n${grid}`
+  return `ZZZendle ${icon} #${puzzleNumber} ${score}\nhttps://zzzendle.vercel.app\n${grid}`
 }

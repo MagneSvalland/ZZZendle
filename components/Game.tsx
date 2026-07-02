@@ -19,12 +19,9 @@ import StatsModal from './StatsModal'
 
 const allAgents = agentsRaw as Agent[]
 
-function getTodayStr(): string {
-  return new Date().toLocaleDateString('en-CA')
-}
-
 function getYesterdayStr(): string {
-  const d = new Date()
+  const today = getEffectiveDate()
+  const d = new Date(today + 'T12:00:00')
   d.setDate(d.getDate() - 1)
   return d.toLocaleDateString('en-CA')
 }
