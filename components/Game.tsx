@@ -441,14 +441,20 @@ function ResultPanel({
         </div>
 
         <p className="text-zinc-400 text-xs mt-1">Come back tomorrow for the next agent!</p>
-        <div className="flex gap-2 mt-2">
+        <div className="flex gap-2 mt-2 flex-wrap">
           <button
             onClick={handleShare}
             className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all duration-150 ${
               copied ? 'bg-green-600 text-white' : 'bg-yellow-500 text-black hover:bg-yellow-400'
             }`}
           >
-            {copied ? '✓ Copied!' : 'Share'}
+            {copied ? '✓ Copied!' : 'Copy'}
+          </button>
+          <button
+            onClick={() => shareText && window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`, '_blank')}
+            className="px-4 py-1.5 rounded-lg text-sm font-semibold bg-black border border-zinc-700 text-white hover:bg-zinc-900 transition-colors"
+          >
+            𝕏 Share
           </button>
           <button
             onClick={onOpenStats}

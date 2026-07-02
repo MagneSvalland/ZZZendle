@@ -51,6 +51,13 @@ const MODE_ICONS: Record<string, string> = {
   quote: '💬',
 }
 
+const MODE_NAMES: Record<string, string> = {
+  classic: 'Classic',
+  splash: 'Splash',
+  emoji: 'Emoji',
+  quote: 'Quote',
+}
+
 export function buildShareText(opts: {
   mode: string
   puzzleNumber: number
@@ -76,5 +83,23 @@ export function buildShareText(opts: {
     grid = squares.join('')
   }
 
-  return `ZZZendle ${icon} #${puzzleNumber} ${score}\nhttps://zzzendle.vercel.app\n${grid}`
+  return `#ZZZendle ${icon} #${puzzleNumber} — ${score} guess${score === '1' ? '' : 'es'}\nhttps://zzzendle.vercel.app\n${grid}`
+}
+
+export function buildStatsShareText(opts: {
+  mode: string
+  stats: StatsData
+  streak: number
+  bestStreak: number
+}): string {
+  const { mode, stats, streak, bestStreak } = opts
+  const modeName = MODE_NAMES[mode] ?? mode
+  const avg = stats.won > 0
+    ? (Object.entries(stats.distribution)
+        .filter(([k]) => k !== 'X')
+        .reduce((sum, [k, v]) => sum + Number(k) * v, 0) / stats.won).toFixed(1)
+    : '—'
+  const oneShots = stats.distribution['1'] ?? 0
+
+  return `My #ZZZendle statistics for ${modeName}:\n🎮 Games won: ${stats.won}\n🤓 Average guesses: ${avg}\n🥇 One Shots: ${oneShots}\n🔥 Current streak: ${streak}\n🚀 Max streak: ${bestStreak}\nhttps://zzzendle.vercel.app`
 }
