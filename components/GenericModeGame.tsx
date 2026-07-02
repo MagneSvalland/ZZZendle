@@ -181,26 +181,26 @@ export default function GenericModeGame({
         rounded-2xl border border-yellow-500/10
         bg-white/[0.018] backdrop-blur-sm
         shadow-[0_0_60px_rgba(250,204,21,0.04),0_0_120px_rgba(163,230,53,0.02)]
-        p-6 sm:p-8
+        p-4 sm:p-8
       ">
         {/* Header */}
         <div className="flex items-center justify-between">
           <ZZZdleLogo zSize="text-3xl sm:text-4xl" dleSize="text-3xl sm:text-4xl" />
-          <div className="flex items-center gap-4">
-            <DailyCountdown />
-            <div className="w-px h-8 bg-zinc-800" />
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="hidden sm:block"><DailyCountdown /></div>
+            <div className="hidden sm:block w-px h-8 bg-zinc-800" />
             <div className="text-right">
-              <div className="text-xl font-bold text-amber-400">{streakData.streak}</div>
-              <div className="text-[10px] text-zinc-400 uppercase tracking-wider">Streak</div>
+              <div className="text-lg sm:text-xl font-bold text-amber-400">{streakData.streak}</div>
+              <div className="text-[9px] sm:text-[10px] text-zinc-400 uppercase tracking-wider">Streak</div>
             </div>
             <div className="text-right">
-              <div className="text-xl font-bold text-zinc-300">{guesses.length}</div>
-              <div className="text-[10px] text-zinc-400 uppercase tracking-wider">Guesses</div>
+              <div className="text-lg sm:text-xl font-bold text-zinc-300">{guesses.length}</div>
+              <div className="text-[9px] sm:text-[10px] text-zinc-400 uppercase tracking-wider">Guesses</div>
             </div>
-            <div className="w-px h-8 bg-zinc-800" />
+            <div className="w-px h-6 sm:h-8 bg-zinc-800" />
             <button
               onClick={() => setStatsOpen(true)}
-              className="text-zinc-500 hover:text-zinc-200 transition-colors text-xl leading-none"
+              className="text-zinc-500 hover:text-zinc-200 transition-colors text-lg sm:text-xl leading-none"
               title="Statistics"
             >
               📊

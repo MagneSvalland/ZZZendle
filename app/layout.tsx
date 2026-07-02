@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'ZZZendle — Daily ZZZ Agent Guessing Game',
-  description: 'Guess the daily Zenless Zone Zero agent. New agent every day!',
+  title: 'ZZZendle - Daily Zenless Zone Zero Guessing Game',
+  description: 'Guess the daily Zenless Zone Zero agent across 4 game modes: Classic attribute comparison, Quote guessing, Emoji hints, and Splash art reveal. New agent every day. Free to play!',
   icons: {
     icon: '/icon.png',
     apple: '/icon.png',
