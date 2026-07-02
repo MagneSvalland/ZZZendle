@@ -64,10 +64,14 @@ export function buildShareText(opts: {
   status: 'won' | 'lost'
   guessCount: number
   comparisons?: GuessComparison[]
+  stats?: StatsData
+  streak?: number
+  bestStreak?: number
 }): string {
-  const { mode, puzzleNumber, status, guessCount, comparisons } = opts
+  const { mode, puzzleNumber, status, guessCount, comparisons, stats, streak, bestStreak } = opts
   const icon = MODE_ICONS[mode] ?? '🎮'
   const score = status === 'won' ? `${guessCount}` : 'X'
+  const modeName = MODE_NAMES[mode] ?? mode
 
   let grid: string
   if (comparisons && comparisons.length > 0) {
@@ -83,23 +87,16 @@ export function buildShareText(opts: {
     grid = squares.join('')
   }
 
-  return `#ZZZendle ${icon} #${puzzleNumber} — ${score} guess${score === '1' ? '' : 'es'}\nhttps://zzzendle.vercel.app\n${grid}`
-}
+  let statsLine = ''
+  if (stats && streak !== undefined && bestStreak !== undefined) {
+    const avg = stats.won > 0
+      ? (Object.entries(stats.distribution)
+          .filter(([k]) => k !== 'X')
+          .reduce((sum, [k, v]) => sum + Number(k) * v, 0) / stats.won).toFixed(1)
+      : '—'
+    const oneShots = stats.distribution['1'] ?? 0
+    statsLine = `\nMy ${modeName} stats: 🎮 ${stats.won} wins · 🤓 ${avg} avg · 🥇 ${oneShots} one shots · 🔥 ${streak} streak`
+  }
 
-export function buildStatsShareText(opts: {
-  mode: string
-  stats: StatsData
-  streak: number
-  bestStreak: number
-}): string {
-  const { mode, stats, streak, bestStreak } = opts
-  const modeName = MODE_NAMES[mode] ?? mode
-  const avg = stats.won > 0
-    ? (Object.entries(stats.distribution)
-        .filter(([k]) => k !== 'X')
-        .reduce((sum, [k, v]) => sum + Number(k) * v, 0) / stats.won).toFixed(1)
-    : '—'
-  const oneShots = stats.distribution['1'] ?? 0
-
-  return `My #ZZZendle statistics for ${modeName}:\n🎮 Games won: ${stats.won}\n🤓 Average guesses: ${avg}\n🥇 One Shots: ${oneShots}\n🔥 Current streak: ${streak}\n🚀 Max streak: ${bestStreak}\nhttps://zzzendle.vercel.app`
+  return `#ZZZendle ${icon} #${puzzleNumber} — ${score} guess${score === '1' ? '' : 'es'}${statsLine}\nhttps://zzzendle.vercel.app\n${grid}`
 }

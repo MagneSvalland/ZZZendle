@@ -180,7 +180,7 @@ export default function Game() {
   const isOver = status !== 'playing'
   const puzzleNumber = todayStr ? getPuzzleNumber(todayStr) : 1
   const shareText = isOver
-    ? buildShareText({ mode: 'classic', puzzleNumber, status: status as 'won' | 'lost', guessCount: guesses.length, comparisons })
+    ? buildShareText({ mode: 'classic', puzzleNumber, status: status as 'won' | 'lost', guessCount: guesses.length, comparisons, stats, streak: streakData.streak, bestStreak: streakData.bestStreak })
     : undefined
 
   return (

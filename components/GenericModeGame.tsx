@@ -171,7 +171,7 @@ export default function GenericModeGame({
   const revealedHints = hints.slice(0, wrongGuesses)
   const puzzleNumber = todayStr ? getPuzzleNumber(todayStr) : 1
   const shareText = isOver
-    ? buildShareText({ mode, puzzleNumber, status: status as 'won' | 'lost', guessCount: guesses.length })
+    ? buildShareText({ mode, puzzleNumber, status: status as 'won' | 'lost', guessCount: guesses.length, stats, streak: streakData.streak, bestStreak: streakData.bestStreak })
     : undefined
 
   return (
