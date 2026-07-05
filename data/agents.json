@@ -195,7 +195,7 @@
     "quote": "The law is clear. My methods are not always as gentle as the wording.", "emojis": ["⚡", "⚖️", "👮", "🌀", "💙"]
   },
   {
-    "id": "seed", "name": "Seed", "rank": "S", "attribute": "Electric", "specialty": "Attack", "attack_type": "Slash/Strike", "faction": "Obol Squad", "release_date": "2025-09-04", "gender": "Male",
+    "id": "seed", "name": "Seed", "rank": "S", "attribute": "Electric", "specialty": "Attack", "attack_type": "Slash/Strike", "faction": "Obol Squad", "release_date": "2025-09-04", "gender": "Female",
     "icon_image": "/images/agents/Agent_Seed_Icon.png", "splash_image": "/images/agents/Agent_Seed_Portrait.png", "splash_focus": "center 52%",
     "quote": "Every signal leaves a trace. I find them. I follow them. I win.", "emojis": ["⚡", "🎯", "📡", "💥", "🔵"]
   },
