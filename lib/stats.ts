@@ -78,7 +78,7 @@ export function buildShareText(opts: {
     grid = comparisons.map(c => {
       const { attribute, faction, specialty, attack_type, rank, gender } = c.results
       return [attribute, faction, specialty, attack_type, rank, gender]
-        .map(r => r === 'exact' ? '🟩' : '⬛')
+        .map(r => r === 'exact' ? '🟩' : r === 'partial' ? '🟨' : '⬛')
         .join('')
     }).join('\n')
   } else {

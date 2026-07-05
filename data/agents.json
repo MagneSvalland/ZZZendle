@@ -264,7 +264,7 @@
     "quote": "Order must be maintained at all times. I simply ensure that it is.", "emojis": ["🐺", "🌙", "❄️", "🎩", "⚖️"]
   },
   {
-    "id": "ye-shunguang", "name": "Ye Shunguang", "rank": "S", "attribute": "Honed Edge", "specialty": "Attack", "attack_type": "Slash", "faction": "Yunkui Summit", "release_date": "2025-12-30", "gender": "Male",
+    "id": "ye-shunguang", "name": "Ye Shunguang", "rank": "S", "attribute": "Honed Edge", "specialty": "Attack", "attack_type": "Slash", "faction": "Yunkui Summit", "release_date": "2025-12-30", "gender": "Female",
     "icon_image": "/images/agents/Agent_Ye_Shunguang_Icon.png", "splash_image": "/images/agents/Agent_Ye_Shunguang_Portrait.png", "splash_focus": "center 50%",
     "alt_splash_images": ["/images/agents/Agent_Ye_Shunguang_Enlightened_Mind_Portrait.png", "/images/agents/Agent_Ye_Shunguang_Touch_of_Dawnlight_Portrait.png"],
     "quote": "A single edge, honed to perfection. That is all I need.", "emojis": ["⚔️", "🌟", "💎", "🗡️", "⛩️"]

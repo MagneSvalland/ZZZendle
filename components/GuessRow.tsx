@@ -7,8 +7,8 @@ const TILE_BASE =
   'flex flex-col items-center justify-center rounded-md px-2 py-2 text-center text-xs font-bold min-h-[56px] w-full transition-colors'
 
 const tileColor: Record<MatchResult, string> = {
-  exact: 'bg-yellow-500 text-black shadow-[0_0_14px_rgba(250,204,21,0.65)]',
-  partial: 'bg-lime-500 text-black shadow-[0_0_10px_rgba(163,230,53,0.55)]',
+  exact: 'bg-green-500 text-black shadow-[0_0_14px_rgba(34,197,94,0.65)]',
+  partial: 'bg-yellow-500 text-black shadow-[0_0_10px_rgba(250,204,21,0.55)]',
   none: 'bg-zinc-800 text-zinc-400 border border-zinc-700/50',
 }
 
@@ -74,7 +74,7 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
     <div
       className={`row-slide-in flex items-center gap-3 p-3 rounded-xl border transition-colors ${
         isCorrect
-          ? 'border-yellow-500/40 bg-yellow-950/10 shadow-[0_0_20px_rgba(250,204,21,0.07)]'
+          ? 'border-green-500/40 bg-green-950/10 shadow-[0_0_20px_rgba(34,197,94,0.07)]'
           : 'border-zinc-700/40 bg-zinc-900/40'
       }`}
     >
@@ -84,7 +84,7 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
         <div className="flex flex-col">
           <span
             className={`text-sm font-semibold leading-tight ${
-              isCorrect ? 'text-yellow-300' : 'text-white'
+              isCorrect ? 'text-green-300' : 'text-white'
             }`}
           >
             {agent.name}
