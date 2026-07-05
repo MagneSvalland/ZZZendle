@@ -38,7 +38,7 @@
     "quote": "Every song deserves the right moment. This one? Right now.", "emojis": ["🎵", "⭐", "🌟", "✨", "🎤"]
   },
   {
-    "id": "banyue", "name": "Banyue", "rank": "S", "attribute": "Fire", "specialty": "Rupture", "attack_type": "Strike", "faction": "Krampus Compliance Authority", "release_date": "2025-12-17", "gender": "Female",
+    "id": "banyue", "name": "Banyue", "rank": "S", "attribute": "Fire", "specialty": "Rupture", "attack_type": "Strike", "faction": "Krampus Compliance Authority", "release_date": "2025-12-17", "gender": "Male",
     "icon_image": "/images/agents/Agent_Banyue_Icon.png", "splash_image": "/images/agents/Agent_Banyue_Portrait.png", "splash_focus": "center 62%",
     "quote": "Fire does not forgive. Neither do I.", "emojis": ["🔥", "💥", "🌙", "⚖️", "💀"]
   },
