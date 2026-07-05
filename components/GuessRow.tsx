@@ -8,7 +8,7 @@ const TILE_BASE =
 
 const tileColor: Record<MatchResult, string> = {
   exact: 'bg-yellow-500 text-black shadow-[0_0_14px_rgba(250,204,21,0.65)]',
-  partial: 'bg-lime-500 text-black shadow-[0_0_10px_rgba(163,230,53,0.55)]',
+  partial: 'bg-orange-500 text-black shadow-[0_0_10px_rgba(249,115,22,0.55)]',
   none: 'bg-zinc-800 text-zinc-400 border border-zinc-700/50',
 }
 
