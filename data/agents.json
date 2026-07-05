@@ -281,7 +281,7 @@
     "quote": "Every stroke of ink tells a story. Mine end battles.", "emojis": ["🖌️", "📜", "✨", "🌺", "💜"]
   },
   {
-    "id": "zhao", "name": "Zhao", "rank": "S", "attribute": "Ice", "specialty": "Defense", "attack_type": "Slash", "faction": "Krampus Compliance Authority", "release_date": "2025-12-30", "gender": "Male",
+    "id": "zhao", "name": "Zhao", "rank": "S", "attribute": "Ice", "specialty": "Defense", "attack_type": "Slash", "faction": "Krampus Compliance Authority", "release_date": "2025-12-30", "gender": "Female",
     "icon_image": "/images/agents/Agent_Zhao_Icon.png", "splash_image": "/images/agents/Agent_Zhao_Portrait.png", "splash_focus": "center 50%",
     "quote": "Defense is not retreat. Defense is the foundation of victory.", "emojis": ["🧊", "🛡️", "❄️", "🐲", "⚔️"]
   },
