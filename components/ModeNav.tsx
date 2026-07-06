@@ -8,6 +8,7 @@ const MODES = [
   { label: 'Quote',   icon: '💬', href: '/quote' },
   { label: 'Emoji',   icon: '😀', href: '/emoji' },
   { label: 'Splash',  icon: '🖼️', href: '/splash' },
+  { label: 'Endless', icon: '♾️', href: '/endless' },
 ]
 
 export default function ModeNav() {
