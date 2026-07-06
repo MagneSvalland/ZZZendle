@@ -469,14 +469,11 @@ export default function SplashConfigurator() {
   async function handleSaveDeploy() {
     setSaveState('saving')
     setSaveError('')
-    const mergedSchedule = Object.fromEntries(
-      Object.entries({ ...schedule, ...ext }).sort(([a], [b]) => a.localeCompare(b))
-    )
     try {
       const res = await fetch('/api/save-splash', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ splashConfig: config, scheduleJson: mergedSchedule }),
+        body: JSON.stringify({ splashConfig: config }),
       })
       const data = await res.json()
       if (data.ok) {
