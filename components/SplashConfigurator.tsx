@@ -475,7 +475,7 @@ export default function SplashConfigurator() {
       const res = await fetch('/api/save-splash', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ splashConfig: config }),
+        body: JSON.stringify({ splashConfig: config, extSchedule: ext }),
       })
       const data = await res.json()
       if (data.ok) {
