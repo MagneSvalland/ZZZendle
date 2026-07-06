@@ -15,6 +15,7 @@ export interface Agent {
   splash_image: string | null
   splash_focus: string | null
   alt_splash_images?: string[]
+  alt_splash_names?: string[]
   quote: string
   emojis: string[]
 }

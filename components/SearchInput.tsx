@@ -4,11 +4,42 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import type { Agent } from '@/lib/types'
 
+interface SearchAgent {
+  agent: Agent
+  baseAgentId: string
+  displayName: string
+  skinName?: string
+}
+
 interface Props {
   agents: Agent[]
   guessedIds: string[]
   disabled: boolean
   onGuess: (agentId: string) => void
+}
+
+function expandAgentsWithSkins(agents: Agent[]): SearchAgent[] {
+  const expanded: SearchAgent[] = []
+  for (const agent of agents) {
+    // Add base agent
+    expanded.push({
+      agent,
+      baseAgentId: agent.id,
+      displayName: agent.name,
+    })
+    // Add skin variants if they exist
+    if (agent.alt_splash_names && agent.alt_splash_names.length > 0) {
+      for (const skinName of agent.alt_splash_names) {
+        expanded.push({
+          agent,
+          baseAgentId: agent.id,
+          displayName: `${agent.name} (${skinName})`,
+          skinName,
+        })
+      }
+    }
+  }
+  return expanded
 }
 
 export default function SearchInput({ agents, guessedIds, disabled, onGuess }: Props) {
@@ -18,10 +49,12 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const filtered = agents.filter(
-    (a) =>
-      !guessedIds.includes(a.id) &&
-      a.name.toLowerCase().includes(query.toLowerCase()),
+  const expandedAgents = expandAgentsWithSkins(agents)
+
+  const filtered = expandedAgents.filter(
+    (item) =>
+      !guessedIds.includes(item.baseAgentId) &&
+      item.displayName.toLowerCase().includes(query.toLowerCase()),
   )
 
   useEffect(() => {
@@ -38,8 +71,8 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  function select(agent: Agent) {
-    onGuess(agent.id)
+  function select(item: SearchAgent) {
+    onGuess(item.baseAgentId)
     setQuery('')
     setOpen(false)
     inputRef.current?.focus()
@@ -92,13 +125,13 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
 
       {open && query.length > 0 && filtered.length > 0 && !disabled && (
         <ul className="absolute z-50 mt-1.5 w-full rounded-xl border border-zinc-700/50 bg-zinc-900/95 shadow-2xl shadow-black/60 max-h-64 overflow-y-auto backdrop-blur-md">
-          {filtered.map((agent, i) => (
-            <li key={agent.id}>
+          {filtered.map((item, i) => (
+            <li key={`${item.baseAgentId}-${item.skinName || 'base'}`}>
               <button
                 type="button"
                 onMouseDown={(e) => {
                   e.preventDefault()
-                  select(agent)
+                  select(item)
                 }}
                 onMouseEnter={() => setHighlighted(i)}
                 className={`
@@ -111,16 +144,16 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
               >
                 <div className="relative w-8 h-8 rounded-full overflow-hidden bg-zinc-800 shrink-0 border border-zinc-700/50">
                   <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-zinc-500">
-                    {agent.name
+                    {item.agent.name
                       .split(' ')
                       .map((w) => w[0])
                       .join('')
                       .slice(0, 2)}
                   </span>
-                  {(agent.icon_image ?? agent.splash_image) && (
+                  {(item.agent.icon_image ?? item.agent.splash_image) && (
                     <Image
-                      src={(agent.icon_image ?? agent.splash_image)!}
-                      alt={agent.name}
+                      src={(item.agent.icon_image ?? item.agent.splash_image)!}
+                      alt={item.agent.name}
                       fill
                       className="object-cover object-top"
                       sizes="32px"
@@ -131,21 +164,21 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium truncate">{agent.name}</div>
+                  <div className="text-sm font-medium truncate">{item.displayName}</div>
                   <div className="text-[11px] text-zinc-500">
-                    {agent.attribute} · {agent.faction}
+                    {item.agent.attribute} · {item.agent.faction}
                   </div>
                 </div>
                 <span
                   className={`shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                    agent.rank === 'S'
+                    item.agent.rank === 'S'
                       ? 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/20'
-                      : agent.rank === 'I'
+                      : item.agent.rank === 'I'
                       ? 'bg-purple-500/15 text-purple-400 border border-purple-500/20'
                       : 'bg-blue-500/15 text-blue-400 border border-blue-500/20'
                   }`}
                 >
-                  {agent.rank}
+                  {item.agent.rank}
                 </span>
               </button>
             </li>

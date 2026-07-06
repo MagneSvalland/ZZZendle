@@ -42,7 +42,10 @@
                        "🧪",
                        "✨",
                        "👻"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Sea of Thyme"
+                             ]
     },
     {
         "id":  "anby",
@@ -108,7 +111,10 @@
                        "🌀",
                        "👁️",
                        "💎"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Discordant Note"
+                             ]
     },
     {
         "id":  "harumasa",
@@ -153,7 +159,10 @@
                        "🌟",
                        "✨",
                        "🎤"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Chandelier"
+                             ]
     },
     {
         "id":  "banyue",
@@ -345,7 +354,10 @@
                        "🗡️",
                        "🧊",
                        "🌊"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "On Campus"
+                             ]
     },
     {
         "id":  "evelyn",
@@ -411,7 +423,10 @@
                        "🌙",
                        "🗡️",
                        "🦋"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Dignified Blossom"
+                             ]
     },
     {
         "id":  "hugo",
@@ -456,7 +471,10 @@
                        "🐾",
                        "💢",
                        "🖤"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Nocturne of Light"
+                             ]
     },
     {
         "id":  "ju-fufu",
@@ -522,7 +540,10 @@
                        "🌸",
                        "🗡️",
                        "🌿"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "White Heart Silhouette"
+                             ]
     },
     {
         "id":  "lighter",
@@ -609,7 +630,10 @@
                        "🔮",
                        "🧿",
                        "💫"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Rhapsody\u0027s Muse"
+                             ]
     },
     {
         "id":  "nekomata",
@@ -654,7 +678,10 @@
                        "💸",
                        "✨",
                        "😏"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Cunning Cutie"
+                             ]
     },
     {
         "id":  "orphie",
@@ -699,7 +726,10 @@
                        "⛰️",
                        "💪",
                        "🌿"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Culinary Jewel"
+                             ]
     },
     {
         "id":  "piper",
@@ -954,7 +984,10 @@
                        "🛡️",
                        "💛",
                        "✨"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Afternoon Tea Break"
+                             ]
     },
     {
         "id":  "trigger",
@@ -1020,7 +1053,10 @@
                        "🌸",
                        "💙",
                        "✨"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Tanuki in Broad Daylight"
+                             ]
     },
     {
         "id":  "velina",
@@ -1044,7 +1080,10 @@
                        "🌀",
                        "💚",
                        "🎋"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Shade of Leisure"
+                             ]
     },
     {
         "id":  "vivian",
@@ -1068,7 +1107,10 @@
                        "🔮",
                        "💜",
                        "👻"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Iris of the Shore"
+                             ]
     },
     {
         "id":  "von-lycaon",
@@ -1114,7 +1156,11 @@
                        "💎",
                        "🗡️",
                        "⛩️"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Enlightened Mind",
+                                 "Touch of Dawnlight"
+                             ]
     },
     {
         "id":  "yidhari",
@@ -1159,7 +1205,10 @@
                        "✨",
                        "🌺",
                        "💜"
-                   ]
+                   ],
+        "alt_splash_names":  [
+                                 "Trails of Ink"
+                             ]
     },
     {
         "id":  "zhao",
