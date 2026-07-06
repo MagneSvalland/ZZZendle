@@ -37,7 +37,7 @@
   },
   "2026-07-08": {
     "portrait": "/images/agents/Agent_Tsukishiro_Yanagi_Portrait.png",
-    "focus": 50
+    "focus": 46
   },
   "2026-07-09": {
     "portrait": "/images/agents/Agent_Vivian_Banshee_Iris_of_the_Shore_Portrait.png",
@@ -57,6 +57,6 @@
   },
   "2026-07-13": {
     "portrait": "/images/agents/Agent_Alice_Thymefield_Sea_of_Thyme_Portrait.png",
-    "focus": 55
+    "focus": 29
   }
 }
