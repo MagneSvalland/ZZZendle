@@ -5,6 +5,7 @@ import type { Agent } from '@/lib/types'
 import GenericModeGame, { type RenderChallengeProps } from './GenericModeGame'
 import { SPLASH_CONFIG_KEY, type SplashConfig } from './SplashConfigurator'
 import { getEffectiveDate } from '@/lib/date'
+import staticSplashConfig from '@/data/splash-config.json'
 
 // Cache detected focus positions per agent ID for the session
 const focusCache = new Map<string, string>()
@@ -109,11 +110,17 @@ function SplashChallenge({
   useEffect(() => {
     if (allPortraitOptions.length === 0) return
 
-    // 1. Check manual config from debug page (date-keyed).
-    //    Use the effective date so debug-date previews read the right day's config.
+    // 1. Check config: static file first (deployed truth), then localStorage override.
     const today = getEffectiveDate()
     let src: string | null = null
     let manualFocus: number | null = null
+
+    const staticCfg = staticSplashConfig as SplashConfig
+    const staticDay = staticCfg[today]
+    if (staticDay?.portrait && allPortraitOptions.includes(staticDay.portrait)) {
+      src = staticDay.portrait
+    }
+    if (staticDay?.focus != null) manualFocus = staticDay.focus
 
     try {
       const raw = localStorage.getItem(SPLASH_CONFIG_KEY)
