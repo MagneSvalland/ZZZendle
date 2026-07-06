@@ -272,14 +272,6 @@ export default function Game() {
         {/* Guess history */}
         {comparisons.length > 0 && (
           <div className="w-full">
-            <div className="flex items-center gap-3 px-3 mb-2">
-              <div className="min-w-[130px] text-[10px] text-zinc-400 uppercase tracking-wider">Agent</div>
-              <div className="flex flex-1 gap-2">
-                {['Faction', 'Element', 'Specialty', 'Attack', 'Rarity', 'Gender'].map((h) => (
-                  <div key={h} className="flex-1 text-[10px] text-zinc-400 uppercase tracking-wider text-center">{h}</div>
-                ))}
-              </div>
-            </div>
             <div className="flex flex-col gap-2">
               {[...comparisons].reverse().map((c, i) => (
                 <GuessRow key={c.agent.id} comparison={c} guessNumber={comparisons.length - i} />
