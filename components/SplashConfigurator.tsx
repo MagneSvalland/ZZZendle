@@ -33,6 +33,30 @@ function addDays(dateStr: string, n: number): string {
   return d.toLocaleDateString('en-CA')
 }
 
+// Re-index the extended days into a gap-free block right after the last
+// scheduled day, preserving their order and per-day config. Removing a day in
+// the middle shifts the rest up so the queue is always sequential.
+function contiguousExt(
+  extMap: Record<string, string>,
+  configMap: SplashConfig,
+): { ext: Record<string, string>; config: SplashConfig } {
+  const scheduledDates = Object.keys(schedule).sort()
+  const lastScheduled = scheduledDates[scheduledDates.length - 1]
+    ?? new Date().toLocaleDateString('en-CA')
+  const nextExt: Record<string, string> = {}
+  const nextConfig: SplashConfig = {}
+  // Keep configs that belong to scheduled (non-extended) days untouched.
+  for (const [d, c] of Object.entries(configMap)) {
+    if (extMap[d] === undefined) nextConfig[d] = c
+  }
+  Object.keys(extMap).sort().forEach((oldDate, i) => {
+    const newDate = addDays(lastScheduled, i + 1)
+    nextExt[newDate] = extMap[oldDate]
+    if (configMap[oldDate]) nextConfig[newDate] = configMap[oldDate]
+  })
+  return { ext: nextExt, config: nextConfig }
+}
+
 function fmtDate(dateStr: string) {
   return new Date(dateStr + 'T12:00:00').toLocaleDateString('en-GB', {
     weekday: 'short', day: 'numeric', month: 'short',
@@ -333,10 +357,17 @@ export default function SplashConfigurator() {
 
   useEffect(() => {
     try {
-      const savedCfg = localStorage.getItem(SPLASH_CONFIG_KEY)
-      if (savedCfg) setConfig(JSON.parse(savedCfg))
-      const savedExt = localStorage.getItem(SPLASH_SCHEDULE_EXT_KEY)
-      if (savedExt) setExt(JSON.parse(savedExt))
+      const cfgStr = localStorage.getItem(SPLASH_CONFIG_KEY)
+      const extStr = localStorage.getItem(SPLASH_SCHEDULE_EXT_KEY)
+      if (!cfgStr && !extStr) return
+      const cfg: SplashConfig = cfgStr ? JSON.parse(cfgStr) : {}
+      const rawExt: Record<string, string> = extStr ? JSON.parse(extStr) : {}
+      // Heal any gaps left by earlier removals so the queue is sequential.
+      const norm = contiguousExt(rawExt, cfg)
+      setConfig(norm.config)
+      setExt(norm.ext)
+      localStorage.setItem(SPLASH_CONFIG_KEY, JSON.stringify(norm.config))
+      localStorage.setItem(SPLASH_SCHEDULE_EXT_KEY, JSON.stringify(norm.ext))
     } catch { /* ignore */ }
   }, [])
 
@@ -367,20 +398,31 @@ export default function SplashConfigurator() {
   }
 
   function removeExtDay(dateStr: string) {
-    const { [dateStr]: _, ...rest } = ext
-    persistExt(rest)
-    clearDay(dateStr)
+    const restExt = { ...ext }
+    const restConfig = { ...config }
+    delete restExt[dateStr]
+    delete restConfig[dateStr]
+    // Re-index so the remaining days close the gap and stay sequential.
+    const norm = contiguousExt(restExt, restConfig)
+    persistExt(norm.ext)
+    persistConfig(norm.config)
   }
 
   function addAgent(agentId: string, portrait: string) {
-    const baseDates = Object.keys(schedule).sort()
-    const extDates = Object.keys(ext).sort()
-    const allDates = [...new Set([...baseDates, ...extDates])].sort()
-    const lastDate = allDates[allDates.length - 1] ?? new Date().toLocaleDateString('en-CA')
-    const nextDate = addDays(lastDate, 1)
     const agent = agents.find(a => a.id === agentId)
-    persistExt({ ...ext, [nextDate]: agentId })
-    persistConfig({ ...config, [nextDate]: { portrait, focus: agent ? defaultFocusFor(agent) : 65 } })
+    const scheduledDates = Object.keys(schedule).sort()
+    const lastScheduled = scheduledDates[scheduledDates.length - 1] ?? new Date().toLocaleDateString('en-CA')
+    // Place the new day strictly after any existing one, then normalise so the
+    // whole extended block is contiguous (fills the first free slot).
+    const existing = Object.keys(ext).sort()
+    const maxDate = existing[existing.length - 1] ?? lastScheduled
+    const sentinel = addDays(maxDate, 1)
+    const norm = contiguousExt(
+      { ...ext, [sentinel]: agentId },
+      { ...config, [sentinel]: { portrait, focus: agent ? defaultFocusFor(agent) : 65 } },
+    )
+    persistExt(norm.ext)
+    persistConfig(norm.config)
     setShowPicker(false)
   }
 

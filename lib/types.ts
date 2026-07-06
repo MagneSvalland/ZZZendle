@@ -10,6 +10,7 @@ export interface Agent {
   specialty: string
   faction: string
   release_date: string
+  release_version: string
   gender: Gender
   icon_image: string | null
   splash_image: string | null
@@ -26,7 +27,7 @@ export interface AttributeResults {
   specialty: MatchResult
   rank: MatchResult
   gender: MatchResult
-  release_date: 'exact' | 'earlier' | 'later' | 'none'
+  release: 'exact' | 'earlier' | 'later' | 'none'
 }
 
 export interface GuessComparison {

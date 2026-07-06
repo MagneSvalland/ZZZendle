@@ -36,6 +36,33 @@ function Tile({
   )
 }
 
+type ReleaseResult = 'exact' | 'earlier' | 'later' | 'none'
+
+function ReleaseTile({
+  version,
+  result,
+  delay = 0,
+}: {
+  version: string
+  result: ReleaseResult
+  delay?: number
+}) {
+  const color = result === 'exact' ? tileColor.exact : tileColor.none
+  // 'earlier' = answer is a newer version → point up; 'later' = older → point down.
+  const arrow = result === 'earlier' ? '▲' : result === 'later' ? '▼' : ''
+  return (
+    <div className="flex flex-col gap-1 items-center flex-1" style={{ perspective: '600px' }}>
+      <span className="text-[10px] text-zinc-500 uppercase tracking-wider">Version</span>
+      <div className={`tile-pop ${TILE_BASE} ${color}`} style={{ animationDelay: `${delay}ms` }}>
+        <span className="leading-tight flex items-center gap-1">
+          {version}
+          {arrow && <span className="text-sm leading-none">{arrow}</span>}
+        </span>
+      </div>
+    </div>
+  )
+}
+
 function AgentAvatar({ name, src }: { name: string; src: string | null }) {
   return (
     <div className="relative w-10 h-10 rounded-full overflow-hidden bg-zinc-800 flex items-center justify-center shrink-0 border border-zinc-700/50">
@@ -99,6 +126,7 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
         <Tile label="Specialty" value={agent.specialty}            result={results.specialty}  delay={140} />
         <Tile label="Rarity"    value={`${agent.rank}-Rank`}      result={results.rank}       delay={210} />
         <Tile label="Gender"    value={agent.gender}               result={results.gender}     delay={280} />
+        <ReleaseTile            version={agent.release_version}    result={results.release}    delay={350} />
       </div>
     </div>
   )
