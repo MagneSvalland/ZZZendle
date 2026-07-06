@@ -1,1 +1,50 @@
-{}
+{
+  "2026-06-30": {
+    "portrait": "/images/agents/Agent_Burnice_White_Portrait.png",
+    "focus": 45
+  },
+  "2026-07-02": {
+    "portrait": "/images/agents/Agent_Ben_Bigger_Portrait.png",
+    "focus": 45
+  },
+  "2026-07-05": {
+    "portrait": "/images/agents/Agent_Zhu_Yuan_Portrait.png",
+    "focus": 46
+  },
+  "2026-07-06": {
+    "portrait": "/images/agents/Agent_Jane_Doe_Nocturne_of_Light_Portrait.png",
+    "focus": 30
+  },
+  "2026-07-07": {
+    "portrait": "/images/agents/Agent_Yixuan_Trails_of_Ink_Portrait.png",
+    "focus": 25
+  },
+  "2026-07-08": {
+    "portrait": "/images/agents/Agent_Caesar_King_Portrait.png",
+    "focus": 45
+  },
+  "2026-07-09": {
+    "portrait": "/images/agents/Agent_Vivian_Banshee_Iris_of_the_Shore_Portrait.png",
+    "focus": 47
+  },
+  "2026-07-10": {
+    "portrait": "/images/agents/Agent_Pan_Yinhu_Portrait.png",
+    "focus": 25
+  },
+  "2026-07-11": {
+    "portrait": "/images/agents/Agent_Promeia_Portrait.png",
+    "focus": 90
+  },
+  "2026-07-12": {
+    "portrait": "/images/agents/Agent_Velina_Airgid_Portrait.png",
+    "focus": 68
+  },
+  "2026-07-14": {
+    "portrait": "/images/agents/Agent_Soldier_11_Portrait.png",
+    "focus": 51
+  },
+  "2026-07-15": {
+    "portrait": "/images/agents/Agent_Soldier_0_-_Anby_Portrait.png",
+    "focus": 45
+  }
+}
