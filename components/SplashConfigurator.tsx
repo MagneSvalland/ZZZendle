@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import agentsData from '@/data/agents.json'
 import scheduleData from '@/data/schedule.json'
+import staticSplashConfig from '@/data/splash-config.json'
 import type { Agent } from '@/lib/types'
 import { useDevAuth } from '@/contexts/DevAuthContext'
 
@@ -361,10 +362,11 @@ export default function SplashConfigurator() {
     try {
       const cfgStr = localStorage.getItem(SPLASH_CONFIG_KEY)
       const extStr = localStorage.getItem(SPLASH_SCHEDULE_EXT_KEY)
-      if (!cfgStr && !extStr) return
-      const cfg: SplashConfig = cfgStr ? JSON.parse(cfgStr) : {}
+      // Start from deployed file so sliders reflect what's actually live
+      const base: SplashConfig = staticSplashConfig as SplashConfig
+      const local: SplashConfig = cfgStr ? JSON.parse(cfgStr) : {}
+      const cfg: SplashConfig = { ...base, ...local }
       const rawExt: Record<string, string> = extStr ? JSON.parse(extStr) : {}
-      // Heal any gaps left by earlier removals so the queue is sequential.
       const norm = contiguousExt(rawExt, cfg)
       setConfig(norm.config)
       setExt(norm.ext)
