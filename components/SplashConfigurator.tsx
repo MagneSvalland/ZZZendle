@@ -352,7 +352,8 @@ export default function SplashConfigurator() {
   const [config, setConfig] = useState<SplashConfig>({})
   const [ext, setExt] = useState<Record<string, string>>({})
   const [showPicker, setShowPicker] = useState(false)
-  const [showExport, setShowExport] = useState(false)
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'done' | 'error'>('idle')
+  const [saveError, setSaveError] = useState('')
 
   const baseDays = getUpcomingBaseDays(14)
 
@@ -465,12 +466,29 @@ export default function SplashConfigurator() {
 
   const hasAny = Object.keys(config).length > 0 || Object.keys(ext).length > 0
 
-  function buildExportData() {
-    const mergedSchedule = { ...schedule, ...ext }
-    const sortedSchedule = Object.fromEntries(Object.entries(mergedSchedule).sort(([a], [b]) => a.localeCompare(b)))
-    return {
-      splashConfig: JSON.stringify(config, null, 2),
-      scheduleJson: JSON.stringify(sortedSchedule, null, 2),
+  async function handleSaveDeploy() {
+    setSaveState('saving')
+    setSaveError('')
+    const mergedSchedule = Object.fromEntries(
+      Object.entries({ ...schedule, ...ext }).sort(([a], [b]) => a.localeCompare(b))
+    )
+    try {
+      const res = await fetch('/api/save-splash', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ splashConfig: config, scheduleJson: mergedSchedule }),
+      })
+      const data = await res.json()
+      if (data.ok) {
+        setSaveState('done')
+        setTimeout(() => setSaveState('idle'), 3000)
+      } else {
+        setSaveError(data.error ?? 'Unknown error')
+        setSaveState('error')
+      }
+    } catch (e) {
+      setSaveError(e instanceof Error ? e.message : String(e))
+      setSaveState('error')
     }
   }
 
@@ -483,10 +501,19 @@ export default function SplashConfigurator() {
         {hasAny && (
           <>
             <button
-              onClick={() => setShowExport(true)}
-              className="text-[10px] text-yellow-500/70 hover:text-yellow-400 transition-colors"
+              onClick={handleSaveDeploy}
+              disabled={saveState === 'saving'}
+              className={`text-[10px] font-semibold transition-colors ${
+                saveState === 'done' ? 'text-green-400' :
+                saveState === 'error' ? 'text-red-400' :
+                saveState === 'saving' ? 'text-zinc-500 cursor-wait' :
+                'text-yellow-500/70 hover:text-yellow-400'
+              }`}
             >
-              ↑ export to files
+              {saveState === 'saving' ? '⏳ pushing...' :
+               saveState === 'done' ? '✓ deployed!' :
+               saveState === 'error' ? '✕ failed' :
+               '↑ save & deploy'}
             </button>
             <button
               onClick={clearAll}
@@ -495,6 +522,9 @@ export default function SplashConfigurator() {
               ✕ clear all
             </button>
           </>
+        )}
+        {saveState === 'error' && saveError && (
+          <span className="text-[9px] text-red-500 font-mono ml-2">{saveError}</span>
         )}
       </div>
       <p className="text-[10px] text-zinc-700 mb-5">
@@ -551,51 +581,6 @@ export default function SplashConfigurator() {
         />
       )}
 
-      {showExport && (() => {
-        const { splashConfig, scheduleJson } = buildExportData()
-        return (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
-            onClick={e => { if (e.target === e.currentTarget) setShowExport(false) }}
-          >
-            <div className="bg-zinc-900 border border-zinc-700/60 rounded-2xl p-5 w-full max-w-2xl flex flex-col gap-4 shadow-2xl max-h-[85vh]">
-              <div className="flex items-center justify-between shrink-0">
-                <div>
-                  <div className="text-sm font-semibold text-white">Export to files</div>
-                  <div className="text-[10px] text-zinc-500 mt-0.5">Paste each block into the correct file and commit → push to deploy</div>
-                </div>
-                <button onClick={() => setShowExport(false)} className="text-zinc-600 hover:text-zinc-300 text-lg transition-colors">✕</button>
-              </div>
-
-              <div className="overflow-y-auto flex flex-col gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold text-yellow-400 uppercase tracking-widest">data/splash-config.json</span>
-                    <button
-                      onClick={() => navigator.clipboard.writeText(splashConfig)}
-                      className="text-[10px] text-zinc-500 hover:text-yellow-400 transition-colors"
-                    >copy</button>
-                  </div>
-                  <pre className="bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-[10px] text-zinc-300 overflow-x-auto font-mono whitespace-pre">{splashConfig}</pre>
-                </div>
-
-                {Object.keys(ext).length > 0 && (
-                  <div className="flex flex-col gap-1.5">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">data/schedule.json (merged with extended days)</span>
-                      <button
-                        onClick={() => navigator.clipboard.writeText(scheduleJson)}
-                        className="text-[10px] text-zinc-500 hover:text-blue-400 transition-colors"
-                      >copy</button>
-                    </div>
-                    <pre className="bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-[10px] text-zinc-300 overflow-x-auto font-mono whitespace-pre">{scheduleJson}</pre>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )
-      })()}
     </section>
   )
 }
