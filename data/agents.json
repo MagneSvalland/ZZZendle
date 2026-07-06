@@ -838,7 +838,7 @@
         "faction":  "Phaethon",
         "release_date":  "2026-06-17",
         "release_version":  "3.0",
-        "gender":  "Female",
+        "gender":  "Male",
         "icon_image":  "/images/agents/Agent_Pyrois_Icon.png",
         "splash_image":  "/images/agents/Agent_Pyrois_Portrait.png",
         "splash_focus":  "center 60%",

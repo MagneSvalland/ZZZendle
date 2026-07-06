@@ -213,7 +213,7 @@ function SplashChallenge({
             backgroundSize: bgSize,
             backgroundPosition: focusPos,
             backgroundRepeat: 'no-repeat',
-            transition: 'background-size 0.6s ease, background-position 0.4s ease',
+            transition: 'background-size 0.4s ease',
           }}
         />
       </div>
