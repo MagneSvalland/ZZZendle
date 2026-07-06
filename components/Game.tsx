@@ -427,7 +427,6 @@ function ResultPanel({
             targetAgent.faction,
             targetAgent.attribute,
             targetAgent.specialty,
-            targetAgent.attack_type,
             `${targetAgent.rank}-Rank`,
             targetAgent.gender,
           ].map((attr) => (

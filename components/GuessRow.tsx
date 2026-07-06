@@ -12,6 +12,13 @@ const tileColor: Record<MatchResult, string> = {
   none: 'bg-zinc-800 text-zinc-400 border border-zinc-700/50',
 }
 
+const dateComparisonColor: Record<'exact' | 'earlier' | 'later' | 'none', string> = {
+  exact: 'bg-yellow-500 text-black shadow-[0_0_14px_rgba(250,204,21,0.65)]',
+  earlier: 'bg-blue-500 text-white shadow-[0_0_10px_rgba(59,130,246,0.55)]',
+  later: 'bg-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.55)]',
+  none: 'bg-zinc-800 text-zinc-400 border border-zinc-700/50',
+}
+
 function Tile({
   label,
   value,
@@ -31,6 +38,37 @@ function Tile({
         style={{ animationDelay: `${delay}ms` }}
       >
         <span className="leading-tight">{value}</span>
+      </div>
+    </div>
+  )
+}
+
+function DateTile({
+  label,
+  dateComparison,
+  delay = 0,
+}: {
+  label: string
+  dateComparison: 'exact' | 'earlier' | 'later' | 'none'
+  delay?: number
+}) {
+  const getArrow = () => {
+    switch (dateComparison) {
+      case 'exact': return '✓'
+      case 'earlier': return '↓'
+      case 'later': return '↑'
+      default: return '?'
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-1 items-center flex-1" style={{ perspective: '600px' }}>
+      <span className="text-[10px] text-zinc-500 uppercase tracking-wider">{label}</span>
+      <div
+        className={`tile-pop ${TILE_BASE} ${dateComparisonColor[dateComparison]}`}
+        style={{ animationDelay: `${delay}ms` }}
+      >
+        <span className="text-xl leading-none">{getArrow()}</span>
       </div>
     </div>
   )
@@ -97,7 +135,7 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
         <Tile label="Faction"   value={agent.faction}              result={results.faction}    delay={0} />
         <Tile label="Element"   value={agent.attribute}            result={results.attribute}  delay={70} />
         <Tile label="Specialty" value={agent.specialty}            result={results.specialty}  delay={140} />
-        <Tile label="Attack"    value={agent.attack_type}          result={results.attack_type} delay={210} />
+        <DateTile label="Release"  dateComparison={results.release_date} delay={210} />
         <Tile label="Rarity"    value={`${agent.rank}-Rank`}      result={results.rank}       delay={280} />
         <Tile label="Gender"    value={agent.gender}               result={results.gender}     delay={350} />
       </div>

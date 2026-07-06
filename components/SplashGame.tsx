@@ -96,12 +96,12 @@ function SplashChallenge({
   isOver: boolean
   targetAgent: Agent
 }) {
-  const allPortraitOptions = [
-    targetAgent.splash_image,
-    ...(targetAgent.alt_splash_images ?? []),
-  ].filter((s): s is string => !!s)
+  // Separate base and skins so they don't get mixed in random selection
+  const basePortrait = targetAgent.splash_image
+  const skinPortraits = (targetAgent.alt_splash_images ?? []).filter((s): s is string => !!s)
+  const allPortraitOptions = [basePortrait, ...skinPortraits].filter((s): s is string => !!s)
 
-  const [portraitSrc, setPortraitSrc] = useState<string | null>(allPortraitOptions[0] ?? null)
+  const [portraitSrc, setPortraitSrc] = useState<string | null>(basePortrait ?? null)
   const [imageError, setImageError] = useState(false)
   const [focusPos, setFocusPos] = useState<string>(targetAgent.splash_focus ?? 'center 65%')
 
@@ -125,12 +125,15 @@ function SplashChallenge({
       }
     } catch { /* ignore */ }
 
-    // 2. Fall back to session-stable random pick
+    // 2. Fall back to session-stable random pick — prefer skins if available, otherwise use base
     if (!src) {
       const sessionKey = `splash-pick-${targetAgent.id}`
       let stored = sessionStorage.getItem(sessionKey)
       if (!stored || !allPortraitOptions.includes(stored)) {
-        stored = allPortraitOptions[Math.floor(Math.random() * allPortraitOptions.length)]
+        // If skins exist, pick random from skins only. Otherwise use base.
+        const pickFrom = skinPortraits.length > 0 ? skinPortraits : (basePortrait ? [basePortrait] : [])
+        if (pickFrom.length === 0) return
+        stored = pickFrom[Math.floor(Math.random() * pickFrom.length)]
         sessionStorage.setItem(sessionKey, stored)
       }
       src = stored
@@ -139,7 +142,7 @@ function SplashChallenge({
     setPortraitSrc(src)
 
     // 3. Manual focus skips skin detection
-    if (manualFocus !== null) {
+    if (manualFocus !== null && src) {
       const pos = `center ${manualFocus}%`
       focusCache.set(src, pos)
       setFocusPos(pos)
@@ -147,6 +150,7 @@ function SplashChallenge({
     }
 
     // 4. Auto skin-detection
+    if (!src) return
     const cacheKey = src
     if (focusCache.has(cacheKey)) {
       setFocusPos(focusCache.get(cacheKey)!)

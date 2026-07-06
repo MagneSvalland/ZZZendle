@@ -8,7 +8,6 @@ export interface Agent {
   rank: Rank
   attribute: string
   specialty: string
-  attack_type: string
   faction: string
   release_date: string
   gender: Gender
@@ -24,9 +23,9 @@ export interface AttributeResults {
   faction: MatchResult
   attribute: MatchResult
   specialty: MatchResult
-  attack_type: MatchResult
   rank: MatchResult
   gender: MatchResult
+  release_date: 'exact' | 'earlier' | 'later' | 'none'
 }
 
 export interface GuessComparison {

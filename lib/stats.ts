@@ -76,10 +76,11 @@ export function buildShareText(opts: {
   let grid: string
   if (comparisons && comparisons.length > 0) {
     grid = comparisons.map(c => {
-      const { attribute, faction, specialty, attack_type, rank, gender } = c.results
-      return [attribute, faction, specialty, attack_type, rank, gender]
+      const { attribute, faction, specialty, rank, gender, release_date } = c.results
+      const releaseEmoji = release_date === 'exact' ? '🟩' : release_date === 'none' ? '⬛' : '🟨'
+      return [attribute, faction, specialty, rank, gender]
         .map(r => r === 'exact' ? '🟩' : r === 'partial' ? '🟨' : '⬛')
-        .join('')
+        .join('') + releaseEmoji
     }).join('\n')
   } else {
     const squares = Array(guessCount).fill('⬛')

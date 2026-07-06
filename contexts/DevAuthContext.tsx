@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useContext, useState, useEffect } from 'react'
+import { DEBUG_DATE_KEY } from '@/lib/date'
 
 const PASSWORD = 'magnexc'
 const STORAGE_KEY = 'zzzendle-dev-auth'
@@ -33,7 +34,9 @@ export function DevAuthProvider({ children }: { children: React.ReactNode }) {
 
   function logout() {
     localStorage.removeItem(STORAGE_KEY)
+    localStorage.removeItem(DEBUG_DATE_KEY)
     setIsDevAuth(false)
+    window.location.reload()
   }
 
   return (
