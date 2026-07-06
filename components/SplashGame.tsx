@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import type { Agent } from '@/lib/types'
 import GenericModeGame, { type RenderChallengeProps } from './GenericModeGame'
 import { SPLASH_CONFIG_KEY, type SplashConfig } from './SplashConfigurator'
+import { getEffectiveDate } from '@/lib/date'
 
 // Cache detected focus positions per agent ID for the session
 const focusCache = new Map<string, string>()
@@ -108,8 +109,9 @@ function SplashChallenge({
   useEffect(() => {
     if (allPortraitOptions.length === 0) return
 
-    // 1. Check manual config from debug page (date-keyed)
-    const today = new Date().toLocaleDateString('en-CA')
+    // 1. Check manual config from debug page (date-keyed).
+    //    Use the effective date so debug-date previews read the right day's config.
+    const today = getEffectiveDate()
     let src: string | null = null
     let manualFocus: number | null = null
 
@@ -125,18 +127,11 @@ function SplashChallenge({
       }
     } catch { /* ignore */ }
 
-    // 2. Fall back to session-stable random pick — prefer skins if available, otherwise use base
+    // 2. No manual config → use the default splash. Skins only ever show when
+    //    explicitly configured for that day in the debug page.
     if (!src) {
-      const sessionKey = `splash-pick-${targetAgent.id}`
-      let stored = sessionStorage.getItem(sessionKey)
-      if (!stored || !allPortraitOptions.includes(stored)) {
-        // If skins exist, pick random from skins only. Otherwise use base.
-        const pickFrom = skinPortraits.length > 0 ? skinPortraits : (basePortrait ? [basePortrait] : [])
-        if (pickFrom.length === 0) return
-        stored = pickFrom[Math.floor(Math.random() * pickFrom.length)]
-        sessionStorage.setItem(sessionKey, stored)
-      }
-      src = stored
+      src = basePortrait ?? skinPortraits[0] ?? null
+      if (!src) return
     }
 
     setPortraitSrc(src)
@@ -168,7 +163,7 @@ function SplashChallenge({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetAgent.id])
 
-  const zoomLevels = [650, 520, 420, 340, 275, 220, 180, 155, 135]
+  const zoomLevels = [520, 420, 340, 275, 220, 180, 155, 135]
   const bgSize = isOver
     ? 'contain'
     : `${zoomLevels[Math.min(wrongGuesses, zoomLevels.length - 1)]}%`

@@ -43,6 +43,19 @@ function allPortraits(agent: Agent): string[] {
   return [agent.splash_image, ...(agent.alt_splash_images ?? [])].filter((s): s is string => !!s)
 }
 
+// Display name for a specific portrait: "Velina Airgid" for the default,
+// "Velina Airgid (Shade of Leisure)" for a skin.
+function portraitName(agent: Agent, src: string): string {
+  const skinIdx = (agent.alt_splash_images ?? []).indexOf(src)
+  if (skinIdx < 0) return agent.name
+  const skinName = agent.alt_splash_names?.[skinIdx] ?? `Skin ${skinIdx + 1}`
+  return `${agent.name} (${skinName})`
+}
+
+function isSkinPortrait(agent: Agent, src: string): boolean {
+  return (agent.alt_splash_images ?? []).includes(src)
+}
+
 function defaultFocusFor(agent: Agent): number {
   return parseInt(agent.splash_focus?.match(/(\d+)/)?.[1] ?? '65')
 }
@@ -74,6 +87,11 @@ function DayCard({
   const selectedPortrait = (saved?.portrait && portraits.includes(saved.portrait)) ? saved.portrait : null
   const focusPct = saved?.focus ?? defaultFocusFor(agent)
   const previewSrc = selectedPortrait ?? portraits[0] ?? null
+  // Extended days (added via the picker) are locked to the single portrait you
+  // picked — no switcher, so default and skins stay individual.
+  const isExt = !!onRemove
+  const lockedSrc = selectedPortrait ?? portraits[0] ?? null
+  const headerName = isExt && lockedSrc ? portraitName(agent, lockedSrc) : agent.name
 
   return (
     <div className={`rounded-xl border p-4 flex gap-4 items-start ${
@@ -91,7 +109,7 @@ function DayCard({
         }`}>
           {label ?? (isToday ? 'Today' : fmtDate(dateStr))}
         </div>
-        <div className="text-sm font-semibold text-white mt-0.5 leading-tight">{agent.name}</div>
+        <div className="text-sm font-semibold text-white mt-0.5 leading-tight">{headerName}</div>
         <div className="text-[9px] text-zinc-600 mt-0.5">{agent.rank} · {agent.attribute}</div>
         <div className="mt-2 flex flex-col gap-1">
           {saved ? (
@@ -114,37 +132,53 @@ function DayCard({
           <span className="text-[10px] text-red-400">No portrait available</span>
         ) : (
           <>
-            <div className="flex gap-2 flex-wrap">
-              {portraits.map((src, i) => {
-                const isActive = selectedPortrait === src
-                return (
-                  <button
-                    key={src}
-                    type="button"
-                    onClick={() => onPortrait(dateStr, src, agent)}
-                    title={i === 0 ? 'Default portrait' : `Skin ${i}`}
-                    className={`relative w-12 aspect-[5/8] rounded overflow-hidden border-2 transition-all duration-150 ${
-                      isActive
-                        ? 'border-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)]'
-                        : 'border-zinc-700 hover:border-zinc-400 opacity-70 hover:opacity-100'
-                    }`}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={src} alt="" className="w-full h-full object-cover object-top" />
-                    {i > 0 && (
-                      <div className="absolute bottom-0 left-0 right-0 text-[6px] text-center bg-yellow-500/85 text-black font-bold py-0.5 leading-tight">
-                        SKIN
-                      </div>
-                    )}
-                    {isActive && (
-                      <div className="absolute top-0.5 right-0.5 w-3 h-3 rounded-full bg-yellow-400 flex items-center justify-center">
-                        <span className="text-[6px] text-black font-black">✓</span>
-                      </div>
-                    )}
-                  </button>
-                )
-              })}
-            </div>
+            {isExt ? (
+              // Locked to the one portrait picked for this day
+              lockedSrc && (
+                <div className="relative w-12 aspect-[5/8] rounded overflow-hidden border-2 border-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={lockedSrc} alt="" className="w-full h-full object-cover object-top" />
+                  {isSkinPortrait(agent, lockedSrc) && (
+                    <div className="absolute bottom-0 left-0 right-0 text-[6px] text-center bg-yellow-500/85 text-black font-bold py-0.5 leading-tight">
+                      SKIN
+                    </div>
+                  )}
+                </div>
+              )
+            ) : (
+              <div className="flex gap-2 flex-wrap">
+                {portraits.map((src) => {
+                  const isActive = selectedPortrait === src
+                  const skin = isSkinPortrait(agent, src)
+                  return (
+                    <button
+                      key={src}
+                      type="button"
+                      onClick={() => onPortrait(dateStr, src, agent)}
+                      title={portraitName(agent, src)}
+                      className={`relative w-12 aspect-[5/8] rounded overflow-hidden border-2 transition-all duration-150 ${
+                        isActive
+                          ? 'border-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)]'
+                          : 'border-zinc-700 hover:border-zinc-400 opacity-70 hover:opacity-100'
+                      }`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={src} alt="" className="w-full h-full object-cover object-top" />
+                      {skin && (
+                        <div className="absolute bottom-0 left-0 right-0 text-[6px] text-center bg-yellow-500/85 text-black font-bold py-0.5 leading-tight">
+                          SKIN
+                        </div>
+                      )}
+                      {isActive && (
+                        <div className="absolute top-0.5 right-0.5 w-3 h-3 rounded-full bg-yellow-400 flex items-center justify-center">
+                          <span className="text-[6px] text-black font-black">✓</span>
+                        </div>
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
 
             <div className="flex items-center gap-3">
               <span className="text-[9px] text-zinc-600 uppercase tracking-wider shrink-0 w-12">Focus Y</span>
@@ -180,24 +214,51 @@ function DayCard({
   )
 }
 
+// ── Portrait options: default + each named skin as its own entry ─────────────
+type PortraitOption = {
+  agent: Agent
+  portrait: string
+  displayName: string
+  isSkin: boolean
+}
+
+function expandPortraitOptions(): PortraitOption[] {
+  const out: PortraitOption[] = []
+  for (const agent of agents) {
+    if (agent.splash_image) {
+      out.push({ agent, portrait: agent.splash_image, displayName: agent.name, isSkin: false })
+    }
+    const skins = agent.alt_splash_images ?? []
+    const names = agent.alt_splash_names ?? []
+    skins.forEach((src, i) => {
+      if (!src) return
+      const skinName = names[i] ?? `Skin ${i + 1}`
+      out.push({ agent, portrait: src, displayName: `${agent.name} (${skinName})`, isSkin: true })
+    })
+  }
+  return out
+}
+
+const PORTRAIT_OPTIONS = expandPortraitOptions()
+
 // ── Agent picker modal ─────────────────────────────────────────────────────
 function AgentPicker({
   onPick,
   onClose,
-  usedIds,
+  usedPortraits,
 }: {
-  onPick: (agentId: string) => void
+  onPick: (agentId: string, portrait: string) => void
   onClose: () => void
-  usedIds: Set<string>
+  usedPortraits: Set<string>
 }) {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase()
-    return agents.filter(a =>
-      a.name.toLowerCase().includes(q) ||
-      a.attribute.toLowerCase().includes(q) ||
-      a.faction.toLowerCase().includes(q)
+    return PORTRAIT_OPTIONS.filter(o =>
+      o.displayName.toLowerCase().includes(q) ||
+      o.agent.attribute.toLowerCase().includes(q) ||
+      o.agent.faction.toLowerCase().includes(q)
     )
   }, [search])
 
@@ -209,8 +270,8 @@ function AgentPicker({
       <div className="bg-zinc-900 border border-zinc-700/60 rounded-2xl p-5 w-full max-w-2xl flex flex-col gap-4 shadow-2xl max-h-[80vh]">
         <div className="flex items-center justify-between shrink-0">
           <div>
-            <div className="text-sm font-semibold text-white">Pick an agent</div>
-            <div className="text-[10px] text-zinc-500 mt-0.5">Will be added as the next scheduled splash day</div>
+            <div className="text-sm font-semibold text-white">Pick a portrait</div>
+            <div className="text-[10px] text-zinc-500 mt-0.5">Default and each skin are separate entries — search the skin name for skins</div>
           </div>
           <button onClick={onClose} className="text-zinc-600 hover:text-zinc-300 text-lg transition-colors">✕</button>
         </div>
@@ -220,37 +281,38 @@ function AgentPicker({
           value={search}
           autoFocus
           onChange={e => setSearch(e.target.value)}
-          placeholder="Search name, attribute, faction…"
+          placeholder="Search name, skin, attribute, faction…"
           className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-yellow-500/60 placeholder-zinc-600 shrink-0"
         />
 
         <div className="overflow-y-auto grid grid-cols-4 sm:grid-cols-6 gap-2 pr-1">
-          {filtered.map(agent => {
-            const iconSrc = agent.icon_image ?? agent.splash_image
-            const alreadyUsed = usedIds.has(agent.id)
+          {filtered.map(opt => {
+            const alreadyUsed = usedPortraits.has(opt.portrait)
             return (
               <button
-                key={agent.id}
+                key={opt.portrait}
                 type="button"
-                onClick={() => !alreadyUsed && onPick(agent.id)}
-                title={agent.name}
+                onClick={() => !alreadyUsed && onPick(opt.agent.id, opt.portrait)}
+                title={opt.displayName}
                 className={`flex flex-col items-center gap-1 rounded-xl border p-2 transition-all ${
                   alreadyUsed
                     ? 'border-zinc-800 opacity-30 cursor-not-allowed'
-                    : 'border-zinc-700/50 hover:border-yellow-400/60 hover:bg-yellow-950/10 cursor-pointer'
+                    : opt.isSkin
+                      ? 'border-yellow-500/25 hover:border-yellow-400/70 hover:bg-yellow-950/10 cursor-pointer'
+                      : 'border-zinc-700/50 hover:border-yellow-400/60 hover:bg-yellow-950/10 cursor-pointer'
                 }`}
               >
-                <div className="w-12 h-12 rounded-lg overflow-hidden bg-zinc-800 border border-zinc-700/40 shrink-0">
-                  {iconSrc
-                    ? /* eslint-disable-next-line @next/next/no-img-element */
-                      <img src={iconSrc} alt="" className="w-full h-full object-cover object-top" />
-                    : <div className="w-full h-full flex items-center justify-center text-[10px] text-zinc-600 font-bold">
-                        {agent.name.slice(0, 2)}
-                      </div>
-                  }
+                <div className="relative w-12 aspect-[5/8] rounded-lg overflow-hidden bg-zinc-800 border border-zinc-700/40 shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={opt.portrait} alt="" className="w-full h-full object-cover object-top" />
+                  {opt.isSkin && (
+                    <div className="absolute bottom-0 left-0 right-0 text-[6px] text-center bg-yellow-500/85 text-black font-bold py-0.5 leading-tight">
+                      SKIN
+                    </div>
+                  )}
                 </div>
-                <div className="text-[9px] text-zinc-300 text-center leading-tight line-clamp-2">{agent.name}</div>
-                <div className="text-[8px] text-zinc-600 text-center">{agent.attribute}</div>
+                <div className="text-[9px] text-zinc-300 text-center leading-tight line-clamp-2">{opt.displayName}</div>
+                <div className="text-[8px] text-zinc-600 text-center">{opt.agent.attribute}</div>
               </button>
             )
           })}
@@ -310,13 +372,15 @@ export default function SplashConfigurator() {
     clearDay(dateStr)
   }
 
-  function addAgent(agentId: string) {
+  function addAgent(agentId: string, portrait: string) {
     const baseDates = Object.keys(schedule).sort()
     const extDates = Object.keys(ext).sort()
     const allDates = [...new Set([...baseDates, ...extDates])].sort()
     const lastDate = allDates[allDates.length - 1] ?? new Date().toLocaleDateString('en-CA')
     const nextDate = addDays(lastDate, 1)
+    const agent = agents.find(a => a.id === agentId)
     persistExt({ ...ext, [nextDate]: agentId })
+    persistConfig({ ...config, [nextDate]: { portrait, focus: agent ? defaultFocusFor(agent) : 65 } })
     setShowPicker(false)
   }
 
@@ -327,7 +391,16 @@ export default function SplashConfigurator() {
       return agent ? [{ dateStr, agent }] : []
     })
 
-  const extUsedIds = new Set(Object.values(ext))
+  // A portrait counts as "used" if some extended day already shows it
+  // (its saved config portrait, or the agent's default when unconfigured).
+  const extUsedPortraits = new Set(
+    Object.entries(ext).flatMap(([dateStr, agentId]) => {
+      const saved = config[dateStr]?.portrait
+      if (saved) return [saved]
+      const agent = agents.find(a => a.id === agentId)
+      return agent?.splash_image ? [agent.splash_image] : []
+    })
+  )
 
   const cardProps = { config, onPortrait: pickPortrait, onFocus: pickFocus, onClear: clearDay }
 
@@ -414,7 +487,7 @@ export default function SplashConfigurator() {
         <AgentPicker
           onPick={addAgent}
           onClose={() => setShowPicker(false)}
-          usedIds={extUsedIds}
+          usedPortraits={extUsedPortraits}
         />
       )}
     </section>
