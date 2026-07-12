@@ -1162,6 +1162,23 @@
                              ]
     },
     {
+        "id":  "norma",
+        "name":  "Norma Hollowell",
+        "rank":  "S",
+        "attribute":  "Fire",
+        "specialty":  "Stun",
+        "attack_type":  "Strike",
+        "faction":  "External Strategy Department",
+        "release_date":  "2026-07-23",
+        "release_version":  "3.1",
+        "gender":  "Female",
+        "icon_image":  "/images/agents/Agent_Norma_Hollowell_Icon.png",
+        "splash_image":  "/images/agents/Agent_Norma_Hollowell_Portrait.png",
+        "splash_focus":  "center 50%",
+        "quote":  "",
+        "emojis":  []
+    },
+    {
         "id":  "von-lycaon",
         "name":  "Von Lycaon",
         "rank":  "S",
