@@ -62,5 +62,53 @@
   "2026-07-14": {
     "portrait": "/images/agents/Agent_Cissia_Portrait.png",
     "focus": 45
+  },
+  "2026-07-15": {
+    "portrait": "/images/agents/Agent_Burnice_White_Portrait.png",
+    "focus": 25
+  },
+  "2026-07-16": {
+    "portrait": "/images/agents/Agent_Hoshimi_Miyabi_Portrait.png",
+    "focus": 90
+  },
+  "2026-07-17": {
+    "portrait": "/images/agents/Agent_Banyue_Portrait.png",
+    "focus": 47
+  },
+  "2026-07-18": {
+    "portrait": "/images/agents/Agent_Nicole_Demara_Cunning_Cutie_Portrait.png",
+    "focus": 39
+  },
+  "2026-07-19": {
+    "portrait": "/images/agents/Agent_Hugo_Vlad_Portrait.png",
+    "focus": 25
+  },
+  "2026-07-20": {
+    "portrait": "/images/agents/Agent_Lucia_Elowen_Portrait.png",
+    "focus": 49
+  },
+  "2026-07-21": {
+    "portrait": "/images/agents/Agent_Ye_Shunguang_Enlightened_Mind_Portrait.png",
+    "focus": 34
+  },
+  "2026-07-22": {
+    "portrait": "/images/agents/Agent_Norma_Hollowell_Portrait.png",
+    "focus": 64
+  },
+  "2026-07-23": {
+    "portrait": "/images/agents/Agent_Seth_Lowell_Portrait.png",
+    "focus": 45
+  },
+  "2026-07-24": {
+    "portrait": "/images/agents/Agent_Pulchra_Fellini_Portrait.png",
+    "focus": 37
+  },
+  "2026-07-25": {
+    "portrait": "/images/agents/Agent_Sunna_Afternoon_Tea_Break_Portrait.png",
+    "focus": 25
+  },
+  "2026-07-26": {
+    "portrait": "/images/agents/Agent_Von_Lycaon_Portrait.png",
+    "focus": 58
   }
 }
