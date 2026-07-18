@@ -35,43 +35,79 @@ function seedHash(s: string): number {
   return h
 }
 
+function addDays(dateStr: string, n: number): string {
+  const d = new Date(dateStr + 'T12:00:00')
+  d.setDate(d.getDate() + n)
+  return d.toLocaleDateString('en-CA')
+}
+
+const COOLDOWN_DAYS = 30
+// Always start from launch so every date shares the same historical context.
+const LAUNCH_DATE = '2026-06-20'
+
+interface DayPicks { classic: Agent | null; emoji: Agent | null; quote: Agent | null }
+
+/**
+ * Builds cooldown-aware picks from LAUNCH_DATE up to and including targetDate.
+ * Starting from a fixed origin guarantees every date is globally consistent —
+ * calling this for any target always produces the same pick for any given day.
+ * O(days_since_launch × COOLDOWN_DAYS) — fast for years.
+ */
+function buildPickHistory(targetDate: string): Map<string, DayPicks> {
+  const history = new Map<string, DayPicks>()
+  let d = LAUNCH_DATE
+
+  while (d <= targetDate) {
+    const splashId = schedule[d]
+
+    const classicRecent = new Set<string>()
+    const emojiRecent   = new Set<string>()
+    const quoteRecent   = new Set<string>()
+    for (let j = 1; j <= COOLDOWN_DAYS; j++) {
+      const prev = history.get(addDays(d, -j))
+      if (prev?.classic) classicRecent.add(prev.classic.id)
+      if (prev?.emoji)   emojiRecent.add(prev.emoji.id)
+      if (prev?.quote)   quoteRecent.add(prev.quote.id)
+    }
+
+    const cPool  = agents.filter(a => a.id !== splashId && !classicRecent.has(a.id))
+    const cFinal = cPool.length > 0 ? cPool : agents.filter(a => a.id !== splashId)
+    const classic = cFinal[seedHash(d + 'classic') % cFinal.length] ?? null
+
+    const ePool  = agents.filter(a => a.id !== splashId && a.id !== classic?.id && !emojiRecent.has(a.id))
+    const eFinal = ePool.length > 0 ? ePool : agents.filter(a => a.id !== splashId && a.id !== classic?.id)
+    const emoji  = eFinal[seedHash(d + 'emoji') % eFinal.length] ?? null
+
+    const qPool  = agents.filter(a => a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id && !quoteRecent.has(a.id))
+    const qFinal = qPool.length > 0 ? qPool : agents.filter(a => a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id)
+    const quote  = qFinal[seedHash(d + 'quote') % qFinal.length] ?? null
+
+    history.set(d, { classic, emoji, quote })
+    d = addDays(d, 1)
+  }
+
+  return history
+}
+
 /**
  * Returns a deterministic, mode-specific agent for the given date.
- * Classic & Splash use the schedule. Emoji & Quote get a seeded pick
- * from the remaining pool so all three modes show different agents.
+ * Splash uses the manually curated schedule.
+ * Classic/emoji/quote use a seeded pick with a 30-day cooldown so
+ * the same agent cannot repeat within the window across each mode.
  */
 export function getAgentForMode(mode: string, dateStr: string): Agent | null {
-  // schedule.json is the manually curated splash schedule
   const splashId = schedule[dateStr]
 
   if (mode === 'splash') {
     return splashId ? agents.find(a => a.id === splashId) ?? null : null
   }
 
-  // Classic, emoji, quote are all seeded random — each excluding the splash agent
-  if (mode === 'classic') {
-    const pool = agents.filter(a => a.id !== splashId)
-    if (pool.length === 0) return null
-    return pool[seedHash(dateStr + 'classic') % pool.length]
-  }
+  const history = buildPickHistory(dateStr)
+  const today   = history.get(dateStr)
 
-  if (mode === 'emoji') {
-    const classicPool = agents.filter(a => a.id !== splashId)
-    const classicAgent = classicPool.length > 0 ? classicPool[seedHash(dateStr + 'classic') % classicPool.length] : null
-    const pool = agents.filter(a => a.id !== splashId && a.id !== classicAgent?.id)
-    if (pool.length === 0) return null
-    return pool[seedHash(dateStr + 'emoji') % pool.length]
-  }
-
-  if (mode === 'quote') {
-    const classicPool = agents.filter(a => a.id !== splashId)
-    const classicAgent = classicPool.length > 0 ? classicPool[seedHash(dateStr + 'classic') % classicPool.length] : null
-    const emojiPool = agents.filter(a => a.id !== splashId && a.id !== classicAgent?.id)
-    const emojiAgent = emojiPool.length > 0 ? emojiPool[seedHash(dateStr + 'emoji') % emojiPool.length] : null
-    const pool = agents.filter(a => a.id !== splashId && a.id !== classicAgent?.id && a.id !== emojiAgent?.id)
-    if (pool.length === 0) return null
-    return pool[seedHash(dateStr + 'quote') % pool.length]
-  }
+  if (mode === 'classic') return today?.classic ?? null
+  if (mode === 'emoji')   return today?.emoji   ?? null
+  if (mode === 'quote')   return today?.quote   ?? null
 
   return null
 }
