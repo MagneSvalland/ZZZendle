@@ -1176,7 +1176,13 @@
         "splash_image":  "/images/agents/Agent_Norma_Hollowell_Portrait.png",
         "splash_focus":  "center 50%",
         "quote":  "",
-        "emojis":  []
+        "emojis":  [
+                       "🤖",
+                       "🔥",
+                       "🚀",
+                       "🧪",
+                       "🎩"
+                   ]
     },
     {
         "id":  "von-lycaon",
