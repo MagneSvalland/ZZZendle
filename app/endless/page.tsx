@@ -1,7 +1,7 @@
 import EndlessGame from '@/components/EndlessGame'
 
 export const metadata = {
-  title: 'ZZZendle — Endless Mode',
+  title: 'ZZZendle - Endless Mode',
   description: 'Guess random Zenless Zone Zero agents back-to-back for as long as you like.',
 }
 

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import type { GuessComparison, MatchResult } from '@/lib/types'
 
 const TILE_BASE =
-  'flex flex-col items-center justify-center rounded-md px-2 py-2 text-center text-xs font-bold min-h-[56px] w-[78px] shrink-0 transition-colors'
+  'flex flex-col items-center justify-center rounded-md px-2 py-2 text-center text-xs font-bold min-h-[64px] w-[90px] shrink-0 transition-colors'
 
 const tileColor: Record<MatchResult, string> = {
   exact: 'bg-yellow-500 text-black shadow-[0_0_14px_rgba(250,204,21,0.65)]',
@@ -105,11 +105,11 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
           : 'border-zinc-700/40 bg-zinc-900/40'
       }`}
     >
-      {/* Agent info — pinned left, never scrolls */}
-      <div className="flex items-center gap-2 shrink-0">
+      {/* Agent info — fixed width so tiles always start at the same position */}
+      <div className="flex items-center gap-2 shrink-0 w-[148px]">
         <span className="text-zinc-400 text-sm w-4 shrink-0">{guessNumber}.</span>
         <AgentAvatar name={agent.name} src={agent.icon_image ?? agent.splash_image} />
-        <div className="flex flex-col min-w-0 max-w-[90px]">
+        <div className="flex flex-col min-w-0 flex-1">
           <span
             className={`text-xs font-semibold leading-tight truncate ${
               isCorrect ? 'text-yellow-300' : 'text-white'
