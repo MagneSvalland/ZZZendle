@@ -128,6 +128,7 @@ export default function Game() {
         statsRecordedRef.current = true
         setStats(recordResult('classic', true, newGuesses.length))
       }
+      window.dispatchEvent(new CustomEvent('zzzendle-mode-complete'))
     }
   }
 

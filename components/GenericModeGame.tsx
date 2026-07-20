@@ -133,6 +133,7 @@ export default function GenericModeGame({
         statsRecordedRef.current = true
         setStats(recordResult(mode, true, newGuesses.length))
       }
+      window.dispatchEvent(new CustomEvent('zzzendle-mode-complete'))
     }
   }
 

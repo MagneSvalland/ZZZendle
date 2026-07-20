@@ -2,6 +2,28 @@
 
 import type { Agent } from '@/lib/types'
 import GenericModeGame, { type RenderChallengeProps } from './GenericModeGame'
+import { getEffectiveDate } from '@/lib/date'
+
+function seedHash(s: string): number {
+  let h = 2166136261
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i)
+    h = Math.imul(h, 16777619)
+    h >>>= 0
+  }
+  return h
+}
+
+function seededShuffle<T>(arr: T[], seed: string): T[] {
+  const result = [...arr]
+  let h = seedHash(seed)
+  for (let i = result.length - 1; i > 0; i--) {
+    h = seedHash(String(h))
+    const j = h % (i + 1)
+    ;[result[i], result[j]] = [result[j], result[i]]
+  }
+  return result
+}
 
 function EmojiChallenge({
   targetAgent,
@@ -10,7 +32,10 @@ function EmojiChallenge({
   targetAgent: Agent
   wrongGuesses: number
 }) {
-  const emojisToShow = Math.min(wrongGuesses + 1, targetAgent.emojis.length)
+  const dateStr = getEffectiveDate()
+  const first4Shuffled = seededShuffle(targetAgent.emojis.slice(0, 4), dateStr + targetAgent.id)
+  const displayEmojis = [...first4Shuffled, targetAgent.emojis[4]]
+  const emojisToShow = Math.min(wrongGuesses + 1, displayEmojis.length)
 
   return (
     <div className="w-full rounded-xl border border-zinc-700/50 bg-zinc-800/40 p-8 flex flex-col items-center gap-6">
@@ -18,7 +43,7 @@ function EmojiChallenge({
         Who do these emojis represent?
       </div>
       <div className="flex gap-3 flex-wrap justify-center">
-        {targetAgent.emojis.map((emoji, i) =>
+        {displayEmojis.map((emoji, i) =>
           i < emojisToShow ? (
             <span
               key={i}
@@ -37,10 +62,11 @@ function EmojiChallenge({
         )}
       </div>
       <p className="text-xs text-zinc-400">
-        {emojisToShow < targetAgent.emojis.length
-          ? `${emojisToShow} of ${targetAgent.emojis.length} emojis revealed — guess to reveal more`
+        {emojisToShow < displayEmojis.length
+          ? `${emojisToShow} of ${displayEmojis.length} emojis revealed — guess to reveal more`
           : 'All emojis revealed'}
       </p>
+      <p className="text-[10px] text-zinc-600 self-start -mb-4">Emojis by Oxymore 🙏</p>
     </div>
   )
 }
