@@ -28,17 +28,24 @@ function allModesComplete(today: string): boolean {
 export default function KofiBanner() {
   const [visible, setVisible] = useState(false)
 
-  const check = useCallback(() => {
+  const scheduleShow = useCallback(() => {
     const today = getEffectiveDate()
     if (localStorage.getItem(`zzzendle-kofi-shown-${today}`)) return
-    if (allModesComplete(today)) setVisible(true)
+    if (allModesComplete(today)) {
+      const t = setTimeout(() => setVisible(true), 15000)
+      return () => clearTimeout(t)
+    }
   }, [])
 
   useEffect(() => {
-    check()
-    window.addEventListener('zzzendle-mode-complete', check)
-    return () => window.removeEventListener('zzzendle-mode-complete', check)
-  }, [check])
+    const cleanup = scheduleShow()
+    const onComplete = () => { cleanup?.(); scheduleShow() }
+    window.addEventListener('zzzendle-mode-complete', onComplete)
+    return () => {
+      cleanup?.()
+      window.removeEventListener('zzzendle-mode-complete', onComplete)
+    }
+  }, [scheduleShow])
 
   function handleDismiss() {
     localStorage.setItem(`zzzendle-kofi-shown-${getEffectiveDate()}`, '1')
