@@ -1,51 +1,19 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { getEffectiveDate } from '@/lib/date'
 
 const KOFI_URL = 'https://ko-fi.com/magnen'
 
-const MODE_KEYS: Record<string, string> = {
-  classic: 'zzzendle-game',
-  emoji: 'zzzendle-emoji-game',
-  quote: 'zzzendle-quote-game',
-  splash: 'zzzendle-splash-game',
-}
-
-function allModesComplete(today: string): boolean {
-  return Object.values(MODE_KEYS).every(base => {
-    try {
-      const saved = localStorage.getItem(`${base}-${today}`)
-      if (!saved) return false
-      const state = JSON.parse(saved)
-      return state.status === 'won' || state.status === 'lost'
-    } catch {
-      return false
-    }
-  })
-}
-
 export default function KofiBanner() {
   const [visible, setVisible] = useState(false)
 
-  const scheduleShow = useCallback(() => {
+  useEffect(() => {
     const today = getEffectiveDate()
     if (localStorage.getItem(`zzzendle-kofi-shown-${today}`)) return
-    if (allModesComplete(today)) {
-      const t = setTimeout(() => setVisible(true), 15000)
-      return () => clearTimeout(t)
-    }
+    const t = setTimeout(() => setVisible(true), 45000)
+    return () => clearTimeout(t)
   }, [])
-
-  useEffect(() => {
-    const cleanup = scheduleShow()
-    const onComplete = () => { cleanup?.(); scheduleShow() }
-    window.addEventListener('zzzendle-mode-complete', onComplete)
-    return () => {
-      cleanup?.()
-      window.removeEventListener('zzzendle-mode-complete', onComplete)
-    }
-  }, [scheduleShow])
 
   function handleDismiss() {
     localStorage.setItem(`zzzendle-kofi-shown-${getEffectiveDate()}`, '1')
