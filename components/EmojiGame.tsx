@@ -66,7 +66,6 @@ function EmojiChallenge({
           ? `${emojisToShow} of ${displayEmojis.length} emojis revealed — guess to reveal more`
           : 'All emojis revealed'}
       </p>
-      <p className="text-[10px] text-zinc-600 self-start -mb-4">Thanks to Oxymore for the emoji ideas 🙏</p>
     </div>
   )
 }
@@ -85,6 +84,7 @@ export default function EmojiGame() {
       mode="emoji"
       renderChallenge={renderEmojiChallenge}
       getHints={getEmojiHints}
+      credit={<span className="text-[10px] text-zinc-600">Thanks to Oxymore for the emoji ideas 🙏</span>}
     />
   )
 }

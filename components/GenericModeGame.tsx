@@ -29,6 +29,7 @@ interface Props {
   mode: string
   renderChallenge: (props: RenderChallengeProps) => React.ReactNode
   getHints: (targetAgent: Agent) => string[]
+  credit?: React.ReactNode
 }
 
 function getDefaultStreak(): StreakData {
@@ -39,6 +40,7 @@ export default function GenericModeGame({
   mode,
   renderChallenge,
   getHints,
+  credit,
 }: Props) {
   const { isDevAuth } = useDevAuth()
   const streakKey = `zzzendle-${mode}-streak`
@@ -304,7 +306,10 @@ export default function GenericModeGame({
           />
         )}
 
-        <SocialLinks />
+        <div className="flex items-center justify-between">
+          {credit ?? <span />}
+          <SocialLinks />
+        </div>
 
         {/* Debug — only shown when logged in as dev */}
         {isDevAuth && (
