@@ -106,7 +106,7 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
       }`}
     >
       {/* Agent info — fixed width so tiles always start at the same position */}
-      <div className="flex items-center gap-2 shrink-0 w-[148px]">
+      <div className="flex items-center gap-2 shrink-0 w-[180px]">
         <span className="text-zinc-400 text-sm w-4 shrink-0">{guessNumber}.</span>
         <AgentAvatar name={agent.name} src={agent.icon_image ?? agent.splash_image} />
         <div className="flex flex-col min-w-0 flex-1">
@@ -126,7 +126,7 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
         className="flex-1 min-w-0 overflow-x-auto"
         style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'thin', scrollbarColor: '#52525b transparent' }}
       >
-        <div className="flex gap-2 pb-1">
+        <div className="flex justify-end gap-2 pb-1">
           <Tile label="Faction"   value={agent.faction}           result={results.faction}    delay={0} />
           <Tile label="Element"   value={agent.attribute}         result={results.attribute}  delay={70} />
           <Tile label="Specialty" value={agent.specialty}         result={results.specialty}  delay={140} />
