@@ -4,7 +4,7 @@ import Image from 'next/image'
 import type { GuessComparison, MatchResult } from '@/lib/types'
 
 const TILE_BASE =
-  'flex flex-col items-center justify-center rounded-md px-2 py-2 text-center text-xs font-bold min-h-[56px] w-full transition-colors'
+  'flex flex-col items-center justify-center rounded-md px-2 py-2 text-center text-xs font-bold min-h-[56px] w-[78px] shrink-0 transition-colors'
 
 const tileColor: Record<MatchResult, string> = {
   exact: 'bg-yellow-500 text-black shadow-[0_0_14px_rgba(250,204,21,0.65)]',
@@ -24,7 +24,7 @@ function Tile({
   delay?: number
 }) {
   return (
-    <div className="flex flex-col gap-1 items-center flex-1" style={{ perspective: '600px' }}>
+    <div className="flex flex-col gap-1 items-center" style={{ perspective: '600px' }}>
       <span className="text-[10px] text-zinc-500 uppercase tracking-wider">{label}</span>
       <div
         className={`tile-pop ${TILE_BASE} ${tileColor[result]}`}
@@ -51,7 +51,7 @@ function ReleaseTile({
   // 'earlier' = answer is a newer version → point up; 'later' = older → point down.
   const arrow = result === 'earlier' ? '▲' : result === 'later' ? '▼' : ''
   return (
-    <div className="flex flex-col gap-1 items-center flex-1" style={{ perspective: '600px' }}>
+    <div className="flex flex-col gap-1 items-center" style={{ perspective: '600px' }}>
       <span className="text-[10px] text-zinc-500 uppercase tracking-wider">Version</span>
       <div className={`tile-pop ${TILE_BASE} ${color}`} style={{ animationDelay: `${delay}ms` }}>
         <span className="leading-tight flex items-center gap-1">
@@ -105,12 +105,13 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
           : 'border-zinc-700/40 bg-zinc-900/40'
       }`}
     >
-      <div className="flex items-center gap-3 min-w-[130px]">
+      {/* Agent info — pinned left, never scrolls */}
+      <div className="flex items-center gap-2 shrink-0">
         <span className="text-zinc-400 text-sm w-4 shrink-0">{guessNumber}.</span>
         <AgentAvatar name={agent.name} src={agent.icon_image ?? agent.splash_image} />
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0 max-w-[90px]">
           <span
-            className={`text-sm font-semibold leading-tight ${
+            className={`text-xs font-semibold leading-tight truncate ${
               isCorrect ? 'text-yellow-300' : 'text-white'
             }`}
           >
@@ -120,13 +121,19 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
         </div>
       </div>
 
-      <div className="flex flex-1 gap-2">
-        <Tile label="Faction"   value={agent.faction}              result={results.faction}    delay={0} />
-        <Tile label="Element"   value={agent.attribute}            result={results.attribute}  delay={70} />
-        <Tile label="Specialty" value={agent.specialty}            result={results.specialty}  delay={140} />
-        <Tile label="Rarity"    value={`${agent.rank}-Rank`}      result={results.rank}       delay={210} />
-        <Tile label="Gender"    value={agent.gender}               result={results.gender}     delay={280} />
-        <ReleaseTile            version={agent.release_version}    result={results.release}    delay={350} />
+      {/* Horizontally scrollable tiles */}
+      <div
+        className="flex-1 min-w-0 overflow-x-auto"
+        style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'thin', scrollbarColor: '#52525b transparent' }}
+      >
+        <div className="flex gap-2 pb-1">
+          <Tile label="Faction"   value={agent.faction}           result={results.faction}    delay={0} />
+          <Tile label="Element"   value={agent.attribute}         result={results.attribute}  delay={70} />
+          <Tile label="Specialty" value={agent.specialty}         result={results.specialty}  delay={140} />
+          <Tile label="Rarity"    value={`${agent.rank}-Rank`}   result={results.rank}       delay={210} />
+          <Tile label="Gender"    value={agent.gender}            result={results.gender}     delay={280} />
+          <ReleaseTile            version={agent.release_version} result={results.release}    delay={350} />
+        </div>
       </div>
     </div>
   )
