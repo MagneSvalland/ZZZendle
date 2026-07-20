@@ -1,7 +1,7 @@
 import EmojiGame from '@/components/EmojiGame'
 
 export const metadata = {
-  title: 'ZZZendle — Emoji Mode',
+  title: 'ZZZendle - Emoji Mode',
   description: 'Guess the daily ZZZ agent from their emoji representation.',
 }
 

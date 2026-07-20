@@ -1,7 +1,7 @@
 import QuoteGame from '@/components/QuoteGame'
 
 export const metadata = {
-  title: 'ZZZendle — Quote Mode',
+  title: 'ZZZendle - Quote Mode',
   description: 'Guess the daily ZZZ agent from their in-game quote.',
 }
 

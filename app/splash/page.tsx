@@ -1,7 +1,7 @@
 import SplashGame from '@/components/SplashGame'
 
 export const metadata = {
-  title: 'ZZZendle — Splash Mode',
+  title: 'ZZZendle - Splash Mode',
   description: 'Guess the daily ZZZ agent from their zoomed-in splash art.',
 }
 
