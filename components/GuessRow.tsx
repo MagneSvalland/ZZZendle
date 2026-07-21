@@ -111,7 +111,7 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
         <AgentAvatar name={agent.name} src={agent.icon_image ?? agent.splash_image} />
         <div className="flex flex-col min-w-0 flex-1">
           <span
-            className={`text-xs font-semibold leading-tight truncate ${
+            className={`text-xs font-semibold leading-tight ${
               isCorrect ? 'text-yellow-300' : 'text-white'
             }`}
           >
