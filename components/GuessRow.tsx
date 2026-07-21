@@ -106,12 +106,12 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
       }`}
     >
       {/* Agent info — fixed width so tiles always start at the same position */}
-      <div className="flex items-center gap-2 shrink-0 w-[180px]">
+      <div className="flex items-center gap-2 shrink-0">
         <span className="text-zinc-400 text-sm w-4 shrink-0">{guessNumber}.</span>
         <AgentAvatar name={agent.name} src={agent.icon_image ?? agent.splash_image} />
-        <div className="flex flex-col min-w-0 flex-1">
+        <div className="flex flex-col">
           <span
-            className={`text-xs font-semibold leading-tight ${
+            className={`text-sm font-semibold leading-tight whitespace-nowrap ${
               isCorrect ? 'text-yellow-300' : 'text-white'
             }`}
           >
