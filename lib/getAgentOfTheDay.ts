@@ -78,8 +78,8 @@ function buildPickHistory(targetDate: string): Map<string, DayPicks> {
     const eFinal = ePool.length > 0 ? ePool : agents.filter(a => a.id !== splashId && a.id !== classic?.id)
     const emoji  = eFinal[seedHash(d + 'emoji') % eFinal.length] ?? null
 
-    const qPool  = agents.filter(a => a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id && !quoteRecent.has(a.id))
-    const qFinal = qPool.length > 0 ? qPool : agents.filter(a => a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id)
+    const qPool  = agents.filter(a => a.quote && a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id && !quoteRecent.has(a.id))
+    const qFinal = qPool.length > 0 ? qPool : agents.filter(a => a.quote && a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id)
     const quote  = qFinal[seedHash(d + 'quote') % qFinal.length] ?? null
 
     history.set(d, { classic, emoji, quote })

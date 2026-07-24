@@ -110,5 +110,77 @@
   "2026-07-26": {
     "portrait": "/images/agents/Agent_Von_Lycaon_Portrait.png",
     "focus": 58
+  },
+  "2026-07-27": {
+    "portrait": "/images/agents/Agent_Yixuan_Portrait.png",
+    "focus": 73
+  },
+  "2026-07-28": {
+    "portrait": "/images/agents/Agent_Ellen_Joe_Portrait.png",
+    "focus": 29
+  },
+  "2026-07-29": {
+    "portrait": "/images/agents/Agent_Ju_Fufu_Portrait.png",
+    "focus": 75
+  },
+  "2026-07-30": {
+    "portrait": "/images/agents/Agent_Trigger_Portrait.png",
+    "focus": 39
+  },
+  "2026-07-31": {
+    "portrait": "/images/agents/Agent_Nangong_Yu_Portrait.png",
+    "focus": 90
+  },
+  "2026-08-01": {
+    "portrait": "/images/agents/Agent_Billy_Kid_Portrait.png",
+    "focus": 42
+  },
+  "2026-08-02": {
+    "portrait": "/images/agents/Agent_Yidhari_Murphy_Portrait.png",
+    "focus": 59
+  },
+  "2026-08-03": {
+    "portrait": "/images/agents/Agent_Ye_Shunguang_Touch_of_Dawnlight_Portrait.png",
+    "focus": 33
+  },
+  "2026-08-04": {
+    "portrait": "/images/agents/Agent_Luciana_de_Montefio_Portrait.png",
+    "focus": 46
+  },
+  "2026-08-05": {
+    "portrait": "/images/agents/Agent_Vivian_Banshee_Portrait.png",
+    "focus": 45
+  },
+  "2026-08-06": {
+    "portrait": "/images/agents/Agent_Nekomiya_Mana_Portrait.png",
+    "focus": 42
+  },
+  "2026-08-07": {
+    "portrait": "/images/agents/Agent_Asaba_Harumasa_Portrait.png",
+    "focus": 63
+  },
+  "2026-08-08": {
+    "portrait": "/images/agents/Agent_Zhu_Yuan_Portrait.png",
+    "focus": 25
+  },
+  "2026-08-09": {
+    "portrait": "/images/agents/Agent_Anton_Ivanov_Portrait.png",
+    "focus": 30
+  },
+  "2026-08-10": {
+    "portrait": "/images/agents/Agent_Pyrois_Portrait.png",
+    "focus": 41
+  },
+  "2026-08-11": {
+    "portrait": "/images/agents/Agent_Cissia_Portrait.png",
+    "focus": 70
+  },
+  "2026-08-12": {
+    "portrait": "/images/agents/Agent_Pan_Yinhu_Culinary_Jewel_Portrait.png",
+    "focus": 25
+  },
+  "2026-08-13": {
+    "portrait": "/images/agents/Agent_Ukinami_Yuzuha_Tanuki_in_Broad_Daylight_Portrait.png",
+    "focus": 45
   }
 }
