@@ -121,11 +121,11 @@
   },
   "2026-07-29": {
     "portrait": "/images/agents/Agent_Ju_Fufu_Portrait.png",
-    "focus": 75
+    "focus": 74
   },
   "2026-07-30": {
     "portrait": "/images/agents/Agent_Trigger_Portrait.png",
-    "focus": 39
+    "focus": 37
   },
   "2026-07-31": {
     "portrait": "/images/agents/Agent_Nangong_Yu_Portrait.png",
@@ -173,7 +173,7 @@
   },
   "2026-08-11": {
     "portrait": "/images/agents/Agent_Cissia_Portrait.png",
-    "focus": 70
+    "focus": 67
   },
   "2026-08-12": {
     "portrait": "/images/agents/Agent_Pan_Yinhu_Culinary_Jewel_Portrait.png",
@@ -182,5 +182,13 @@
   "2026-08-13": {
     "portrait": "/images/agents/Agent_Ukinami_Yuzuha_Tanuki_in_Broad_Daylight_Portrait.png",
     "focus": 45
+  },
+  "2026-08-14": {
+    "portrait": "/images/agents/Agent_Remielle_Dan_Portrait.png",
+    "focus": 90
+  },
+  "2026-08-15": {
+    "portrait": "/images/agents/Agent_Alice_Thymefield_Portrait.png",
+    "focus": 62
   }
 }
