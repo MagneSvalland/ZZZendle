@@ -190,5 +190,13 @@
   "2026-08-15": {
     "portrait": "/images/agents/Agent_Alice_Thymefield_Portrait.png",
     "focus": 62
+  },
+  "2026-08-16": {
+    "portrait": "/images/agents/Agent_Remielle_Dan_Portrait.png",
+    "focus": 90
+  },
+  "2026-08-17": {
+    "portrait": "/images/agents/Agent_Alice_Thymefield_Portrait.png",
+    "focus": 62
   }
 }
