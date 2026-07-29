@@ -165,11 +165,11 @@
   },
   "2026-08-09": {
     "portrait": "/images/agents/Agent_Anton_Ivanov_Portrait.png",
-    "focus": 30
+    "focus": 36
   },
   "2026-08-10": {
     "portrait": "/images/agents/Agent_Pyrois_Portrait.png",
-    "focus": 41
+    "focus": 47
   },
   "2026-08-11": {
     "portrait": "/images/agents/Agent_Cissia_Portrait.png",
@@ -185,7 +185,7 @@
   },
   "2026-08-14": {
     "portrait": "/images/agents/Agent_Remielle_Dan_Portrait.png",
-    "focus": 30
+    "focus": 90
   },
   "2026-08-15": {
     "portrait": "/images/agents/Agent_Alice_Thymefield_Portrait.png",
@@ -193,10 +193,18 @@
   },
   "2026-08-16": {
     "portrait": "/images/agents/Agent_Remielle_Dan_Portrait.png",
-    "focus": 30
+    "focus": 90
   },
   "2026-08-17": {
     "portrait": "/images/agents/Agent_Alice_Thymefield_Portrait.png",
     "focus": 62
+  },
+  "2026-08-18": {
+    "portrait": "/images/agents/Agent_Alice_Thymefield_Portrait.png",
+    "focus": 64
+  },
+  "2026-08-19": {
+    "portrait": "/images/agents/Agent_Remielle_Dan_Portrait.png",
+    "focus": 43
   }
 }
