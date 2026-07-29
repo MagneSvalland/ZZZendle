@@ -98,5 +98,5 @@ export function buildShareText(opts: {
     statsLine = `\nMy ${modeName} stats: 🎮 ${stats.won} wins · 🤓 ${avg} avg · 🥇 ${oneShots} one shots · 🔥 ${streak} streak`
   }
 
-  return `#ZZZendle ${icon} #${puzzleNumber} — ${score} guess${score === '1' ? '' : 'es'}${statsLine}\nhttps://zzzendle.vercel.app\n${grid}`
+  return `#ZZZendle ${icon} #${puzzleNumber} — ${score} guess${score === '1' ? '' : 'es'}${statsLine}\nhttps://www.zzzendle.com\n${grid}`
 }
