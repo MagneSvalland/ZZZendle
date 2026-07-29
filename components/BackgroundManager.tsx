@@ -35,7 +35,7 @@ export default function BackgroundManager() {
     <button
       onClick={toggle}
       title={bg === REMIELLE_BG ? 'Switch to original background' : 'Switch to Remielle background'}
-      className="fixed bottom-4 right-4 z-50 text-[10px] text-zinc-600 hover:text-zinc-300 transition-colors bg-zinc-900/80 border border-zinc-800 rounded-lg px-2.5 py-1.5 backdrop-blur-sm"
+      className="fixed bottom-4 left-4 z-50 text-[10px] text-zinc-600 hover:text-zinc-300 transition-colors bg-zinc-900/80 border border-zinc-800 rounded-lg px-2.5 py-1.5 backdrop-blur-sm"
     >
       {bg === REMIELLE_BG ? '← original bg' : 'Remielle bg →'}
     </button>
