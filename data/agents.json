@@ -1329,5 +1329,27 @@
       "🚔",
       "👮"
     ]
+  },
+  {
+    "id": "remielle",
+    "name": "Remielle Dan",
+    "faction": "Covenant of Dayat",
+    "attribute": "Lumiflux",
+    "specialty": "Anomaly",
+    "rank": "S",
+    "gender": "Female",
+    "release_version": "3.1",
+    "icon_image": "/images/agents/Agent_Remielle_Dan_Icon.png",
+    "splash_image": "/images/agents/Agent_Remielle_Dan_Portrait.png",
+    "emojis": [
+      "🌌",
+      "🗡️",
+      "🕊️",
+      "👁️",
+      "⚔️"
+    ],
+    "quote": "",
+    "available_from": "2026-07-30",
+    "splash_focus": "center 30%"
   }
 ]

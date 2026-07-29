@@ -532,34 +532,20 @@ export default function SplashConfigurator() {
 
       <div className="flex flex-col gap-3">
 
-        {baseDays.length > 0 && (
-          <>
-            <div className="text-[10px] text-zinc-600 uppercase tracking-widest font-semibold px-1">
-              Scheduled — next {baseDays.length} days
-            </div>
-            {baseDays.map(({ dateStr, agent, isToday }) => (
-              <DayCard key={dateStr} dateStr={dateStr} agent={agent} isToday={isToday} {...cardProps} />
-            ))}
-          </>
-        )}
+        {baseDays.map(({ dateStr, agent, isToday }) => (
+          <DayCard key={dateStr} dateStr={dateStr} agent={agent} isToday={isToday} {...cardProps} />
+        ))}
 
-        {extDays.length > 0 && (
-          <>
-            <div className="text-[10px] text-blue-500/70 uppercase tracking-widest font-semibold px-1 mt-2">
-              Extended — {extDays.length} added {extDays.length === 1 ? 'day' : 'days'}
-            </div>
-            {extDays.map(({ dateStr, agent }) => (
-              <DayCard
-                key={dateStr}
-                dateStr={dateStr}
-                agent={agent}
-                label={fmtDate(dateStr)}
-                onRemove={removeExtDay}
-                {...cardProps}
-              />
-            ))}
-          </>
-        )}
+        {extDays.map(({ dateStr, agent }) => (
+          <DayCard
+            key={dateStr}
+            dateStr={dateStr}
+            agent={agent}
+            label={fmtDate(dateStr)}
+            onRemove={removeExtDay}
+            {...cardProps}
+          />
+        ))}
 
         <button
           type="button"

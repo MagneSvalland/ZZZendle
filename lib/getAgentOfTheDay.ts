@@ -59,6 +59,7 @@ function buildPickHistory(targetDate: string): Map<string, DayPicks> {
 
   while (d <= targetDate) {
     const splashId = schedule[d]
+    const available = agents.filter(a => !a.available_from || a.available_from <= d)
 
     const classicRecent = new Set<string>()
     const emojiRecent   = new Set<string>()
@@ -70,16 +71,16 @@ function buildPickHistory(targetDate: string): Map<string, DayPicks> {
       if (prev?.quote)   quoteRecent.add(prev.quote.id)
     }
 
-    const cPool  = agents.filter(a => a.id !== splashId && !classicRecent.has(a.id))
-    const cFinal = cPool.length > 0 ? cPool : agents.filter(a => a.id !== splashId)
+    const cPool  = available.filter(a => a.id !== splashId && !classicRecent.has(a.id))
+    const cFinal = cPool.length > 0 ? cPool : available.filter(a => a.id !== splashId)
     const classic = cFinal[seedHash(d + 'classic') % cFinal.length] ?? null
 
-    const ePool  = agents.filter(a => a.id !== splashId && a.id !== classic?.id && !emojiRecent.has(a.id))
-    const eFinal = ePool.length > 0 ? ePool : agents.filter(a => a.id !== splashId && a.id !== classic?.id)
+    const ePool  = available.filter(a => a.id !== splashId && a.id !== classic?.id && !emojiRecent.has(a.id))
+    const eFinal = ePool.length > 0 ? ePool : available.filter(a => a.id !== splashId && a.id !== classic?.id)
     const emoji  = eFinal[seedHash(d + 'emoji') % eFinal.length] ?? null
 
-    const qPool  = agents.filter(a => a.quote && a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id && !quoteRecent.has(a.id))
-    const qFinal = qPool.length > 0 ? qPool : agents.filter(a => a.quote && a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id)
+    const qPool  = available.filter(a => a.quote && a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id && !quoteRecent.has(a.id))
+    const qFinal = qPool.length > 0 ? qPool : available.filter(a => a.quote && a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id)
     const quote  = qFinal[seedHash(d + 'quote') % qFinal.length] ?? null
 
     history.set(d, { classic, emoji, quote })

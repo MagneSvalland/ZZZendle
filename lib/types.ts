@@ -19,6 +19,7 @@ export interface Agent {
   alt_splash_names?: string[]
   quote: string
   emojis: string[]
+  available_from?: string
 }
 
 export interface AttributeResults {

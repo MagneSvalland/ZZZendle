@@ -6,6 +6,7 @@ import DevPanel from "@/components/DevPanel";
 import { Analytics } from "@vercel/analytics/next";
 import Footer from "@/components/Footer";
 import KofiBanner from "@/components/KofiBanner";
+import BackgroundManager from "@/components/BackgroundManager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,7 @@ export default function RootLayout({
         {/* Full-page background image + dark overlay */}
         <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0">
           <div
+            id="zzz-bg-image"
             className="absolute inset-0"
             style={{
               backgroundImage: 'url(/dhs8uis-2c9f5bda-287e-42a7-8d63-a51df778ead7.png)',
@@ -58,6 +60,7 @@ export default function RootLayout({
           <Footer />
           <DevPanel />
           <KofiBanner />
+          <BackgroundManager />
         </DevAuthProvider>
         <Analytics />
       </body>
