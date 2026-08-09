@@ -188,23 +188,11 @@
     "focus": 90
   },
   "2026-08-15": {
-    "portrait": "/images/agents/Agent_Alice_Thymefield_Portrait.png",
-    "focus": 62
+    "portrait": "/images/agents/Agent_Alice_Thymefield_Sea_of_Thyme_Portrait.png",
+    "focus": 34
   },
   "2026-08-16": {
     "portrait": "/images/agents/Agent_Remielle_Dan_Portrait.png",
-    "focus": 90
-  },
-  "2026-08-17": {
-    "portrait": "/images/agents/Agent_Alice_Thymefield_Portrait.png",
-    "focus": 62
-  },
-  "2026-08-18": {
-    "portrait": "/images/agents/Agent_Alice_Thymefield_Portrait.png",
-    "focus": 64
-  },
-  "2026-08-19": {
-    "portrait": "/images/agents/Agent_Remielle_Dan_Portrait.png",
-    "focus": 43
+    "focus": 46
   }
 }
