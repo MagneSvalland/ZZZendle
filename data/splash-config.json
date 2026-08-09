@@ -195,36 +195,52 @@
     "portrait": "/images/agents/Agent_Remielle_Dan_Portrait.png",
     "focus": 46
   },
-  "2026-08-20": {
+  "2026-08-28": {
+    "portrait": "/images/agents/Agent_Corin_Wickes_Portrait.png",
+    "focus": 54
+  },
+  "2026-08-29": {
+    "portrait": "/images/agents/Agent_Alexandrina_Sebastiane_Portrait.png",
+    "focus": 55
+  },
+  "2026-08-30": {
+    "portrait": "/images/agents/Agent_Yidhari_Murphy_Portrait.png",
+    "focus": 25
+  },
+  "2026-08-31": {
     "portrait": "/images/agents/Agent_Hugo_Vlad_Portrait.png",
     "focus": 30
   },
-  "2026-08-21": {
+  "2026-09-01": {
     "portrait": "/images/agents/Agent_Nicole_Demara_Portrait.png",
     "focus": 25
   },
-  "2026-08-22": {
+  "2026-09-02": {
     "portrait": "/images/agents/Agent_Dialyn_Portrait.png",
     "focus": 52
   },
-  "2026-08-23": {
+  "2026-09-03": {
     "portrait": "/images/agents/Agent_Aria_Portrait.png",
     "focus": 90
   },
-  "2026-08-24": {
+  "2026-09-04": {
     "portrait": "/images/agents/Agent_Jane_Doe_Portrait.png",
     "focus": 25
   },
-  "2026-08-25": {
+  "2026-09-05": {
     "portrait": "/images/agents/Agent_Grace_Howard_Portrait.png",
     "focus": 33
   },
-  "2026-08-26": {
+  "2026-09-06": {
     "portrait": "/images/agents/Agent_Jane_Doe_Nocturne_of_Light_Portrait.png",
     "focus": 33
   },
-  "2026-08-27": {
+  "2026-09-07": {
     "portrait": "/images/agents/Agent_Seed_Portrait.png",
     "focus": 90
+  },
+  "2026-08-20": {
+    "portrait": "/images/agents/Agent_Hugo_Vlad_Portrait.png",
+    "focus": 32
   }
 }
