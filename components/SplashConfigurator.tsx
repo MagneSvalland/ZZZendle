@@ -14,6 +14,7 @@ export type SplashDayConfig = { portrait: string; focus: number }
 export type SplashConfig = Record<string, SplashDayConfig>
 export const SPLASH_CONFIG_KEY = 'zzzendle-splash-config'
 export const SPLASH_SCHEDULE_EXT_KEY = 'zzzendle-schedule-ext-splash'
+export const SPLASH_PENDING_REMOVE_KEY = 'zzzendle-schedule-pending-remove'
 
 function getUpcomingBaseDays(count: number) {
   const days: { dateStr: string; agent: Agent; isToday: boolean }[] = []
@@ -96,6 +97,8 @@ function DayCard({
   onFocus,
   onClear,
   onRemove,
+  onRemoveSchedule,
+  pendingRemoval,
 }: {
   dateStr: string
   agent: Agent
@@ -106,6 +109,8 @@ function DayCard({
   onFocus: (dateStr: string, focus: number, agent: Agent) => void
   onClear: (dateStr: string) => void
   onRemove?: (dateStr: string) => void
+  onRemoveSchedule?: (dateStr: string) => void
+  pendingRemoval?: boolean
 }) {
   const portraits = allPortraits(agent)
   const saved = config[dateStr]
@@ -120,40 +125,57 @@ function DayCard({
 
   return (
     <div className={`rounded-xl border p-4 flex gap-4 items-start ${
-      saved
-        ? isToday
-          ? 'border-yellow-500/40 bg-yellow-950/12'
-          : 'border-yellow-500/20 bg-yellow-950/8'
-        : onRemove
-          ? 'border-blue-500/20 bg-blue-950/10'
-          : 'border-zinc-800 bg-zinc-900/30'
+      pendingRemoval
+        ? 'border-red-500/40 bg-red-950/15 opacity-60'
+        : saved
+          ? isToday
+            ? 'border-yellow-500/40 bg-yellow-950/12'
+            : 'border-yellow-500/20 bg-yellow-950/8'
+          : onRemove
+            ? 'border-blue-500/20 bg-blue-950/10'
+            : 'border-zinc-800 bg-zinc-900/30'
     }`}>
       <div className="w-32 shrink-0 pt-0.5">
         <div className={`text-[10px] font-bold uppercase tracking-widest ${
-          isToday ? 'text-yellow-400' : onRemove ? 'text-blue-400' : 'text-zinc-500'
+          pendingRemoval ? 'text-red-400' : isToday ? 'text-yellow-400' : onRemove ? 'text-blue-400' : 'text-zinc-500'
         }`}>
           {label ?? (isToday ? 'Today' : fmtDate(dateStr))}
         </div>
         <div className="text-sm font-semibold text-white mt-0.5 leading-tight">{headerName}</div>
         <div className="text-[9px] text-zinc-600 mt-0.5">{agent.rank} · {agent.attribute}</div>
         <div className="mt-2 flex flex-col gap-1">
-          {saved ? (
-            <button onClick={() => onClear(dateStr)} className="text-[9px] text-zinc-600 hover:text-red-400 transition-colors text-left">
-              ✕ clear config
+          {pendingRemoval ? (
+            <button onClick={() => onRemoveSchedule!(dateStr)} className="text-[9px] text-red-400 hover:text-red-300 transition-colors text-left font-semibold">
+              ↺ undo remove
             </button>
           ) : (
-            <span className="text-[9px] text-zinc-700 italic">auto-detect</span>
-          )}
-          {onRemove && (
-            <button onClick={() => onRemove(dateStr)} className="text-[9px] text-zinc-700 hover:text-red-400 transition-colors text-left">
-              ✕ remove day
-            </button>
+            <>
+              {saved ? (
+                <button onClick={() => onClear(dateStr)} className="text-[9px] text-zinc-600 hover:text-red-400 transition-colors text-left">
+                  ✕ clear config
+                </button>
+              ) : (
+                <span className="text-[9px] text-zinc-700 italic">auto-detect</span>
+              )}
+              {onRemove && (
+                <button onClick={() => onRemove(dateStr)} className="text-[9px] text-zinc-700 hover:text-red-400 transition-colors text-left">
+                  ✕ remove day
+                </button>
+              )}
+              {onRemoveSchedule && (
+                <button onClick={() => onRemoveSchedule(dateStr)} className="text-[9px] text-zinc-700 hover:text-red-400 transition-colors text-left">
+                  ✕ remove agent
+                </button>
+              )}
+            </>
           )}
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 flex-1 min-w-0">
-        {portraits.length === 0 ? (
+      <div className={`flex flex-col gap-3 flex-1 min-w-0 ${pendingRemoval ? 'pointer-events-none' : ''}`}>
+        {pendingRemoval ? (
+          <span className="text-[10px] text-red-400">Will be removed from the schedule on next save &amp; deploy</span>
+        ) : portraits.length === 0 ? (
           <span className="text-[10px] text-red-400">No portrait available</span>
         ) : (
           <>
@@ -221,7 +243,7 @@ function DayCard({
         )}
       </div>
 
-      {previewSrc && (
+      {previewSrc && !pendingRemoval && (
         <div className="shrink-0 flex flex-col gap-1 items-center">
           <div className="text-[8px] text-zinc-700 uppercase tracking-wider">Preview</div>
           <div
@@ -352,6 +374,7 @@ export default function SplashConfigurator() {
   const { isDevAuth } = useDevAuth()
   const [config, setConfig] = useState<SplashConfig>({})
   const [ext, setExt] = useState<Record<string, string>>({})
+  const [pendingRemove, setPendingRemove] = useState<Set<string>>(new Set())
   const [showPicker, setShowPicker] = useState(false)
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'done' | 'error'>('idle')
   const [saveError, setSaveError] = useState('')
@@ -372,6 +395,10 @@ export default function SplashConfigurator() {
       setExt(norm.ext)
       localStorage.setItem(SPLASH_CONFIG_KEY, JSON.stringify(norm.config))
       localStorage.setItem(SPLASH_SCHEDULE_EXT_KEY, JSON.stringify(norm.ext))
+
+      const removeStr = localStorage.getItem(SPLASH_PENDING_REMOVE_KEY)
+      const removeArr: string[] = removeStr ? JSON.parse(removeStr) : []
+      setPendingRemove(new Set(removeArr))
     } catch { /* ignore */ }
   }, [])
 
@@ -383,6 +410,21 @@ export default function SplashConfigurator() {
   function persistExt(next: Record<string, string>) {
     setExt(next)
     localStorage.setItem(SPLASH_SCHEDULE_EXT_KEY, JSON.stringify(next))
+  }
+
+  function persistPendingRemove(next: Set<string>) {
+    setPendingRemove(next)
+    localStorage.setItem(SPLASH_PENDING_REMOVE_KEY, JSON.stringify([...next]))
+  }
+
+  // Toggles whether an already-scheduled (base) day's agent is marked for
+  // removal. Unlike ext days, base days live in the committed schedule.json,
+  // so this only takes effect once "save & deploy" runs.
+  function toggleRemoveBaseDay(dateStr: string) {
+    const next = new Set(pendingRemove)
+    if (next.has(dateStr)) next.delete(dateStr)
+    else next.add(dateStr)
+    persistPendingRemove(next)
   }
 
   function pickPortrait(dateStr: string, portrait: string, agent: Agent) {
@@ -464,9 +506,10 @@ export default function SplashConfigurator() {
   function clearAll() {
     persistConfig({})
     persistExt({})
+    persistPendingRemove(new Set())
   }
 
-  const hasAny = Object.keys(config).length > 0 || Object.keys(ext).length > 0
+  const hasAny = Object.keys(config).length > 0 || Object.keys(ext).length > 0 || pendingRemove.size > 0
 
   async function handleSaveDeploy() {
     setSaveState('saving')
@@ -475,11 +518,12 @@ export default function SplashConfigurator() {
       const res = await fetch('/api/save-splash', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ splashConfig: config, extSchedule: ext }),
+        body: JSON.stringify({ splashConfig: config, extSchedule: ext, removeDates: [...pendingRemove] }),
       })
       const data = await res.json()
       if (data.ok) {
         setSaveState('done')
+        persistPendingRemove(new Set())
         setTimeout(() => setSaveState('idle'), 3000)
       } else {
         setSaveError(data.error ?? 'Unknown error')
@@ -533,7 +577,15 @@ export default function SplashConfigurator() {
       <div className="flex flex-col gap-3">
 
         {baseDays.map(({ dateStr, agent, isToday }) => (
-          <DayCard key={dateStr} dateStr={dateStr} agent={agent} isToday={isToday} {...cardProps} />
+          <DayCard
+            key={dateStr}
+            dateStr={dateStr}
+            agent={agent}
+            isToday={isToday}
+            pendingRemoval={pendingRemove.has(dateStr)}
+            onRemoveSchedule={toggleRemoveBaseDay}
+            {...cardProps}
+          />
         ))}
 
         {extDays.map(({ dateStr, agent }) => (
