@@ -253,5 +253,9 @@
   "2026-10-03": {
     "portrait": "/images/agents/Agent_Yixuan_Portrait.png",
     "focus": 65
+  },
+  "2026-10-04": {
+    "portrait": "/images/agents/Agent_Billy_Kid_Portrait.png",
+    "focus": 52
   }
 }
