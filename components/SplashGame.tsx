@@ -114,6 +114,7 @@ function SplashChallenge({
     const today = getEffectiveDate()
     let src: string | null = null
     let manualFocus: number | null = null
+    let manualFocusX: number | null = null
 
     const staticCfg = staticSplashConfig as SplashConfig
     const staticDay = staticCfg[today]
@@ -121,6 +122,7 @@ function SplashChallenge({
       src = staticDay.portrait
     }
     if (staticDay?.focus != null) manualFocus = staticDay.focus
+    if (staticDay?.focusX != null) manualFocusX = staticDay.focusX
 
     try {
       const raw = localStorage.getItem(SPLASH_CONFIG_KEY)
@@ -131,6 +133,7 @@ function SplashChallenge({
           src = day.portrait
         }
         if (day?.focus != null) manualFocus = day.focus
+        if (day?.focusX != null) manualFocusX = day.focusX
       }
     } catch { /* ignore */ }
 
@@ -145,7 +148,7 @@ function SplashChallenge({
 
     // 3. Manual focus skips skin detection
     if (manualFocus !== null && src) {
-      const pos = `center ${manualFocus}%`
+      const pos = `${manualFocusX ?? 50}% ${manualFocus}%`
       focusCache.set(src, pos)
       setFocusPos(pos)
       return

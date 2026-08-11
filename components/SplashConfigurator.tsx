@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, type MouseEvent } from 'react'
 import agentsData from '@/data/agents.json'
 import scheduleData from '@/data/schedule.json'
 import staticSplashConfig from '@/data/splash-config.json'
@@ -10,8 +10,14 @@ import { useDevAuth } from '@/contexts/DevAuthContext'
 const agents = agentsData as Agent[]
 const schedule = scheduleData as Record<string, string>
 
-export type SplashDayConfig = { portrait: string; focus: number }
+// `focus` is the vertical position (kept unnamed for backwards compatibility
+// with already-saved days); `focusX` is the horizontal position, optional so
+// old entries without it still fall back to center (50%).
+export type SplashDayConfig = { portrait: string; focus: number; focusX?: number }
 export type SplashConfig = Record<string, SplashDayConfig>
+const DEFAULT_FOCUS_X = 50
+const FOCUS_MIN = 25
+const FOCUS_MAX = 90
 export const SPLASH_CONFIG_KEY = 'zzzendle-splash-config'
 export const SPLASH_SCHEDULE_EXT_KEY = 'zzzendle-schedule-ext-splash'
 export const SPLASH_PENDING_REMOVE_KEY = 'zzzendle-schedule-pending-remove'
@@ -35,26 +41,29 @@ function addDays(dateStr: string, n: number): string {
   return d.toLocaleDateString('en-CA')
 }
 
-// Re-index the extended days into a gap-free block right after the last
-// scheduled day, preserving their order and per-day config. Removing a day in
-// the middle shifts the rest up so the queue is always sequential.
+// Re-index the extended days, preserving their order and per-day config, so
+// each one lands on the next real open date from today onward — filling any
+// gap left in schedule.json before continuing past the last scheduled day.
+// Removing a day in the middle shifts the rest up so the queue stays packed
+// into the earliest available slots.
 function contiguousExt(
   extMap: Record<string, string>,
   configMap: SplashConfig,
 ): { ext: Record<string, string>; config: SplashConfig } {
-  const scheduledDates = Object.keys(schedule).sort()
-  const lastScheduled = scheduledDates[scheduledDates.length - 1]
-    ?? new Date().toLocaleDateString('en-CA')
+  const today = new Date().toLocaleDateString('en-CA')
   const nextExt: Record<string, string> = {}
   const nextConfig: SplashConfig = {}
   // Keep configs that belong to scheduled (non-extended) days untouched.
   for (const [d, c] of Object.entries(configMap)) {
     if (extMap[d] === undefined) nextConfig[d] = c
   }
-  Object.keys(extMap).sort().forEach((oldDate, i) => {
-    const newDate = addDays(lastScheduled, i + 1)
-    nextExt[newDate] = extMap[oldDate]
-    if (configMap[oldDate]) nextConfig[newDate] = configMap[oldDate]
+  let cursor = today
+  Object.keys(extMap).sort().forEach((oldDate) => {
+    do {
+      cursor = addDays(cursor, 1)
+    } while (schedule[cursor] !== undefined || nextExt[cursor] !== undefined)
+    nextExt[cursor] = extMap[oldDate]
+    if (configMap[oldDate]) nextConfig[cursor] = configMap[oldDate]
   })
   return { ext: nextExt, config: nextConfig }
 }
@@ -87,14 +96,22 @@ function defaultFocusFor(agent: Agent): number {
 }
 
 // ── Day card ───────────────────────────────────────────────────────────────
+function FocusMarker({ x, y }: { x: number; y: number }) {
+  return (
+    <div
+      className="absolute w-2.5 h-2.5 -ml-[5px] -mt-[5px] rounded-full border-2 border-yellow-400 bg-yellow-400/40 shadow-[0_0_4px_rgba(250,204,21,0.9)] pointer-events-none"
+      style={{ left: `${x}%`, top: `${y}%` }}
+    />
+  )
+}
+
 function DayCard({
   dateStr,
   agent,
   isToday,
   label,
   config,
-  onPortrait,
-  onFocus,
+  onPick,
   onClear,
   onRemove,
   onRemoveSchedule,
@@ -105,8 +122,7 @@ function DayCard({
   isToday?: boolean
   label?: string
   config: SplashConfig
-  onPortrait: (dateStr: string, portrait: string, agent: Agent) => void
-  onFocus: (dateStr: string, focus: number, agent: Agent) => void
+  onPick: (dateStr: string, portrait: string, focusX: number, focusY: number, agent: Agent) => void
   onClear: (dateStr: string) => void
   onRemove?: (dateStr: string) => void
   onRemoveSchedule?: (dateStr: string) => void
@@ -115,13 +131,24 @@ function DayCard({
   const portraits = allPortraits(agent)
   const saved = config[dateStr]
   const selectedPortrait = (saved?.portrait && portraits.includes(saved.portrait)) ? saved.portrait : null
-  const focusPct = saved?.focus ?? defaultFocusFor(agent)
+  const focusYPct = saved?.focus ?? defaultFocusFor(agent)
+  const focusXPct = saved?.focusX ?? DEFAULT_FOCUS_X
   const previewSrc = selectedPortrait ?? portraits[0] ?? null
   // Extended days (added via the picker) are locked to the single portrait you
   // picked — no switcher, so default and skins stay individual.
   const isExt = !!onRemove
   const lockedSrc = selectedPortrait ?? portraits[0] ?? null
   const headerName = isExt && lockedSrc ? portraitName(agent, lockedSrc) : agent.name
+
+  // Clicking anywhere on a portrait thumbnail sets the zoom focus to that
+  // point (clamped to the range that still looks good at 400%).
+  function handlePortraitClick(e: MouseEvent<HTMLButtonElement>, src: string) {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const relX = (e.clientX - rect.left) / rect.width
+    const relY = (e.clientY - rect.top) / rect.height
+    const clamp = (v: number) => Math.round(Math.min(FOCUS_MAX, Math.max(FOCUS_MIN, v * 100)))
+    onPick(dateStr, src, clamp(relX), clamp(relY), agent)
+  }
 
   return (
     <div className={`rounded-xl border p-4 flex gap-4 items-start ${
@@ -182,15 +209,21 @@ function DayCard({
             {isExt ? (
               // Locked to the one portrait picked for this day
               lockedSrc && (
-                <div className="relative w-12 aspect-[5/8] rounded overflow-hidden border-2 border-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)]">
+                <button
+                  type="button"
+                  onClick={(e) => handlePortraitClick(e, lockedSrc)}
+                  title="Click to set zoom focus"
+                  className="relative w-12 aspect-[5/8] rounded overflow-hidden border-2 border-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)] cursor-crosshair"
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={lockedSrc} alt="" className="w-full h-full object-cover object-top" />
+                  <img src={lockedSrc} alt="" className="w-full h-full object-cover object-top pointer-events-none" />
                   {isSkinPortrait(agent, lockedSrc) && (
                     <div className="absolute bottom-0 left-0 right-0 text-[6px] text-center bg-yellow-500/85 text-black font-bold py-0.5 leading-tight">
                       SKIN
                     </div>
                   )}
-                </div>
+                  <FocusMarker x={focusXPct} y={focusYPct} />
+                </button>
               )
             ) : (
               <div className="flex gap-2 flex-wrap">
@@ -201,16 +234,16 @@ function DayCard({
                     <button
                       key={src}
                       type="button"
-                      onClick={() => onPortrait(dateStr, src, agent)}
-                      title={portraitName(agent, src)}
-                      className={`relative w-12 aspect-[5/8] rounded overflow-hidden border-2 transition-all duration-150 ${
+                      onClick={(e) => handlePortraitClick(e, src)}
+                      title={`${portraitName(agent, src)} — click to set zoom focus`}
+                      className={`relative w-12 aspect-[5/8] rounded overflow-hidden border-2 transition-all duration-150 cursor-crosshair ${
                         isActive
                           ? 'border-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)]'
                           : 'border-zinc-700 hover:border-zinc-400 opacity-70 hover:opacity-100'
                       }`}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={src} alt="" className="w-full h-full object-cover object-top" />
+                      <img src={src} alt="" className="w-full h-full object-cover object-top pointer-events-none" />
                       {skin && (
                         <div className="absolute bottom-0 left-0 right-0 text-[6px] text-center bg-yellow-500/85 text-black font-bold py-0.5 leading-tight">
                           SKIN
@@ -221,23 +254,16 @@ function DayCard({
                           <span className="text-[6px] text-black font-black">✓</span>
                         </div>
                       )}
+                      {isActive && <FocusMarker x={focusXPct} y={focusYPct} />}
                     </button>
                   )
                 })}
               </div>
             )}
 
-            <div className="flex items-center gap-3">
-              <span className="text-[9px] text-zinc-600 uppercase tracking-wider shrink-0 w-12">Focus Y</span>
-              <input
-                type="range"
-                min={25}
-                max={90}
-                value={focusPct}
-                onChange={e => onFocus(dateStr, parseInt(e.target.value), agent)}
-                className="flex-1 accent-yellow-400 cursor-pointer"
-              />
-              <span className="text-[10px] text-zinc-400 w-8 text-right shrink-0">{focusPct}%</span>
+            <div className="text-[9px] text-zinc-600">
+              Focus <span className="text-zinc-300 font-semibold">{focusXPct}%, {focusYPct}%</span>
+              <span className="text-zinc-700"> — click the portrait to set</span>
             </div>
           </>
         )}
@@ -251,7 +277,7 @@ function DayCard({
             style={{
               backgroundImage: `url(${previewSrc})`,
               backgroundSize: '400%',
-              backgroundPosition: `center ${focusPct}%`,
+              backgroundPosition: `${focusXPct}% ${focusYPct}%`,
               backgroundRepeat: 'no-repeat',
             }}
           />
@@ -417,33 +443,37 @@ export default function SplashConfigurator() {
     localStorage.setItem(SPLASH_PENDING_REMOVE_KEY, JSON.stringify([...next]))
   }
 
+  // A stale "✕ failed" / "✓ deployed!" banner from a previous save shouldn't
+  // linger while you keep editing — clear it on the next edit you make.
+  function resetSaveBanner() {
+    setSaveState('idle')
+    setSaveError('')
+  }
+
   // Toggles whether an already-scheduled (base) day's agent is marked for
   // removal. Unlike ext days, base days live in the committed schedule.json,
   // so this only takes effect once "save & deploy" runs.
   function toggleRemoveBaseDay(dateStr: string) {
+    resetSaveBanner()
     const next = new Set(pendingRemove)
     if (next.has(dateStr)) next.delete(dateStr)
     else next.add(dateStr)
     persistPendingRemove(next)
   }
 
-  function pickPortrait(dateStr: string, portrait: string, agent: Agent) {
-    const prev = config[dateStr]
-    persistConfig({ ...config, [dateStr]: { portrait, focus: prev?.focus ?? defaultFocusFor(agent) } })
-  }
-
-  function pickFocus(dateStr: string, focus: number, agent: Agent) {
-    const prev = config[dateStr]
-    const portraits = allPortraits(agent)
-    persistConfig({ ...config, [dateStr]: { portrait: prev?.portrait ?? portraits[0] ?? '', focus } })
+  function pickPortraitFocus(dateStr: string, portrait: string, focusX: number, focusY: number) {
+    resetSaveBanner()
+    persistConfig({ ...config, [dateStr]: { portrait, focus: focusY, focusX } })
   }
 
   function clearDay(dateStr: string) {
+    resetSaveBanner()
     const { [dateStr]: _, ...rest } = config
     persistConfig(rest)
   }
 
   function removeExtDay(dateStr: string) {
+    resetSaveBanner()
     const restExt = { ...ext }
     const restConfig = { ...config }
     delete restExt[dateStr]
@@ -455,14 +485,16 @@ export default function SplashConfigurator() {
   }
 
   function addAgent(agentId: string, portrait: string) {
+    resetSaveBanner()
     const agent = agents.find(a => a.id === agentId)
-    const scheduledDates = Object.keys(schedule).sort()
-    const lastScheduled = scheduledDates[scheduledDates.length - 1] ?? new Date().toLocaleDateString('en-CA')
-    // Place the new day strictly after any existing one, then normalise so the
-    // whole extended block is contiguous (fills the first free slot).
+    const today = new Date().toLocaleDateString('en-CA')
+    // Find the next real open date — filling a gap in schedule.json before
+    // continuing past the last already-scheduled day.
     const existing = Object.keys(ext).sort()
-    const maxDate = existing[existing.length - 1] ?? lastScheduled
-    const sentinel = addDays(maxDate, 1)
+    let sentinel = existing[existing.length - 1] ?? today
+    do {
+      sentinel = addDays(sentinel, 1)
+    } while (schedule[sentinel] !== undefined || ext[sentinel] !== undefined)
     const norm = contiguousExt(
       { ...ext, [sentinel]: agentId },
       { ...config, [sentinel]: { portrait, focus: agent ? defaultFocusFor(agent) : 65 } },
@@ -490,7 +522,7 @@ export default function SplashConfigurator() {
     })
   )
 
-  const cardProps = { config, onPortrait: pickPortrait, onFocus: pickFocus, onClear: clearDay }
+  const cardProps = { config, onPick: pickPortraitFocus, onClear: clearDay }
 
   if (!isDevAuth) {
     return (
@@ -504,6 +536,7 @@ export default function SplashConfigurator() {
   }
 
   function clearAll() {
+    resetSaveBanner()
     persistConfig({})
     persistExt({})
     persistPendingRemove(new Set())
@@ -523,8 +556,14 @@ export default function SplashConfigurator() {
       const data = await res.json()
       if (data.ok) {
         setSaveState('done')
+        // These days are now baked into schedule.json itself — clearing them
+        // locally stops the next save from resending an identical payload
+        // (which makes `git commit` fail with "nothing to commit").
+        persistExt({})
         persistPendingRemove(new Set())
-        setTimeout(() => setSaveState('idle'), 3000)
+        // Reload so `baseDays` reflects the schedule.json we just wrote,
+        // instead of showing stale ext/base cards until a manual refresh.
+        setTimeout(() => window.location.reload(), 900)
       } else {
         setSaveError(data.error ?? 'Unknown error')
         setSaveState('error')
