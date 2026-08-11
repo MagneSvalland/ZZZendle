@@ -249,5 +249,9 @@
     "portrait": "/images/agents/Agent_Starlight_-_Billy_Kid_Portrait.png",
     "focus": 25,
     "focusX": 90
+  },
+  "2026-10-03": {
+    "portrait": "/images/agents/Agent_Yixuan_Portrait.png",
+    "focus": 65
   }
 }
