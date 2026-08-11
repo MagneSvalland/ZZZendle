@@ -176,6 +176,69 @@
     "focus": 64,
     "focusX": 50
   },
+  "2026-08-12": {
+    "portrait": "/images/agents/Agent_Soldier_11_Portrait.png",
+    "focus": 25,
+    "focusX": 71
+  },
+  "2026-08-13": {
+    "portrait": "/images/agents/Agent_Aria_Discordant_Note_Portrait.png",
+    "focus": 58
+  },
+  "2026-08-14": {
+    "portrait": "/images/agents/Agent_Ellen_Joe_On_Campus_Portrait.png",
+    "focus": 25,
+    "focusX": 25
+  },
+  "2026-08-15": {
+    "portrait": "/images/agents/Agent_Orphie_Magnusson_and_Magus_Portrait.png",
+    "focus": 49,
+    "focusX": 48
+  },
+  "2026-08-16": {
+    "portrait": "/images/agents/Agent_Sunna_Afternoon_Tea_Break_Portrait.png",
+    "focus": 58
+  },
+  "2026-08-17": {
+    "portrait": "/images/agents/Agent_Pulchra_Fellini_Portrait.png",
+    "focus": 49,
+    "focusX": 50
+  },
+  "2026-08-18": {
+    "portrait": "/images/agents/Agent_Nicole_Demara_Cunning_Cutie_Portrait.png",
+    "focus": 36,
+    "focusX": 35
+  },
+  "2026-08-19": {
+    "portrait": "/images/agents/Agent_Lucia_Elowen_Portrait.png",
+    "focus": 58,
+    "focusX": 56
+  },
+  "2026-08-20": {
+    "portrait": "/images/agents/Agent_Soldier_0_-_Anby_Portrait.png",
+    "focus": 25,
+    "focusX": 54
+  },
+  "2026-08-21": {
+    "portrait": "/images/agents/Agent_Norma_Hollowell_Portrait.png",
+    "focus": 48,
+    "focusX": 69
+  },
+  "2026-08-22": {
+    "portrait": "/images/agents/Agent_Seed_Portrait.png",
+    "focus": 84,
+    "focusX": 63
+  },
+  "2026-08-23": {
+    "portrait": "/images/agents/Agent_Soukaku_Portrait.png",
+    "focus": 25,
+    "focusX": 79
+  },
+  "2026-08-24": {
+    "portrait": "/images/agents/Agent_Ye_Shunguang_Touch_of_Dawnlight_Portrait.png",
+    "focus": 49,
+    "focusX": 48
+  },
   "2026-09-08": {
     "portrait": "/images/agents/Agent_Corin_Wickes_Portrait.png",
     "focus": 54
