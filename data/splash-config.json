@@ -173,27 +173,23 @@
   },
   "2026-08-11": {
     "portrait": "/images/agents/Agent_Cissia_Portrait.png",
-    "focus": 67
-  },
-  "2026-08-12": {
-    "portrait": "/images/agents/Agent_Pan_Yinhu_Culinary_Jewel_Portrait.png",
-    "focus": 25
+    "focus": 64,
+    "focusX": 50
   },
   "2026-08-13": {
     "portrait": "/images/agents/Agent_Ukinami_Yuzuha_Tanuki_in_Broad_Daylight_Portrait.png",
-    "focus": 45
-  },
-  "2026-08-14": {
-    "portrait": "/images/agents/Agent_Remielle_Dan_Portrait.png",
-    "focus": 90
+    "focus": 36,
+    "focusX": 50
   },
   "2026-08-15": {
     "portrait": "/images/agents/Agent_Alice_Thymefield_Sea_of_Thyme_Portrait.png",
-    "focus": 34
+    "focus": 41,
+    "focusX": 67
   },
   "2026-08-16": {
     "portrait": "/images/agents/Agent_Remielle_Dan_Portrait.png",
-    "focus": 46
+    "focus": 31,
+    "focusX": 83
   },
   "2026-09-08": {
     "portrait": "/images/agents/Agent_Corin_Wickes_Portrait.png",
@@ -238,5 +234,20 @@
   "2026-09-18": {
     "portrait": "/images/agents/Agent_Seed_Portrait.png",
     "focus": 90
+  },
+  "2026-09-30": {
+    "portrait": "/images/agents/Agent_Aria_Discordant_Note_Portrait.png",
+    "focus": 54,
+    "focusX": 52
+  },
+  "2026-10-01": {
+    "portrait": "/images/agents/Agent_Ju_Fufu_Portrait.png",
+    "focus": 64,
+    "focusX": 69
+  },
+  "2026-10-02": {
+    "portrait": "/images/agents/Agent_Starlight_-_Billy_Kid_Portrait.png",
+    "focus": 25,
+    "focusX": 90
   }
 }
