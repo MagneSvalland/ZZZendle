@@ -257,5 +257,10 @@
   "2026-10-04": {
     "portrait": "/images/agents/Agent_Billy_Kid_Portrait.png",
     "focus": 52
+  },
+  "2026-10-05": {
+    "portrait": "/images/agents/Agent_Jane_Doe_Portrait.png",
+    "focus": 37,
+    "focusX": 44
   }
 }
