@@ -2,13 +2,17 @@
 
 import { useState, useEffect, useMemo, type MouseEvent } from 'react'
 import agentsData from '@/data/agents.json'
-import scheduleData from '@/data/schedule.json'
-import staticSplashConfig from '@/data/splash-config.json'
 import type { Agent } from '@/lib/types'
 import { useDevAuth } from '@/contexts/DevAuthContext'
 
 const agents = agentsData as Agent[]
-const schedule = scheduleData as Record<string, string>
+// Populated at runtime from /api/schedule-data (see the mount effect below)
+// instead of a static JSON import. A build-time import is baked into the
+// bundle and can go stale relative to what's actually on disk — that's what
+// caused gap-detection ("+ Add day") to act on old data and skip real
+// openings. Module-level so the top-level helpers below (called during
+// render, outside the component) see the same fresh value.
+let schedule: Record<string, string> = {}
 
 // `focus` is the vertical position (kept unnamed for backwards compatibility
 // with already-saved days); `focusX` is the horizontal position, optional so
@@ -404,29 +408,44 @@ export default function SplashConfigurator() {
   const [showPicker, setShowPicker] = useState(false)
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'done' | 'error'>('idle')
   const [saveError, setSaveError] = useState('')
-
-  const baseDays = getUpcomingBaseDays(14)
+  const [baseDays, setBaseDays] = useState<ReturnType<typeof getUpcomingBaseDays>>([])
+  const [scheduleReady, setScheduleReady] = useState(false)
 
   useEffect(() => {
-    try {
-      const cfgStr = localStorage.getItem(SPLASH_CONFIG_KEY)
-      const extStr = localStorage.getItem(SPLASH_SCHEDULE_EXT_KEY)
-      // Start from deployed file so sliders reflect what's actually live
-      const base: SplashConfig = staticSplashConfig as SplashConfig
-      const local: SplashConfig = cfgStr ? JSON.parse(cfgStr) : {}
-      const cfg: SplashConfig = { ...base, ...local }
-      const rawExt: Record<string, string> = extStr ? JSON.parse(extStr) : {}
-      const norm = contiguousExt(rawExt, cfg)
-      setConfig(norm.config)
-      setExt(norm.ext)
-      localStorage.setItem(SPLASH_CONFIG_KEY, JSON.stringify(norm.config))
-      localStorage.setItem(SPLASH_SCHEDULE_EXT_KEY, JSON.stringify(norm.ext))
+    if (!isDevAuth) return
+    let cancelled = false
+    ;(async () => {
+      try {
+        // Fetch current schedule.json / splash-config.json fresh from disk —
+        // see the `schedule` module var comment above for why this can't be
+        // a static import.
+        const res = await fetch('/api/schedule-data', { cache: 'no-store' })
+        const fresh = await res.json()
+        if (cancelled) return
+        schedule = (fresh.schedule ?? {}) as Record<string, string>
+        const base: SplashConfig = (fresh.splashConfig ?? {}) as SplashConfig
 
-      const removeStr = localStorage.getItem(SPLASH_PENDING_REMOVE_KEY)
-      const removeArr: string[] = removeStr ? JSON.parse(removeStr) : []
-      setPendingRemove(new Set(removeArr))
-    } catch { /* ignore */ }
-  }, [])
+        const cfgStr = localStorage.getItem(SPLASH_CONFIG_KEY)
+        const extStr = localStorage.getItem(SPLASH_SCHEDULE_EXT_KEY)
+        const local: SplashConfig = cfgStr ? JSON.parse(cfgStr) : {}
+        const cfg: SplashConfig = { ...base, ...local }
+        const rawExt: Record<string, string> = extStr ? JSON.parse(extStr) : {}
+        const norm = contiguousExt(rawExt, cfg)
+        setConfig(norm.config)
+        setExt(norm.ext)
+        localStorage.setItem(SPLASH_CONFIG_KEY, JSON.stringify(norm.config))
+        localStorage.setItem(SPLASH_SCHEDULE_EXT_KEY, JSON.stringify(norm.ext))
+
+        const removeStr = localStorage.getItem(SPLASH_PENDING_REMOVE_KEY)
+        const removeArr: string[] = removeStr ? JSON.parse(removeStr) : []
+        setPendingRemove(new Set(removeArr))
+
+        setBaseDays(getUpcomingBaseDays(14))
+        setScheduleReady(true)
+      } catch { /* ignore */ }
+    })()
+    return () => { cancelled = true }
+  }, [isDevAuth])
 
   function persistConfig(next: SplashConfig) {
     setConfig(next)
@@ -531,6 +550,17 @@ export default function SplashConfigurator() {
           Splash Art Config
         </h2>
         <p className="text-zinc-700 text-sm">Log in as developer (bottom-right button) to configure splash art.</p>
+      </section>
+    )
+  }
+
+  if (!scheduleReady) {
+    return (
+      <section>
+        <h2 className="text-[11px] font-semibold text-zinc-500 uppercase tracking-widest mb-4">
+          Splash Art Config
+        </h2>
+        <p className="text-zinc-700 text-sm animate-pulse">Loading current schedule…</p>
       </section>
     )
   }
