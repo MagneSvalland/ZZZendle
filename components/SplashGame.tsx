@@ -5,7 +5,6 @@ import type { Agent } from '@/lib/types'
 import GenericModeGame, { type RenderChallengeProps } from './GenericModeGame'
 import { SPLASH_CONFIG_KEY, type SplashConfig } from './SplashConfigurator'
 import { getEffectiveDate } from '@/lib/date'
-import staticSplashConfig from '@/data/splash-config.json'
 
 // Cache detected focus positions per agent ID for the session
 const focusCache = new Map<string, string>()
@@ -109,67 +108,80 @@ function SplashChallenge({
 
   useEffect(() => {
     if (allPortraitOptions.length === 0) return
+    let cancelled = false
 
-    // 1. Check config: static file first (deployed truth), then localStorage override.
-    const today = getEffectiveDate()
-    let src: string | null = null
-    let manualFocus: number | null = null
-    let manualFocusX: number | null = null
+    ;(async () => {
+      // 1. Check config: fetched fresh from disk (deployed truth) — a build-
+      // time static import here would go stale relative to what's actually
+      // on disk (same class of bug fixed in SplashConfigurator's `schedule`;
+      // see that component's comment for why) — then localStorage override.
+      const today = getEffectiveDate()
+      let src: string | null = null
+      let manualFocus: number | null = null
+      let manualFocusX: number | null = null
 
-    const staticCfg = staticSplashConfig as SplashConfig
-    const staticDay = staticCfg[today]
-    if (staticDay?.portrait && allPortraitOptions.includes(staticDay.portrait)) {
-      src = staticDay.portrait
-    }
-    if (staticDay?.focus != null) manualFocus = staticDay.focus
-    if (staticDay?.focusX != null) manualFocusX = staticDay.focusX
-
-    try {
-      const raw = localStorage.getItem(SPLASH_CONFIG_KEY)
-      if (raw) {
-        const cfg: SplashConfig = JSON.parse(raw)
-        const day = cfg[today]
-        if (day?.portrait && allPortraitOptions.includes(day.portrait)) {
-          src = day.portrait
+      try {
+        const res = await fetch('/api/schedule-data', { cache: 'no-store' })
+        const fresh = await res.json()
+        if (cancelled) return
+        const staticCfg = (fresh.splashConfig ?? {}) as SplashConfig
+        const staticDay = staticCfg[today]
+        if (staticDay?.portrait && allPortraitOptions.includes(staticDay.portrait)) {
+          src = staticDay.portrait
         }
-        if (day?.focus != null) manualFocus = day.focus
-        if (day?.focusX != null) manualFocusX = day.focusX
+        if (staticDay?.focus != null) manualFocus = staticDay.focus
+        if (staticDay?.focusX != null) manualFocusX = staticDay.focusX
+      } catch { /* ignore — falls through to localStorage / default below */ }
+
+      try {
+        const raw = localStorage.getItem(SPLASH_CONFIG_KEY)
+        if (raw) {
+          const cfg: SplashConfig = JSON.parse(raw)
+          const day = cfg[today]
+          if (day?.portrait && allPortraitOptions.includes(day.portrait)) {
+            src = day.portrait
+          }
+          if (day?.focus != null) manualFocus = day.focus
+          if (day?.focusX != null) manualFocusX = day.focusX
+        }
+      } catch { /* ignore */ }
+
+      // 2. No manual config → use the default splash. Skins only ever show when
+      //    explicitly configured for that day in the debug page.
+      if (!src) {
+        src = basePortrait ?? skinPortraits[0] ?? null
+        if (!src) return
       }
-    } catch { /* ignore */ }
 
-    // 2. No manual config → use the default splash. Skins only ever show when
-    //    explicitly configured for that day in the debug page.
-    if (!src) {
-      src = basePortrait ?? skinPortraits[0] ?? null
+      setPortraitSrc(src)
+
+      // 3. Manual focus skips skin detection
+      if (manualFocus !== null && src) {
+        const pos = `${manualFocusX ?? 50}% ${manualFocus}%`
+        focusCache.set(src, pos)
+        setFocusPos(pos)
+        return
+      }
+
+      // 4. Auto skin-detection
       if (!src) return
-    }
+      const cacheKey = src
+      if (focusCache.has(cacheKey)) {
+        setFocusPos(focusCache.get(cacheKey)!)
+        return
+      }
 
-    setPortraitSrc(src)
+      const img = new window.Image()
+      img.onload = () => {
+        const detected = detectSkinFocus(img)
+        const pos = detected || targetAgent.splash_focus || 'center 65%'
+        focusCache.set(cacheKey, pos)
+        setFocusPos(pos)
+      }
+      img.src = src
+    })()
 
-    // 3. Manual focus skips skin detection
-    if (manualFocus !== null && src) {
-      const pos = `${manualFocusX ?? 50}% ${manualFocus}%`
-      focusCache.set(src, pos)
-      setFocusPos(pos)
-      return
-    }
-
-    // 4. Auto skin-detection
-    if (!src) return
-    const cacheKey = src
-    if (focusCache.has(cacheKey)) {
-      setFocusPos(focusCache.get(cacheKey)!)
-      return
-    }
-
-    const img = new window.Image()
-    img.onload = () => {
-      const detected = detectSkinFocus(img)
-      const pos = detected || targetAgent.splash_focus || 'center 65%'
-      focusCache.set(cacheKey, pos)
-      setFocusPos(pos)
-    }
-    img.src = src
+    return () => { cancelled = true }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetAgent.id])
 
