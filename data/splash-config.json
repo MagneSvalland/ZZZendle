@@ -1,8 +1,4 @@
 {
-  "2026-07-01": {
-    "portrait": "/images/agents/Agent_Koleda_Belobog_Portrait.png",
-    "focus": 64
-  },
   "2026-06-29": {
     "portrait": "/images/agents/Agent_Hoshimi_Miyabi_Dignified_Blossom_Portrait.png",
     "focus": 62
@@ -10,6 +6,10 @@
   "2026-06-30": {
     "portrait": "/images/agents/Agent_Burnice_White_Portrait.png",
     "focus": 31
+  },
+  "2026-07-01": {
+    "portrait": "/images/agents/Agent_Koleda_Belobog_Portrait.png",
+    "focus": 64
   },
   "2026-07-02": {
     "portrait": "/images/agents/Agent_Ben_Bigger_Portrait.png",
@@ -249,6 +249,11 @@
     "focusX": 44
   },
   "2026-10-06": {
+    "portrait": "/images/agents/Agent_Anby_Demara_Portrait.png",
+    "focus": 36,
+    "focusX": 71
+  },
+  "2026-10-07": {
     "portrait": "/images/agents/Agent_Anby_Demara_Portrait.png",
     "focus": 36,
     "focusX": 71
