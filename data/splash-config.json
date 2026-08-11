@@ -176,21 +176,6 @@
     "focus": 64,
     "focusX": 50
   },
-  "2026-08-13": {
-    "portrait": "/images/agents/Agent_Ukinami_Yuzuha_Tanuki_in_Broad_Daylight_Portrait.png",
-    "focus": 36,
-    "focusX": 50
-  },
-  "2026-08-15": {
-    "portrait": "/images/agents/Agent_Alice_Thymefield_Sea_of_Thyme_Portrait.png",
-    "focus": 41,
-    "focusX": 67
-  },
-  "2026-08-16": {
-    "portrait": "/images/agents/Agent_Remielle_Dan_Portrait.png",
-    "focus": 31,
-    "focusX": 83
-  },
   "2026-09-08": {
     "portrait": "/images/agents/Agent_Corin_Wickes_Portrait.png",
     "focus": 54
