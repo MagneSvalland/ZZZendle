@@ -257,5 +257,10 @@
     "portrait": "/images/agents/Agent_Anby_Demara_Portrait.png",
     "focus": 36,
     "focusX": 71
+  },
+  "2026-10-08": {
+    "portrait": "/images/agents/Agent_Anby_Demara_Portrait.png",
+    "focus": 36,
+    "focusX": 71
   }
 }
