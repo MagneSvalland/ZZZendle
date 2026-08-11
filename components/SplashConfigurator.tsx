@@ -26,15 +26,16 @@ export const SPLASH_CONFIG_KEY = 'zzzendle-splash-config'
 export const SPLASH_SCHEDULE_EXT_KEY = 'zzzendle-schedule-ext-splash'
 export const SPLASH_PENDING_REMOVE_KEY = 'zzzendle-schedule-pending-remove'
 
-function getUpcomingBaseDays(count: number) {
+// Every upcoming scheduled day, however far out — no artificial cutoff, so a
+// day you just added never silently falls out of view.
+function getUpcomingBaseDays() {
+  const today = new Date().toLocaleDateString('en-CA')
   const days: { dateStr: string; agent: Agent; isToday: boolean }[] = []
-  for (let i = 0; i < count; i++) {
-    const d = new Date()
-    d.setDate(d.getDate() + i)
-    const dateStr = d.toLocaleDateString('en-CA')
+  for (const dateStr of Object.keys(schedule).sort()) {
+    if (dateStr < today) continue
     const agentId = schedule[dateStr]
     const agent = agents.find(a => a.id === agentId)
-    if (agent) days.push({ dateStr, agent, isToday: i === 0 })
+    if (agent) days.push({ dateStr, agent, isToday: dateStr === today })
   }
   return days
 }
@@ -440,7 +441,7 @@ export default function SplashConfigurator() {
         const removeArr: string[] = removeStr ? JSON.parse(removeStr) : []
         setPendingRemove(new Set(removeArr))
 
-        setBaseDays(getUpcomingBaseDays(14))
+        setBaseDays(getUpcomingBaseDays())
         setScheduleReady(true)
       } catch { /* ignore */ }
     })()
