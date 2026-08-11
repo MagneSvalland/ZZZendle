@@ -247,5 +247,10 @@
     "portrait": "/images/agents/Agent_Jane_Doe_Portrait.png",
     "focus": 37,
     "focusX": 44
+  },
+  "2026-10-06": {
+    "portrait": "/images/agents/Agent_Anby_Demara_Portrait.png",
+    "focus": 36,
+    "focusX": 71
   }
 }
