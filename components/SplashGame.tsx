@@ -102,9 +102,15 @@ function SplashChallenge({
   const skinPortraits = (targetAgent.alt_splash_images ?? []).filter((s): s is string => !!s)
   const allPortraitOptions = [basePortrait, ...skinPortraits].filter((s): s is string => !!s)
 
-  const [portraitSrc, setPortraitSrc] = useState<string | null>(basePortrait ?? null)
+  const [portraitSrc, setPortraitSrc] = useState<string | null>(null)
   const [imageError, setImageError] = useState(false)
   const [focusPos, setFocusPos] = useState<string>(targetAgent.splash_focus ?? 'center 65%')
+  // Config (portrait/focus override) now comes from an async fetch instead
+  // of a synchronous static import — without this, the very first paint used
+  // the default portrait/focus and then visibly snapped to the configured
+  // one a moment later. Holding off on rendering until config resolves
+  // (fast — a single same-origin fetch) avoids that flash.
+  const [configLoaded, setConfigLoaded] = useState(false)
 
   useEffect(() => {
     if (allPortraitOptions.length === 0) return
@@ -150,7 +156,7 @@ function SplashChallenge({
       //    explicitly configured for that day in the debug page.
       if (!src) {
         src = basePortrait ?? skinPortraits[0] ?? null
-        if (!src) return
+        if (!src) { setConfigLoaded(true); return }
       }
 
       setPortraitSrc(src)
@@ -160,14 +166,16 @@ function SplashChallenge({
         const pos = `${manualFocusX ?? 50}% ${manualFocus}%`
         focusCache.set(src, pos)
         setFocusPos(pos)
+        setConfigLoaded(true)
         return
       }
 
       // 4. Auto skin-detection
-      if (!src) return
+      if (!src) { setConfigLoaded(true); return }
       const cacheKey = src
       if (focusCache.has(cacheKey)) {
         setFocusPos(focusCache.get(cacheKey)!)
+        setConfigLoaded(true)
         return
       }
 
@@ -179,6 +187,9 @@ function SplashChallenge({
         setFocusPos(pos)
       }
       img.src = src
+      // Reveal now with the default focus — the sharper skin-detected crop
+      // (if any) swaps in a moment later once the image analysis finishes.
+      setConfigLoaded(true)
     })()
 
     return () => { cancelled = true }
@@ -189,6 +200,10 @@ function SplashChallenge({
   const bgSize = isOver
     ? 'contain'
     : `${zoomLevels[Math.min(wrongGuesses, zoomLevels.length - 1)]}%`
+
+  if (!configLoaded) {
+    return <div className="w-72 h-72 rounded-xl bg-zinc-800 border border-zinc-700/50 animate-pulse" />
+  }
 
   if (imageError || !portraitSrc) {
     return (
