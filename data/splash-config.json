@@ -210,14 +210,14 @@
     "focusX": 35
   },
   "2026-08-19": {
-    "portrait": "/images/agents/Agent_Lucia_Elowen_Portrait.png",
-    "focus": 58,
-    "focusX": 56
-  },
-  "2026-08-20": {
     "portrait": "/images/agents/Agent_Soldier_0_-_Anby_Portrait.png",
     "focus": 25,
     "focusX": 54
+  },
+  "2026-08-20": {
+    "portrait": "/images/agents/Agent_Lucia_Elowen_Portrait.png",
+    "focus": 58,
+    "focusX": 56
   },
   "2026-08-21": {
     "portrait": "/images/agents/Agent_Norma_Hollowell_Portrait.png",
