@@ -25,6 +25,7 @@ const FOCUS_MAX = 90
 export const SPLASH_CONFIG_KEY = 'zzzendle-splash-config'
 export const SPLASH_SCHEDULE_EXT_KEY = 'zzzendle-schedule-ext-splash'
 export const SPLASH_PENDING_REMOVE_KEY = 'zzzendle-schedule-pending-remove'
+export const SPLASH_AGENT_OVERRIDE_KEY = 'zzzendle-schedule-agent-override'
 
 // Every upcoming scheduled day, however far out — no artificial cutoff, so a
 // day you just added never silently falls out of view.
@@ -121,6 +122,8 @@ function DayCard({
   onRemove,
   onRemoveSchedule,
   pendingRemoval,
+  onSwapPrev,
+  onSwapNext,
 }: {
   dateStr: string
   agent: Agent
@@ -132,6 +135,8 @@ function DayCard({
   onRemove?: (dateStr: string) => void
   onRemoveSchedule?: (dateStr: string) => void
   pendingRemoval?: boolean
+  onSwapPrev?: () => void
+  onSwapNext?: () => void
 }) {
   const portraits = allPortraits(agent)
   const saved = config[dateStr]
@@ -168,10 +173,34 @@ function DayCard({
             : 'border-zinc-800 bg-zinc-900/30'
     }`}>
       <div className="w-32 shrink-0 pt-0.5">
-        <div className={`text-[10px] font-bold uppercase tracking-widest ${
-          pendingRemoval ? 'text-red-400' : isToday ? 'text-yellow-400' : onRemove ? 'text-blue-400' : 'text-zinc-500'
-        }`}>
-          {label ?? (isToday ? 'Today' : fmtDate(dateStr))}
+        <div className="flex items-center gap-1.5">
+          <div className={`text-[10px] font-bold uppercase tracking-widest ${
+            pendingRemoval ? 'text-red-400' : isToday ? 'text-yellow-400' : onRemove ? 'text-blue-400' : 'text-zinc-500'
+          }`}>
+            {label ?? (isToday ? 'Today' : fmtDate(dateStr))}
+          </div>
+          {(onSwapPrev || onSwapNext) && !pendingRemoval && (
+            <div className="flex items-center gap-0.5 ml-auto">
+              <button
+                type="button"
+                onClick={onSwapPrev}
+                disabled={!onSwapPrev}
+                title="Swap with previous day"
+                className="text-[10px] text-zinc-600 hover:text-yellow-400 disabled:opacity-20 disabled:hover:text-zinc-600 transition-colors leading-none px-0.5"
+              >
+                ◀
+              </button>
+              <button
+                type="button"
+                onClick={onSwapNext}
+                disabled={!onSwapNext}
+                title="Swap with next day"
+                className="text-[10px] text-zinc-600 hover:text-yellow-400 disabled:opacity-20 disabled:hover:text-zinc-600 transition-colors leading-none px-0.5"
+              >
+                ▶
+              </button>
+            </div>
+          )}
         </div>
         <div className="text-sm font-semibold text-white mt-0.5 leading-tight">{headerName}</div>
         <div className="text-[9px] text-zinc-600 mt-0.5">{agent.rank} · {agent.attribute}</div>
@@ -411,6 +440,10 @@ export default function SplashConfigurator() {
   const [saveError, setSaveError] = useState('')
   const [baseDays, setBaseDays] = useState<ReturnType<typeof getUpcomingBaseDays>>([])
   const [scheduleReady, setScheduleReady] = useState(false)
+  // Which agent a base day is reassigned to via the ◀ ▶ swap arrows —
+  // staged locally like everything else, only written to schedule.json on
+  // "save & deploy" (see agentOverride in handleSaveDeploy).
+  const [agentOverride, setAgentOverride] = useState<Record<string, string>>({})
 
   useEffect(() => {
     if (!isDevAuth) return
@@ -441,6 +474,9 @@ export default function SplashConfigurator() {
         const removeArr: string[] = removeStr ? JSON.parse(removeStr) : []
         setPendingRemove(new Set(removeArr))
 
+        const overrideStr = localStorage.getItem(SPLASH_AGENT_OVERRIDE_KEY)
+        setAgentOverride(overrideStr ? JSON.parse(overrideStr) : {})
+
         setBaseDays(getUpcomingBaseDays())
         setScheduleReady(true)
       } catch { /* ignore */ }
@@ -456,6 +492,11 @@ export default function SplashConfigurator() {
   function persistExt(next: Record<string, string>) {
     setExt(next)
     localStorage.setItem(SPLASH_SCHEDULE_EXT_KEY, JSON.stringify(next))
+  }
+
+  function persistAgentOverride(next: Record<string, string>) {
+    setAgentOverride(next)
+    localStorage.setItem(SPLASH_AGENT_OVERRIDE_KEY, JSON.stringify(next))
   }
 
   function persistPendingRemove(next: Set<string>) {
@@ -524,12 +565,59 @@ export default function SplashConfigurator() {
     setShowPicker(false)
   }
 
+  // Swaps which agent sits on two days — either side can be an already-
+  // scheduled base day (staged in `agentOverride`) or a not-yet-saved ext
+  // day (staged in `ext` directly), so the ◀ ▶ arrows work across the
+  // boundary between the two. Nothing is written to schedule.json until
+  // "save & deploy" runs, same as every other edit here.
+  function swapDay(dateA: string, kindA: 'base' | 'ext', dateB: string, kindB: 'base' | 'ext') {
+    resetSaveBanner()
+    const agentA = kindA === 'ext' ? ext[dateA] : (agentOverride[dateA] ?? schedule[dateA])
+    const agentB = kindB === 'ext' ? ext[dateB] : (agentOverride[dateB] ?? schedule[dateB])
+
+    if (kindA === 'ext' && kindB === 'ext') {
+      persistExt({ ...ext, [dateA]: agentB, [dateB]: agentA })
+    } else if (kindA === 'base' && kindB === 'base') {
+      persistAgentOverride({ ...agentOverride, [dateA]: agentB, [dateB]: agentA })
+    } else {
+      if (kindA === 'ext') persistExt({ ...ext, [dateA]: agentB })
+      else persistAgentOverride({ ...agentOverride, [dateA]: agentB })
+      if (kindB === 'ext') persistExt({ ...ext, [dateB]: agentA })
+      else persistAgentOverride({ ...agentOverride, [dateB]: agentA })
+    }
+
+    const nextConfig = { ...config }
+    if (config[dateB]) nextConfig[dateA] = config[dateB]; else delete nextConfig[dateA]
+    if (config[dateA]) nextConfig[dateB] = config[dateA]; else delete nextConfig[dateB]
+    persistConfig(nextConfig)
+  }
+
   const extDays = Object.entries(ext)
     .sort(([a], [b]) => a.localeCompare(b))
     .flatMap(([dateStr, agentId]) => {
       const agent = agents.find(a => a.id === agentId)
       return agent ? [{ dateStr, agent }] : []
     })
+
+  // Base and ext days rendered in date order, purely to find each day's true
+  // chronological neighbor for the ◀ ▶ arrows — an ext day added into a gap
+  // can sit right next to a base day, so the swap target isn't always within
+  // the same group.
+  const allDaysByDate = [
+    ...baseDays.flatMap(({ dateStr }) => {
+      const agentId = agentOverride[dateStr] ?? schedule[dateStr]
+      return agents.find(a => a.id === agentId) ? [{ dateStr, kind: 'base' as const }] : []
+    }),
+    ...extDays.map(({ dateStr }) => ({ dateStr, kind: 'ext' as const })),
+  ].sort((a, b) => a.dateStr.localeCompare(b.dateStr))
+
+  function neighborsOf(dateStr: string) {
+    const idx = allDaysByDate.findIndex(d => d.dateStr === dateStr)
+    return {
+      prev: idx > 0 ? allDaysByDate[idx - 1] : null,
+      next: idx >= 0 && idx < allDaysByDate.length - 1 ? allDaysByDate[idx + 1] : null,
+    }
+  }
 
   // A portrait counts as "used" if some extended day already shows it
   // (its saved config portrait, or the agent's default when unconfigured).
@@ -571,9 +659,11 @@ export default function SplashConfigurator() {
     persistConfig({})
     persistExt({})
     persistPendingRemove(new Set())
+    persistAgentOverride({})
   }
 
-  const hasAny = Object.keys(config).length > 0 || Object.keys(ext).length > 0 || pendingRemove.size > 0
+  const hasAny = Object.keys(config).length > 0 || Object.keys(ext).length > 0
+    || pendingRemove.size > 0 || Object.keys(agentOverride).length > 0
 
   async function handleSaveDeploy() {
     setSaveState('saving')
@@ -582,7 +672,12 @@ export default function SplashConfigurator() {
       const res = await fetch('/api/save-splash', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ splashConfig: config, extSchedule: ext, removeDates: [...pendingRemove] }),
+        body: JSON.stringify({
+          splashConfig: config,
+          extSchedule: ext,
+          removeDates: [...pendingRemove],
+          agentOverride,
+        }),
       })
       const data = await res.json()
       if (data.ok) {
@@ -592,6 +687,7 @@ export default function SplashConfigurator() {
         // (which makes `git commit` fail with "nothing to commit").
         persistExt({})
         persistPendingRemove(new Set())
+        persistAgentOverride({})
         // Reload so `baseDays` reflects the schedule.json we just wrote,
         // instead of showing stale ext/base cards until a manual refresh.
         setTimeout(() => window.location.reload(), 900)
@@ -646,28 +742,41 @@ export default function SplashConfigurator() {
 
       <div className="flex flex-col gap-3">
 
-        {baseDays.map(({ dateStr, agent, isToday }) => (
-          <DayCard
-            key={dateStr}
-            dateStr={dateStr}
-            agent={agent}
-            isToday={isToday}
-            pendingRemoval={pendingRemove.has(dateStr)}
-            onRemoveSchedule={toggleRemoveBaseDay}
-            {...cardProps}
-          />
-        ))}
+        {baseDays.map(({ dateStr, isToday }) => {
+          const agentId = agentOverride[dateStr] ?? schedule[dateStr]
+          const agent = agents.find(a => a.id === agentId)
+          if (!agent) return null
+          const { prev, next } = neighborsOf(dateStr)
+          return (
+            <DayCard
+              key={dateStr}
+              dateStr={dateStr}
+              agent={agent}
+              isToday={isToday}
+              pendingRemoval={pendingRemove.has(dateStr)}
+              onRemoveSchedule={toggleRemoveBaseDay}
+              onSwapPrev={prev ? () => swapDay(dateStr, 'base', prev.dateStr, prev.kind) : undefined}
+              onSwapNext={next ? () => swapDay(dateStr, 'base', next.dateStr, next.kind) : undefined}
+              {...cardProps}
+            />
+          )
+        })}
 
-        {extDays.map(({ dateStr, agent }) => (
-          <DayCard
-            key={dateStr}
-            dateStr={dateStr}
-            agent={agent}
-            label={fmtDate(dateStr)}
-            onRemove={removeExtDay}
-            {...cardProps}
-          />
-        ))}
+        {extDays.map(({ dateStr, agent }) => {
+          const { prev, next } = neighborsOf(dateStr)
+          return (
+            <DayCard
+              key={dateStr}
+              dateStr={dateStr}
+              agent={agent}
+              label={fmtDate(dateStr)}
+              onRemove={removeExtDay}
+              onSwapPrev={prev ? () => swapDay(dateStr, 'ext', prev.dateStr, prev.kind) : undefined}
+              onSwapNext={next ? () => swapDay(dateStr, 'ext', next.dateStr, next.kind) : undefined}
+              {...cardProps}
+            />
+          )
+        })}
 
         <button
           type="button"

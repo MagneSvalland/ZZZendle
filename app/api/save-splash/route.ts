@@ -7,8 +7,9 @@ import { promisify } from 'util'
 const execAsync = promisify(exec)
 
 export async function POST(req: NextRequest) {
-  const { splashConfig, extSchedule, removeDates } = await req.json()
+  const { splashConfig, extSchedule, removeDates, agentOverride } = await req.json()
   const toRemove: string[] = Array.isArray(removeDates) ? removeDates : []
+  const overrides: Record<string, string> = agentOverride ?? {}
 
   const root = path.join(process.cwd())
   const splashPath = path.join(root, 'data', 'splash-config.json')
@@ -31,9 +32,14 @@ export async function POST(req: NextRequest) {
     await writeFile(splashPath, JSON.stringify(sortedSplash, null, 2))
 
     const hasExt = extSchedule && Object.keys(extSchedule).length > 0
-    if (hasExt || toRemove.length > 0) {
+    const hasOverrides = Object.keys(overrides).length > 0
+    if (hasExt || toRemove.length > 0 || hasOverrides) {
       const existing = JSON.parse(await readFile(schedulePath, 'utf-8'))
       const merged = { ...existing, ...(extSchedule ?? {}) }
+      // Reassign which agent sits on an already-scheduled date — e.g. from
+      // the ◀ ▶ swap arrows. Applied after merging in new ext days, before
+      // removals, so a removed date always ends up gone regardless of order.
+      for (const [date, agentId] of Object.entries(overrides)) merged[date] = agentId
       for (const d of toRemove) delete merged[d]
       const sorted = Object.fromEntries(
         Object.entries(merged).sort(([a], [b]) => a.localeCompare(b))
