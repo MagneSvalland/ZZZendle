@@ -210,39 +210,47 @@
     "focusX": 35
   },
   "2026-08-19": {
+    "portrait": "/images/agents/Agent_Asaba_Harumasa_Portrait.png",
+    "focus": 52
+  },
+  "2026-08-20": {
     "portrait": "/images/agents/Agent_Soldier_0_-_Anby_Portrait.png",
     "focus": 25,
     "focusX": 54
   },
-  "2026-08-20": {
-    "portrait": "/images/agents/Agent_Lucia_Elowen_Portrait.png",
-    "focus": 58,
-    "focusX": 56
-  },
   "2026-08-21": {
+    "portrait": "/images/agents/Agent_Lucia_Elowen_Portrait.png",
+    "focus": 28,
+    "focusX": 44
+  },
+  "2026-08-22": {
     "portrait": "/images/agents/Agent_Norma_Hollowell_Portrait.png",
     "focus": 48,
     "focusX": 69
   },
-  "2026-08-22": {
+  "2026-08-23": {
     "portrait": "/images/agents/Agent_Seed_Portrait.png",
     "focus": 84,
     "focusX": 63
   },
-  "2026-08-23": {
+  "2026-08-24": {
     "portrait": "/images/agents/Agent_Soukaku_Portrait.png",
     "focus": 25,
     "focusX": 79
-  },
-  "2026-08-24": {
-    "portrait": "/images/agents/Agent_Promeia_Portrait.png",
-    "focus": 25,
-    "focusX": 42
   },
   "2026-08-25": {
     "portrait": "/images/agents/Agent_Ye_Shunguang_Touch_of_Dawnlight_Portrait.png",
     "focus": 49,
     "focusX": 48
+  },
+  "2026-08-26": {
+    "portrait": "/images/agents/Agent_Promeia_Portrait.png",
+    "focus": 25,
+    "focusX": 42
+  },
+  "2026-08-27": {
+    "portrait": "/images/agents/Agent_Astra_Yao_Portrait.png",
+    "focus": 58
   },
   "2026-09-08": {
     "portrait": "/images/agents/Agent_Corin_Wickes_Portrait.png",
