@@ -261,6 +261,15 @@
     "portrait": "/images/agents/Agent_Astra_Yao_Portrait.png",
     "focus": 58
   },
+  "2026-08-30": {
+    "portrait": "/images/agents/Agent_Promeia_Portrait.png",
+    "focus": 25,
+    "focusX": 42
+  },
+  "2026-08-31": {
+    "portrait": "/images/agents/Agent_Astra_Yao_Portrait.png",
+    "focus": 58
+  },
   "2026-09-08": {
     "portrait": "/images/agents/Agent_Corin_Wickes_Portrait.png",
     "focus": 54
