@@ -219,14 +219,14 @@
     "focusX": 54
   },
   "2026-08-21": {
-    "portrait": "/images/agents/Agent_Lucia_Elowen_Portrait.png",
-    "focus": 28,
-    "focusX": 44
+    "portrait": "/images/agents/Agent_Soldier_0_-_Anby_Portrait.png",
+    "focus": 45,
+    "focusX": 81
   },
   "2026-08-22": {
     "portrait": "/images/agents/Agent_Norma_Hollowell_Portrait.png",
-    "focus": 44,
-    "focusX": 77
+    "focus": 50,
+    "focusX": 35
   },
   "2026-08-23": {
     "portrait": "/images/agents/Agent_Seed_Portrait.png",
@@ -247,6 +247,28 @@
     "portrait": "/images/agents/Agent_Promeia_Portrait.png",
     "focus": 25,
     "focusX": 42
+  },
+  "2026-08-27": {
+    "portrait": "/images/agents/Agent_Astra_Yao_Portrait.png",
+    "focus": 58
+  },
+  "2026-08-28": {
+    "portrait": "/images/agents/Agent_Promeia_Portrait.png",
+    "focus": 25,
+    "focusX": 42
+  },
+  "2026-08-29": {
+    "portrait": "/images/agents/Agent_Astra_Yao_Portrait.png",
+    "focus": 58
+  },
+  "2026-08-30": {
+    "portrait": "/images/agents/Agent_Promeia_Portrait.png",
+    "focus": 25,
+    "focusX": 42
+  },
+  "2026-08-31": {
+    "portrait": "/images/agents/Agent_Astra_Yao_Portrait.png",
+    "focus": 58
   },
   "2026-09-08": {
     "portrait": "/images/agents/Agent_Corin_Wickes_Portrait.png",
