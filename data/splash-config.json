@@ -249,8 +249,9 @@
     "focusX": 42
   },
   "2026-08-27": {
-    "portrait": "/images/agents/Agent_Astra_Yao_Portrait.png",
-    "focus": 58
+    "portrait": "/images/agents/Agent_Sigrid_de_L'Azur_Portrait.png",
+    "focus": 54,
+    "focusX": 42
   },
   "2026-08-28": {
     "portrait": "/images/agents/Agent_Promeia_Portrait.png",
@@ -625,7 +626,12 @@
   },
   "2026-11-13": {
     "portrait": "/images/agents/Agent_Alice_Thymefield_Portrait.png",
+    "focus": 50,
+    "focusX": 44
+  },
+  "2026-11-14": {
+    "portrait": "/images/agents/Agent_Sigrid_de_L'Azur_Portrait.png",
     "focus": 49,
-    "focusX": 38
+    "focusX": 46
   }
 }
