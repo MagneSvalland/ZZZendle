@@ -309,7 +309,11 @@ function DayCard({
           <div
             className="w-24 h-24 rounded-lg overflow-hidden border border-zinc-700/50"
             style={{
-              backgroundImage: `url(${previewSrc})`,
+              // Double-quoted url() — an unquoted one can't contain a literal
+              // apostrophe, and encodeURI() doesn't escape it either (it's
+              // in JS's "unreserved" set). Breaks portraits like
+              // "Agent_Sigrid_de_L'Azur" otherwise.
+              backgroundImage: `url("${previewSrc}")`,
               backgroundSize: '400%',
               backgroundPosition: `${focusXPct}% ${focusYPct}%`,
               backgroundRepeat: 'no-repeat',

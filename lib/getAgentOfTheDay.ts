@@ -1,9 +1,14 @@
 import scheduleData from '@/data/schedule.json'
 import agentsData from '@/data/agents.json'
+import classicOverridesData from '@/data/classic-overrides.json'
 import type { Agent } from './types'
 
 const schedule = scheduleData as Record<string, string>
 const agents = agentsData as Agent[]
+// Manual pins for classic mode (date -> agent id), checked before the seeded
+// pick. Applied inside buildPickHistory (not layered on top of it) so the
+// pin still counts toward the 30-day cooldown for later dates.
+const classicOverrides = classicOverridesData as Record<string, string>
 
 export function getAgentOfTheDay(dateStr: string): Agent | null {
   const agentId = schedule[dateStr]
@@ -73,7 +78,10 @@ function buildPickHistory(targetDate: string): Map<string, DayPicks> {
 
     const cPool  = available.filter(a => a.id !== splashId && !classicRecent.has(a.id))
     const cFinal = cPool.length > 0 ? cPool : available.filter(a => a.id !== splashId)
-    const classic = cFinal[seedHash(d + 'classic') % cFinal.length] ?? null
+    const seededClassic = cFinal[seedHash(d + 'classic') % cFinal.length] ?? null
+    const classic = classicOverrides[d]
+      ? agents.find(a => a.id === classicOverrides[d]) ?? seededClassic
+      : seededClassic
 
     const ePool  = available.filter(a => a.id !== splashId && a.id !== classic?.id && !emojiRecent.has(a.id))
     const eFinal = ePool.length > 0 ? ePool : available.filter(a => a.id !== splashId && a.id !== classic?.id)

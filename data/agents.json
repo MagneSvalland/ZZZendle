@@ -1342,14 +1342,36 @@
     "icon_image": "/images/agents/Agent_Remielle_Dan_Icon.png",
     "splash_image": "/images/agents/Agent_Remielle_Dan_Portrait.png",
     "emojis": [
-      "🌌",
-      "🗡️",
-      "🕊️",
-      "👁️",
-      "⚔️"
+      "✨",
+      "😇",
+      "☄️",
+      "🥤",
+      "🕊️"
     ],
     "quote": "",
     "available_from": "2026-07-30",
     "splash_focus": "center 30%"
+  },
+  {
+    "id": "sigrid",
+    "name": "Sigrid de L'Azur",
+    "faction": "Airspace Patrol Department",
+    "attribute": "Ice",
+    "specialty": "Attack",
+    "rank": "S",
+    "gender": "Female",
+    "release_date": "2026-08-19",
+    "release_version": "3.1",
+    "icon_image": "/images/agents/Agent_Sigrid_de_L'Azur_Icon.png",
+    "splash_image": "/images/agents/Agent_Sigrid_de_L'Azur_Portrait.png",
+    "splash_focus": "center 65%",
+    "quote": "Glory guides us onward!",
+    "emojis": [
+      "🛡️",
+      "💪",
+      "😂",
+      "💠",
+      "🐴"
+    ]
   }
 ]

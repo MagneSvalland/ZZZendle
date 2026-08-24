@@ -239,7 +239,11 @@ function SplashChallenge({
           style={{
             width: '100%',
             height: '100%',
-            backgroundImage: `url(${portraitSrc})`,
+            // Double-quoted url() — an unquoted one can't contain a literal
+            // apostrophe, and encodeURI() doesn't escape it either (it's in
+            // JS's "unreserved" set). Breaks portraits like
+            // "Agent_Sigrid_de_L'Azur" otherwise.
+            backgroundImage: `url("${portraitSrc}")`,
             backgroundSize: bgSize,
             backgroundPosition: focusPos,
             backgroundRepeat: 'no-repeat',

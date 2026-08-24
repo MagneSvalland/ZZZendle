@@ -15,7 +15,7 @@ const LS_KEY = 'zzzendle-background'
 function applyBg(key: string) {
   const bg = BACKGROUNDS.find(b => b.key === key) ?? BACKGROUNDS[0]
   const el = document.getElementById('zzz-bg-image')
-  if (el) el.style.backgroundImage = `url(${bg.url})`
+  if (el) el.style.backgroundImage = `url("${bg.url}")`
 }
 
 export default function BackgroundManager() {
