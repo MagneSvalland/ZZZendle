@@ -332,8 +332,9 @@
     "focus": 52
   },
   "2026-09-14": {
-    "portrait": "/images/agents/Agent_Aria_Portrait.png",
-    "focus": 90
+    "portrait": "/images/agents/Agent_Evelyn_Chevalier_Portrait.png",
+    "focus": 58,
+    "focusX": 58
   },
   "2026-09-15": {
     "portrait": "/images/agents/Agent_Jane_Doe_Portrait.png",
@@ -348,17 +349,13 @@
     "focus": 33
   },
   "2026-09-18": {
-    "portrait": "/images/agents/Agent_Seed_Portrait.png",
-    "focus": 90
+    "portrait": "/images/agents/Agent_Seth_Lowell_Portrait.png",
+    "focus": 90,
+    "focusX": 25
   },
   "2026-09-19": {
     "portrait": "/images/agents/Agent_Hugo_Vlad_Portrait.png",
     "focus": 50,
-    "focusX": 50
-  },
-  "2026-09-20": {
-    "portrait": "/images/agents/Agent_Ukinami_Yuzuha_Portrait.png",
-    "focus": 62,
     "focusX": 50
   },
   "2026-09-21": {
