@@ -1,4 +1,4 @@
-import type { GuessComparison } from './types'
+import type { GuessComparison, StreakData } from './types'
 
 const START_DATE = '2026-06-20'
 
@@ -36,6 +36,25 @@ export function recordResult(mode: string, won: boolean, guessCount: number): St
   }
   localStorage.setItem(`zzzendle-${mode}-stats`, JSON.stringify(s))
   return s
+}
+
+// A win extends the streak only if yesterday was also a win (`lastWinDate`
+// still equal to today - 1 day); any other outcome (a loss, or a win after
+// a missed day) resets it to 1. `todayStr` is parsed the same way the two
+// callers (Game.tsx, GenericModeGame.tsx) already did before this was
+// extracted — `new Date(todayStr)`, not the `+'T12:00:00'` pattern used
+// elsewhere in the codebase, so this stays a pure behavior-preserving move.
+export function computeNextStreak(current: StreakData, won: boolean, todayStr: string): StreakData {
+  if (!won) return { ...current, streak: 0 }
+  const prev = new Date(todayStr)
+  prev.setDate(prev.getDate() - 1)
+  const prevStr = prev.toLocaleDateString('en-CA')
+  const newStreak = current.lastWinDate === prevStr ? current.streak + 1 : 1
+  return {
+    streak: newStreak,
+    bestStreak: Math.max(current.bestStreak, newStreak),
+    lastWinDate: todayStr,
+  }
 }
 
 export function getPuzzleNumber(dateStr: string): number {

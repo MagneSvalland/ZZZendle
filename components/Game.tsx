@@ -6,7 +6,7 @@ import type { Agent, GameState, GuessComparison, StreakData } from '@/lib/types'
 import { compareAgents } from '@/lib/gameLogic'
 import { getAgentForMode, getRecentAgentIds } from '@/lib/getAgentOfTheDay'
 import { useDevAuth } from '@/contexts/DevAuthContext'
-import { loadStats, recordResult, getPuzzleNumber, buildShareText, defaultStats, type StatsData } from '@/lib/stats'
+import { loadStats, recordResult, getPuzzleNumber, buildShareText, computeNextStreak, defaultStats, type StatsData } from '@/lib/stats'
 import { getEffectiveDate } from '@/lib/date'
 import SocialLinks from './SocialLinks'
 import agentsRaw from '@/data/agents.json'
@@ -97,20 +97,7 @@ export default function Game() {
 
   function updateStreak(won: boolean, currentStreak: StreakData, today: string) {
     if (isDebug) return
-    let updated: StreakData
-    if (won) {
-      const prev = new Date(today)
-      prev.setDate(prev.getDate() - 1)
-      const prevStr = prev.toLocaleDateString('en-CA')
-      const newStreak = currentStreak.lastWinDate === prevStr ? currentStreak.streak + 1 : 1
-      updated = {
-        streak: newStreak,
-        bestStreak: Math.max(currentStreak.bestStreak, newStreak),
-        lastWinDate: today,
-      }
-    } else {
-      updated = { ...currentStreak, streak: 0 }
-    }
+    const updated = computeNextStreak(currentStreak, won, today)
     setStreakData(updated)
     localStorage.setItem('zzzendle-streak', JSON.stringify(updated))
   }

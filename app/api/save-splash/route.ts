@@ -3,6 +3,8 @@ import { exec } from 'child_process'
 import { writeFile } from 'fs/promises'
 import path from 'path'
 import { promisify } from 'util'
+import { compactFutureSchedule, remapDates } from '@/lib/scheduleLogic'
+import { getEffectiveDate } from '@/lib/date'
 
 const execAsync = promisify(exec)
 
@@ -24,15 +26,12 @@ export async function POST(req: NextRequest) {
     // entries written by other sessions (or edited directly) since this page
     // was last loaded.
     const existingSplash = JSON.parse(await readFile(splashPath, 'utf-8').catch(() => '{}'))
-    const mergedSplash = { ...existingSplash, ...splashConfig }
+    let mergedSplash = { ...existingSplash, ...splashConfig }
     for (const d of toRemove) delete mergedSplash[d]
-    const sortedSplash = Object.fromEntries(
-      Object.entries(mergedSplash).sort(([a], [b]) => a.localeCompare(b))
-    )
-    await writeFile(splashPath, JSON.stringify(sortedSplash, null, 2))
 
     const hasExt = extSchedule && Object.keys(extSchedule).length > 0
     const hasOverrides = Object.keys(overrides).length > 0
+    let compactedSchedule: Record<string, string> | null = null
     if (hasExt || toRemove.length > 0 || hasOverrides) {
       const existing = JSON.parse(await readFile(schedulePath, 'utf-8'))
       const merged = { ...existing, ...(extSchedule ?? {}) }
@@ -41,8 +40,24 @@ export async function POST(req: NextRequest) {
       // removals, so a removed date always ends up gone regardless of order.
       for (const [date, agentId] of Object.entries(overrides)) merged[date] = agentId
       for (const d of toRemove) delete merged[d]
+      // Close whatever gap the removal (or anything else) left behind —
+      // every day from today onward packs back-to-back, so e.g. removing a
+      // middle day's agent shifts every later day up by one instead of
+      // leaving that day blank. Per-day splash-config entries move with
+      // their day so a shifted day keeps its saved zoom focus.
+      const { schedule: compacted, dateMap } = compactFutureSchedule(merged, getEffectiveDate())
+      compactedSchedule = compacted
+      mergedSplash = remapDates(mergedSplash, dateMap)
+    }
+
+    const sortedSplash = Object.fromEntries(
+      Object.entries(mergedSplash).sort(([a], [b]) => a.localeCompare(b))
+    )
+    await writeFile(splashPath, JSON.stringify(sortedSplash, null, 2))
+
+    if (compactedSchedule) {
       const sorted = Object.fromEntries(
-        Object.entries(merged).sort(([a], [b]) => a.localeCompare(b))
+        Object.entries(compactedSchedule).sort(([a], [b]) => a.localeCompare(b))
       )
       await writeFile(schedulePath, JSON.stringify(sorted, null, 2))
     }

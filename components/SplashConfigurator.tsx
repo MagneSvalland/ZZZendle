@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, type MouseEvent } from 'react'
 import agentsData from '@/data/agents.json'
 import type { Agent } from '@/lib/types'
 import { useDevAuth } from '@/contexts/DevAuthContext'
+import { addDays, contiguousExt, type SplashDayConfig, type SplashConfig } from '@/lib/scheduleLogic'
 
 const agents = agentsData as Agent[]
 // Populated at runtime from /api/schedule-data (see the mount effect below)
@@ -16,9 +17,10 @@ let schedule: Record<string, string> = {}
 
 // `focus` is the vertical position (kept unnamed for backwards compatibility
 // with already-saved days); `focusX` is the horizontal position, optional so
-// old entries without it still fall back to center (50%).
-export type SplashDayConfig = { portrait: string; focus: number; focusX?: number }
-export type SplashConfig = Record<string, SplashDayConfig>
+// old entries without it still fall back to center (50%). Re-exported here
+// (rather than just imported) because SplashGame.tsx imports SplashConfig
+// from this component, not from lib/scheduleLogic directly.
+export type { SplashDayConfig, SplashConfig }
 const DEFAULT_FOCUS_X = 50
 const FOCUS_MIN = 25
 const FOCUS_MAX = 90
@@ -41,37 +43,15 @@ function getUpcomingBaseDays() {
   return days
 }
 
-function addDays(dateStr: string, n: number): string {
-  const d = new Date(dateStr + 'T12:00:00')
-  d.setDate(d.getDate() + n)
-  return d.toLocaleDateString('en-CA')
-}
-
-// Re-index the extended days, preserving their order and per-day config, so
-// each one lands on the next real open date from today onward — filling any
-// gap left in schedule.json before continuing past the last scheduled day.
-// Removing a day in the middle shifts the rest up so the queue stays packed
-// into the earliest available slots.
-function contiguousExt(
+// Thin wrapper around the shared, pure `contiguousExt` (lib/scheduleLogic)
+// binding it to this component's module-level `schedule` and to "today" —
+// see that function for what the re-indexing actually does.
+function contiguousExtLocal(
   extMap: Record<string, string>,
   configMap: SplashConfig,
 ): { ext: Record<string, string>; config: SplashConfig } {
   const today = new Date().toLocaleDateString('en-CA')
-  const nextExt: Record<string, string> = {}
-  const nextConfig: SplashConfig = {}
-  // Keep configs that belong to scheduled (non-extended) days untouched.
-  for (const [d, c] of Object.entries(configMap)) {
-    if (extMap[d] === undefined) nextConfig[d] = c
-  }
-  let cursor = today
-  Object.keys(extMap).sort().forEach((oldDate) => {
-    do {
-      cursor = addDays(cursor, 1)
-    } while (schedule[cursor] !== undefined || nextExt[cursor] !== undefined)
-    nextExt[cursor] = extMap[oldDate]
-    if (configMap[oldDate]) nextConfig[cursor] = configMap[oldDate]
-  })
-  return { ext: nextExt, config: nextConfig }
+  return contiguousExt(extMap, configMap, schedule, today)
 }
 
 function fmtDate(dateStr: string) {
@@ -468,7 +448,7 @@ export default function SplashConfigurator() {
         const local: SplashConfig = cfgStr ? JSON.parse(cfgStr) : {}
         const cfg: SplashConfig = { ...base, ...local }
         const rawExt: Record<string, string> = extStr ? JSON.parse(extStr) : {}
-        const norm = contiguousExt(rawExt, cfg)
+        const norm = contiguousExtLocal(rawExt, cfg)
         setConfig(norm.config)
         setExt(norm.ext)
         localStorage.setItem(SPLASH_CONFIG_KEY, JSON.stringify(norm.config))
@@ -544,7 +524,7 @@ export default function SplashConfigurator() {
     delete restExt[dateStr]
     delete restConfig[dateStr]
     // Re-index so the remaining days close the gap and stay sequential.
-    const norm = contiguousExt(restExt, restConfig)
+    const norm = contiguousExtLocal(restExt, restConfig)
     persistExt(norm.ext)
     persistConfig(norm.config)
   }
@@ -560,7 +540,7 @@ export default function SplashConfigurator() {
     do {
       sentinel = addDays(sentinel, 1)
     } while (schedule[sentinel] !== undefined || ext[sentinel] !== undefined)
-    const norm = contiguousExt(
+    const norm = contiguousExtLocal(
       { ...ext, [sentinel]: agentId },
       { ...config, [sentinel]: { portrait, focus: agent ? defaultFocusFor(agent) : 65 } },
     )

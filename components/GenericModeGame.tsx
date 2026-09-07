@@ -5,7 +5,7 @@ import Image from 'next/image'
 import type { Agent, GameState, StreakData } from '@/lib/types'
 import { getAgentForMode, getRecentAgentIds } from '@/lib/getAgentOfTheDay'
 import { useDevAuth } from '@/contexts/DevAuthContext'
-import { loadStats, recordResult, getPuzzleNumber, buildShareText, defaultStats, type StatsData } from '@/lib/stats'
+import { loadStats, recordResult, getPuzzleNumber, buildShareText, computeNextStreak, defaultStats, type StatsData } from '@/lib/stats'
 import { getEffectiveDate } from '@/lib/date'
 import SocialLinks from './SocialLinks'
 import { SPLASH_SCHEDULE_EXT_KEY } from './SplashConfigurator'
@@ -103,20 +103,7 @@ export default function GenericModeGame({
 
   function updateStreak(won: boolean, today: string) {
     if (isDebug) return
-    let updated: StreakData
-    if (won) {
-      const prev = new Date(today)
-      prev.setDate(prev.getDate() - 1)
-      const prevStr = prev.toLocaleDateString('en-CA')
-      const newStreak = streakData.lastWinDate === prevStr ? streakData.streak + 1 : 1
-      updated = {
-        streak: newStreak,
-        bestStreak: Math.max(streakData.bestStreak, newStreak),
-        lastWinDate: today,
-      }
-    } else {
-      updated = { ...streakData, streak: 0 }
-    }
+    const updated = computeNextStreak(streakData, won, today)
     setStreakData(updated)
     localStorage.setItem(streakKey, JSON.stringify(updated))
   }
