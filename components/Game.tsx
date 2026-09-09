@@ -8,6 +8,7 @@ import { getAgentForMode, getRecentAgentIds } from '@/lib/getAgentOfTheDay'
 import { useDevAuth } from '@/contexts/DevAuthContext'
 import { loadStats, recordResult, getPuzzleNumber, buildShareText, computeNextStreak, defaultStats, type StatsData } from '@/lib/stats'
 import { getEffectiveDate } from '@/lib/date'
+import { loadTileScheme, saveTileScheme, TILE_SCHEMES, DEFAULT_TILE_SCHEME, type TileColorScheme } from '@/lib/tileColorScheme'
 import SocialLinks from './SocialLinks'
 import agentsRaw from '@/data/agents.json'
 import SearchInput from './SearchInput'
@@ -57,6 +58,7 @@ export default function Game() {
   const [stats, setStats] = useState<StatsData>(defaultStats())
   const [statsOpen, setStatsOpen] = useState(false)
   const [isDebug, setIsDebug] = useState(false)
+  const [tileScheme, setTileScheme] = useState<TileColorScheme>(DEFAULT_TILE_SCHEME)
   const gameKeyRef = useRef<string>('')
   const statsRecordedRef = useRef(false)
 
@@ -64,6 +66,7 @@ export default function Game() {
     const today = getEffectiveDate()
     setTodayStr(today)
     setYesterdayAgent(getAgentForMode('classic', getYesterdayStr()))
+    setTileScheme(loadTileScheme())
 
     const debugId = localStorage.getItem('zzzendle-debug-agent-classic')
     const gk = debugId ? 'zzzendle-debug-classic-game' : `zzzendle-game-${today}`
@@ -262,26 +265,37 @@ export default function Game() {
           <div className="w-full">
             <div className="flex flex-col gap-2">
               {[...comparisons].reverse().map((c, i) => (
-                <GuessRow key={c.agent.id} comparison={c} guessNumber={comparisons.length - i} />
+                <GuessRow key={c.agent.id} comparison={c} guessNumber={comparisons.length - i} scheme={tileScheme} />
               ))}
             </div>
           </div>
         )}
 
         {/* Legend */}
-        <div className="flex gap-5 text-xs text-zinc-400 justify-center sm:justify-start">
+        <div className="flex flex-wrap items-center gap-5 text-xs text-zinc-400 justify-center sm:justify-start">
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-green-700 inline-block" />
+            <span className={`w-3 h-3 rounded-sm inline-block ${TILE_SCHEMES[tileScheme].legendExact}`} />
             Exact match
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-amber-600 inline-block" />
+            <span className={`w-3 h-3 rounded-sm inline-block ${TILE_SCHEMES[tileScheme].legendPartial}`} />
             Partial match
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-red-700 inline-block" />
+            <span className={`w-3 h-3 rounded-sm inline-block ${TILE_SCHEMES[tileScheme].legendNone}`} />
             No match
           </span>
+          <button
+            type="button"
+            onClick={() => {
+              const next = tileScheme === 'vivid' ? 'classic' : 'vivid'
+              setTileScheme(next)
+              saveTileScheme(next)
+            }}
+            className="text-zinc-600 hover:text-yellow-400 transition-colors underline decoration-dotted"
+          >
+            {tileScheme === 'vivid' ? 'Miss the old yellow/gray colors? Switch back' : 'Prefer the new colors? Switch back'}
+          </button>
         </div>
 
         {/* Stats modal */}

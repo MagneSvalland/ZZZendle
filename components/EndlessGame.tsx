@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import type { Agent, GuessComparison } from '@/lib/types'
 import { compareAgents } from '@/lib/gameLogic'
+import { loadTileScheme, saveTileScheme, TILE_SCHEMES, DEFAULT_TILE_SCHEME, type TileColorScheme } from '@/lib/tileColorScheme'
 import agentsRaw from '@/data/agents.json'
 import SearchInput from './SearchInput'
 import GuessRow from './GuessRow'
@@ -44,10 +45,12 @@ export default function EndlessGame() {
   const [status, setStatus] = useState<'playing' | 'won' | 'revealed'>('playing')
   const [solvedCount, setSolvedCount] = useState(0)
   const [stats, setStats] = useState<EndlessStats>({ solved: 0, bestGuesses: null })
+  const [tileScheme, setTileScheme] = useState<TileColorScheme>(DEFAULT_TILE_SCHEME)
   const recentRef = useRef<string[]>([])
 
   // Load persisted stats + in-progress run, or start a fresh one.
   useEffect(() => {
+    setTileScheme(loadTileScheme())
     try {
       const rawStats = localStorage.getItem(STATS_KEY)
       if (rawStats) setStats(JSON.parse(rawStats))
@@ -230,25 +233,36 @@ export default function EndlessGame() {
         {comparisons.length > 0 && (
           <div className="w-full flex flex-col gap-2">
             {[...comparisons].reverse().map((c, i) => (
-              <GuessRow key={c.agent.id} comparison={c} guessNumber={comparisons.length - i} />
+              <GuessRow key={c.agent.id} comparison={c} guessNumber={comparisons.length - i} scheme={tileScheme} />
             ))}
           </div>
         )}
 
         {/* Legend */}
-        <div className="flex gap-5 text-xs text-zinc-400 justify-center sm:justify-start">
+        <div className="flex flex-wrap items-center gap-5 text-xs text-zinc-400 justify-center sm:justify-start">
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-green-700 inline-block" />
+            <span className={`w-3 h-3 rounded-sm inline-block ${TILE_SCHEMES[tileScheme].legendExact}`} />
             Exact match
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-amber-600 inline-block" />
+            <span className={`w-3 h-3 rounded-sm inline-block ${TILE_SCHEMES[tileScheme].legendPartial}`} />
             Partial match
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-red-700 inline-block" />
+            <span className={`w-3 h-3 rounded-sm inline-block ${TILE_SCHEMES[tileScheme].legendNone}`} />
             No match
           </span>
+          <button
+            type="button"
+            onClick={() => {
+              const next = tileScheme === 'vivid' ? 'classic' : 'vivid'
+              setTileScheme(next)
+              saveTileScheme(next)
+            }}
+            className="text-zinc-600 hover:text-yellow-400 transition-colors underline decoration-dotted"
+          >
+            {tileScheme === 'vivid' ? 'Miss the old yellow/gray colors? Switch back' : 'Prefer the new colors? Switch back'}
+          </button>
         </div>
 
         <SocialLinks />
