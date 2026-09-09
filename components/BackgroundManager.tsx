@@ -5,12 +5,20 @@ import { useState, useEffect, useRef } from 'react'
 type BackgroundOption = { key: string; label: string; url: string }
 
 const BACKGROUNDS: BackgroundOption[] = [
+  { key: 'claret', label: 'Claret', url: '/claret_background.png' },
   { key: 'wise', label: 'Wise', url: '/wise_background.jpeg' },
   { key: 'remielle', label: 'Remielle', url: '/remielle_background.jpeg' },
   { key: 'original', label: 'Original', url: '/dhs8uis-2c9f5bda-287e-42a7-8d63-a51df778ead7.png' },
 ]
-const DEFAULT_KEY = 'wise'
+const DEFAULT_KEY = 'claret'
 const LS_KEY = 'zzzendle-background'
+// Bumped whenever a new background should be force-shown to everyone once,
+// even visitors who already saved a different preference — otherwise a
+// returning visitor's old choice silently wins and they never see that a
+// new background exists unless they open the picker themselves. Set to the
+// new background's key so bumping it and adding the option happen together.
+const FORCE_VERSION = 'claret'
+const FORCE_KEY = 'zzzendle-background-force-version'
 
 function applyBg(key: string) {
   const bg = BACKGROUNDS.find(b => b.key === key) ?? BACKGROUNDS[0]
@@ -24,8 +32,18 @@ export default function BackgroundManager() {
   const rootRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const saved = localStorage.getItem(LS_KEY)
-    const key = BACKGROUNDS.some(b => b.key === saved) ? saved! : DEFAULT_KEY
+    let key: string
+    if (localStorage.getItem(FORCE_KEY) !== FORCE_VERSION) {
+      // First load since this background was introduced — reset everyone
+      // to it once, regardless of any earlier saved choice. A manual pick
+      // after this point is saved as usual and won't be forced again.
+      key = DEFAULT_KEY
+      localStorage.setItem(LS_KEY, key)
+      localStorage.setItem(FORCE_KEY, FORCE_VERSION)
+    } else {
+      const saved = localStorage.getItem(LS_KEY)
+      key = BACKGROUNDS.some(b => b.key === saved) ? saved! : DEFAULT_KEY
+    }
     setActiveKey(key)
     applyBg(key)
   }, [])

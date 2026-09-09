@@ -3,13 +3,20 @@
 import Image from 'next/image'
 import type { GuessComparison, MatchResult } from '@/lib/types'
 
+// A plain drop shadow offset down-right, like a card sitting slightly
+// above the background — not inset, not a colored glow.
 const TILE_BASE =
-  'flex flex-col items-center justify-center rounded-md px-2 py-2 text-center text-xs font-bold min-h-[64px] w-[90px] shrink-0 transition-colors'
+  'flex flex-col items-center justify-center rounded-md px-2 py-2 text-center text-xs font-bold min-h-[64px] w-[90px] shrink-0 transition-colors ' +
+  'shadow-[3px_3px_6px_rgba(0,0,0,0.45)]'
+
+// A soft dark edge behind the tile letters so they stay readable against
+// the flat fill instead of blending into it.
+const TEXT_EDGE = '[text-shadow:1px_1px_2px_rgba(0,0,0,0.55)]'
 
 const tileColor: Record<MatchResult, string> = {
-  exact: 'bg-yellow-500 text-black shadow-[0_0_14px_rgba(250,204,21,0.65)]',
-  partial: 'bg-orange-500 text-black shadow-[0_0_10px_rgba(249,115,22,0.55)]',
-  none: 'bg-zinc-800 text-zinc-400 border border-zinc-700/50',
+  exact: 'bg-green-700 text-white',
+  partial: 'bg-orange-600 text-white',
+  none: 'bg-red-700 text-white',
 }
 
 function Tile({
@@ -30,7 +37,7 @@ function Tile({
         className={`tile-pop ${TILE_BASE} ${tileColor[result]}`}
         style={{ animationDelay: `${delay}ms` }}
       >
-        <span className="leading-tight">{value}</span>
+        <span className={`leading-tight ${TEXT_EDGE}`}>{value}</span>
       </div>
     </div>
   )
@@ -54,7 +61,7 @@ function ReleaseTile({
     <div className="flex flex-col gap-1 items-center" style={{ perspective: '600px' }}>
       <span className="text-[10px] text-zinc-500 uppercase tracking-wider">Version</span>
       <div className={`tile-pop ${TILE_BASE} ${color}`} style={{ animationDelay: `${delay}ms` }}>
-        <span className="leading-tight flex items-center gap-1">
+        <span className={`leading-tight flex items-center gap-1 ${TEXT_EDGE}`}>
           {version}
           {arrow && <span className="text-sm leading-none">{arrow}</span>}
         </span>
@@ -101,7 +108,7 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
     <div
       className={`row-slide-in flex items-center gap-3 p-3 rounded-xl border transition-colors ${
         isCorrect
-          ? 'border-yellow-500/40 bg-yellow-950/10 shadow-[0_0_20px_rgba(250,204,21,0.07)]'
+          ? 'border-green-500/40 bg-green-950/10'
           : 'border-zinc-700/40 bg-zinc-900/40'
       }`}
     >
@@ -112,7 +119,7 @@ export default function GuessRow({ comparison, guessNumber }: Props) {
         <div className="flex flex-col">
           <span
             className={`text-sm font-semibold leading-tight whitespace-nowrap ${
-              isCorrect ? 'text-yellow-300' : 'text-white'
+              isCorrect ? 'text-green-300' : 'text-white'
             }`}
           >
             {agent.name}

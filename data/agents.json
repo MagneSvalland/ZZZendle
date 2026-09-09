@@ -1373,5 +1373,28 @@
       "💠",
       "🐴"
     ]
+  },
+  {
+    "id": "claret",
+    "name": "Claret Flint",
+    "faction": "Flint Workshop",
+    "attribute": "Electric",
+    "specialty": "Armorer",
+    "rank": "S",
+    "gender": "Female",
+    "release_date": "2026-09-09",
+    "release_version": "3.2",
+    "icon_image": "/images/agents/Agent_Claret_Flint_Icon.png",
+    "splash_image": "/images/agents/Agent_Claret_Flint_Portrait.png",
+    "splash_focus": "center 60%",
+    "quote": "Let me educate you on something — the 'Flint' in front of Porcelloy isn't just there for show.",
+    "emojis": [
+      "⚡",
+      "🔨",
+      "🩸",
+      "🌙",
+      "👑"
+    ],
+    "available_from": "2026-09-09"
   }
 ]

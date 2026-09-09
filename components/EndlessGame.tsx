@@ -238,15 +238,15 @@ export default function EndlessGame() {
         {/* Legend */}
         <div className="flex gap-5 text-xs text-zinc-400 justify-center sm:justify-start">
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-yellow-500 inline-block shadow-[0_0_6px_rgba(250,204,21,0.6)]" />
+            <span className="w-3 h-3 rounded-sm bg-green-700 inline-block" />
             Exact match
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-orange-500 inline-block shadow-[0_0_6px_rgba(249,115,22,0.5)]" />
+            <span className="w-3 h-3 rounded-sm bg-orange-600 inline-block" />
             Partial match
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-zinc-800 border border-zinc-700/50 inline-block" />
+            <span className="w-3 h-3 rounded-sm bg-red-700 inline-block" />
             No match
           </span>
         </div>
