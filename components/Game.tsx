@@ -275,7 +275,7 @@ export default function Game() {
             Exact match
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-orange-600 inline-block" />
+            <span className="w-3 h-3 rounded-sm bg-amber-600 inline-block" />
             Partial match
           </span>
           <span className="flex items-center gap-1.5">

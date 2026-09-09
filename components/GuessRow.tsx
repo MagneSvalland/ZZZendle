@@ -15,7 +15,7 @@ const TEXT_EDGE = '[text-shadow:1px_1px_2px_rgba(0,0,0,0.55)]'
 
 const tileColor: Record<MatchResult, string> = {
   exact: 'bg-green-700 text-white',
-  partial: 'bg-orange-600 text-white',
+  partial: 'bg-amber-600 text-white',
   none: 'bg-red-700 text-white',
 }
 
