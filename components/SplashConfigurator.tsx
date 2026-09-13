@@ -30,6 +30,20 @@ export const SPLASH_SCHEDULE_EXT_KEY = 'zzzendle-schedule-ext-splash'
 export const SPLASH_PENDING_REMOVE_KEY = 'zzzendle-schedule-pending-remove'
 export const SPLASH_AGENT_OVERRIDE_KEY = 'zzzendle-schedule-agent-override'
 
+// "save & deploy" can only ever work from a local dev server (it shells out
+// to git — read-only serverless has no repo to commit to). Staging edits in
+// localStorage on any other origin is worse than useless: they can never be
+// saved, yet they silently keep overriding the correct freshly-fetched
+// server data on every future visit to that origin — a stale edit from
+// once poking at /debug directly on zzzendle.com then shadows real data
+// forever, with no visible sign anything is wrong. Gating all of this
+// panel's localStorage reads/writes to local origins only means the
+// deployed site's /debug always shows plain, correct server truth.
+function isLocalOrigin(): boolean {
+  if (typeof window === 'undefined') return false
+  return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+}
+
 // Every upcoming scheduled day, however far out — no artificial cutoff, so a
 // day you just added never silently falls out of view.
 function getUpcomingBaseDays() {
@@ -132,7 +146,8 @@ function DayCard({
   const headerName = isExt && lockedSrc ? portraitName(agent, lockedSrc) : agent.name
 
   // Clicking anywhere on a portrait thumbnail sets the zoom focus to that
-  // point (clamped to the range that still looks good at 400%).
+  // point (clamped to the range that still looks good at the live game's
+  // starting zoom — see SPLASH_ZOOM_LEVELS).
   function handlePortraitClick(e: MouseEvent<HTMLButtonElement>, src: string) {
     const rect = e.currentTarget.getBoundingClientRect()
     const relX = (e.clientX - rect.left) / rect.width
@@ -446,23 +461,26 @@ export default function SplashConfigurator() {
         if (cancelled) return
         schedule = (fresh.schedule ?? {}) as Record<string, string>
         const base: SplashConfig = (fresh.splashConfig ?? {}) as SplashConfig
+        const canUseLocalStorage = isLocalOrigin()
 
-        const cfgStr = localStorage.getItem(SPLASH_CONFIG_KEY)
-        const extStr = localStorage.getItem(SPLASH_SCHEDULE_EXT_KEY)
+        const cfgStr = canUseLocalStorage ? localStorage.getItem(SPLASH_CONFIG_KEY) : null
+        const extStr = canUseLocalStorage ? localStorage.getItem(SPLASH_SCHEDULE_EXT_KEY) : null
         const local: SplashConfig = cfgStr ? JSON.parse(cfgStr) : {}
         const cfg: SplashConfig = { ...base, ...local }
         const rawExt: Record<string, string> = extStr ? JSON.parse(extStr) : {}
         const norm = contiguousExtLocal(rawExt, cfg)
         setConfig(norm.config)
         setExt(norm.ext)
-        localStorage.setItem(SPLASH_CONFIG_KEY, JSON.stringify(norm.config))
-        localStorage.setItem(SPLASH_SCHEDULE_EXT_KEY, JSON.stringify(norm.ext))
+        if (canUseLocalStorage) {
+          localStorage.setItem(SPLASH_CONFIG_KEY, JSON.stringify(norm.config))
+          localStorage.setItem(SPLASH_SCHEDULE_EXT_KEY, JSON.stringify(norm.ext))
+        }
 
-        const removeStr = localStorage.getItem(SPLASH_PENDING_REMOVE_KEY)
+        const removeStr = canUseLocalStorage ? localStorage.getItem(SPLASH_PENDING_REMOVE_KEY) : null
         const removeArr: string[] = removeStr ? JSON.parse(removeStr) : []
         setPendingRemove(new Set(removeArr))
 
-        const overrideStr = localStorage.getItem(SPLASH_AGENT_OVERRIDE_KEY)
+        const overrideStr = canUseLocalStorage ? localStorage.getItem(SPLASH_AGENT_OVERRIDE_KEY) : null
         setAgentOverride(overrideStr ? JSON.parse(overrideStr) : {})
 
         setBaseDays(getUpcomingBaseDays())
@@ -474,22 +492,22 @@ export default function SplashConfigurator() {
 
   function persistConfig(next: SplashConfig) {
     setConfig(next)
-    localStorage.setItem(SPLASH_CONFIG_KEY, JSON.stringify(next))
+    if (isLocalOrigin()) localStorage.setItem(SPLASH_CONFIG_KEY, JSON.stringify(next))
   }
 
   function persistExt(next: Record<string, string>) {
     setExt(next)
-    localStorage.setItem(SPLASH_SCHEDULE_EXT_KEY, JSON.stringify(next))
+    if (isLocalOrigin()) localStorage.setItem(SPLASH_SCHEDULE_EXT_KEY, JSON.stringify(next))
   }
 
   function persistAgentOverride(next: Record<string, string>) {
     setAgentOverride(next)
-    localStorage.setItem(SPLASH_AGENT_OVERRIDE_KEY, JSON.stringify(next))
+    if (isLocalOrigin()) localStorage.setItem(SPLASH_AGENT_OVERRIDE_KEY, JSON.stringify(next))
   }
 
   function persistPendingRemove(next: Set<string>) {
     setPendingRemove(next)
-    localStorage.setItem(SPLASH_PENDING_REMOVE_KEY, JSON.stringify([...next]))
+    if (isLocalOrigin()) localStorage.setItem(SPLASH_PENDING_REMOVE_KEY, JSON.stringify([...next]))
   }
 
   // A stale "✕ failed" / "✓ deployed!" banner from a previous save shouldn't
