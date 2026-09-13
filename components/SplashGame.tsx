@@ -5,6 +5,7 @@ import type { Agent } from '@/lib/types'
 import GenericModeGame, { type RenderChallengeProps } from './GenericModeGame'
 import { SPLASH_CONFIG_KEY, type SplashConfig } from './SplashConfigurator'
 import { getEffectiveDate } from '@/lib/date'
+import { SPLASH_ZOOM_LEVELS } from '@/lib/splashZoom'
 
 // Cache detected focus positions per agent ID for the session
 const focusCache = new Map<string, string>()
@@ -196,10 +197,9 @@ function SplashChallenge({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetAgent.id])
 
-  const zoomLevels = [520, 420, 340, 275, 220, 180, 155, 135]
   const bgSize = isOver
     ? 'contain'
-    : `${zoomLevels[Math.min(wrongGuesses, zoomLevels.length - 1)]}%`
+    : `${SPLASH_ZOOM_LEVELS[Math.min(wrongGuesses, SPLASH_ZOOM_LEVELS.length - 1)]}%`
 
   if (!configLoaded) {
     return <div className="w-72 h-72 rounded-xl bg-zinc-800 border border-zinc-700/50 animate-pulse" />

@@ -5,6 +5,7 @@ import agentsData from '@/data/agents.json'
 import type { Agent } from '@/lib/types'
 import { useDevAuth } from '@/contexts/DevAuthContext'
 import { addDays, contiguousExt, type SplashDayConfig, type SplashConfig } from '@/lib/scheduleLogic'
+import { SPLASH_ZOOM_LEVELS } from '@/lib/splashZoom'
 
 const agents = agentsData as Agent[]
 // Populated at runtime from /api/schedule-data (see the mount effect below)
@@ -294,7 +295,10 @@ function DayCard({
               // in JS's "unreserved" set). Breaks portraits like
               // "Agent_Sigrid_de_L'Azur" otherwise.
               backgroundImage: `url("${previewSrc}")`,
-              backgroundSize: '400%',
+              // Match the live game's starting (most zoomed-in) crop —
+              // a focus point that looks right at a gentler zoom can crop
+              // down to a different body part entirely at the real zoom.
+              backgroundSize: `${SPLASH_ZOOM_LEVELS[0]}%`,
               backgroundPosition: `${focusXPct}% ${focusYPct}%`,
               backgroundRepeat: 'no-repeat',
             }}
