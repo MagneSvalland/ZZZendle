@@ -3,8 +3,8 @@
 // jsdom is needed here because getEffectiveDate branches on `typeof window`
 // and reads localStorage for the debug-date override — under the default
 // node environment `window` is always undefined and that branch is dead.
-import { describe, it, expect, beforeEach } from 'vitest'
-import { getEffectiveDate, advanceDebugDate, clearDebugDate, DEBUG_DATE_KEY } from './date'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { getEffectiveDate, advanceDebugDate, clearDebugDate, DEBUG_DATE_KEY, isLocalOrigin } from './date'
 import { addDays } from './scheduleLogic'
 
 beforeEach(() => {
@@ -57,5 +57,33 @@ describe('clearDebugDate', () => {
     clearDebugDate()
     expect(getEffectiveDate()).not.toBe('2026-01-15')
     expect(isIsoDate(getEffectiveDate())).toBe(true)
+  })
+})
+
+describe('isLocalOrigin', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('is true on jsdom\'s default localhost origin', () => {
+    expect(isLocalOrigin()).toBe(true)
+  })
+
+  it('is true on 127.0.0.1', () => {
+    vi.stubGlobal('location', { hostname: '127.0.0.1' })
+    expect(isLocalOrigin()).toBe(true)
+  })
+
+  // The whole point: save & deploy (and thus localStorage staging) only
+  // ever works locally, so the deployed site must never trust a
+  // localStorage override.
+  it('is false on the deployed production hostname', () => {
+    vi.stubGlobal('location', { hostname: 'www.zzzendle.com' })
+    expect(isLocalOrigin()).toBe(false)
+  })
+
+  it('is false on any other non-local hostname', () => {
+    vi.stubGlobal('location', { hostname: 'example.com' })
+    expect(isLocalOrigin()).toBe(false)
   })
 })

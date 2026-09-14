@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import type { Agent } from '@/lib/types'
 import GenericModeGame, { type RenderChallengeProps } from './GenericModeGame'
 import { SPLASH_CONFIG_KEY, type SplashConfig } from './SplashConfigurator'
-import { getEffectiveDate } from '@/lib/date'
+import { getEffectiveDate, isLocalOrigin } from '@/lib/date'
 import { SPLASH_ZOOM_LEVELS } from '@/lib/splashZoom'
 
 // Cache detected focus positions per agent ID for the session
@@ -140,18 +140,25 @@ function SplashChallenge({
         if (staticDay?.focusX != null) manualFocusX = staticDay.focusX
       } catch { /* ignore — falls through to localStorage / default below */ }
 
-      try {
-        const raw = localStorage.getItem(SPLASH_CONFIG_KEY)
-        if (raw) {
-          const cfg: SplashConfig = JSON.parse(raw)
-          const day = cfg[today]
-          if (day?.portrait && allPortraitOptions.includes(day.portrait)) {
-            src = day.portrait
+      // Only trust a localStorage override on a local dev server — see
+      // isLocalOrigin's comment. On any other origin (including the live
+      // site) this is skipped entirely so the game always uses the plain,
+      // correct server config with no risk of a stale local edit silently
+      // overriding it forever.
+      if (isLocalOrigin()) {
+        try {
+          const raw = localStorage.getItem(SPLASH_CONFIG_KEY)
+          if (raw) {
+            const cfg: SplashConfig = JSON.parse(raw)
+            const day = cfg[today]
+            if (day?.portrait && allPortraitOptions.includes(day.portrait)) {
+              src = day.portrait
+            }
+            if (day?.focus != null) manualFocus = day.focus
+            if (day?.focusX != null) manualFocusX = day.focusX
           }
-          if (day?.focus != null) manualFocus = day.focus
-          if (day?.focusX != null) manualFocusX = day.focusX
-        }
-      } catch { /* ignore */ }
+        } catch { /* ignore */ }
+      }
 
       // 2. No manual config → use the default splash. Skins only ever show when
       //    explicitly configured for that day in the debug page.

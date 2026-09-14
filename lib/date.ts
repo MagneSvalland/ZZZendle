@@ -25,3 +25,17 @@ export function advanceDebugDate(): string {
 export function clearDebugDate() {
   localStorage.removeItem(DEBUG_DATE_KEY)
 }
+
+// "save & deploy" (app/api/save-splash/route.ts) only ever works from a
+// local dev server — it shells out to git, and read-only serverless has no
+// repo to commit to. Staging edits in localStorage on any other origin is
+// worse than useless: they can never be saved, yet they silently keep
+// overriding correct freshly-fetched server data forever, on both the
+// /debug admin panel (SplashConfigurator.tsx) and the live splash game
+// itself (SplashGame.tsx) — a stale local edit from once poking at /debug
+// directly on zzzendle.com then shadows real data with no visible sign
+// anything is wrong. Both gate their localStorage reads/writes on this.
+export function isLocalOrigin(): boolean {
+  if (typeof window === 'undefined') return false
+  return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+}

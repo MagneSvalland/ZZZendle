@@ -6,6 +6,7 @@ import type { Agent } from '@/lib/types'
 import { useDevAuth } from '@/contexts/DevAuthContext'
 import { addDays, contiguousExt, type SplashDayConfig, type SplashConfig } from '@/lib/scheduleLogic'
 import { SPLASH_ZOOM_LEVELS } from '@/lib/splashZoom'
+import { isLocalOrigin } from '@/lib/date'
 
 const agents = agentsData as Agent[]
 // Populated at runtime from /api/schedule-data (see the mount effect below)
@@ -29,20 +30,6 @@ export const SPLASH_CONFIG_KEY = 'zzzendle-splash-config'
 export const SPLASH_SCHEDULE_EXT_KEY = 'zzzendle-schedule-ext-splash'
 export const SPLASH_PENDING_REMOVE_KEY = 'zzzendle-schedule-pending-remove'
 export const SPLASH_AGENT_OVERRIDE_KEY = 'zzzendle-schedule-agent-override'
-
-// "save & deploy" can only ever work from a local dev server (it shells out
-// to git — read-only serverless has no repo to commit to). Staging edits in
-// localStorage on any other origin is worse than useless: they can never be
-// saved, yet they silently keep overriding the correct freshly-fetched
-// server data on every future visit to that origin — a stale edit from
-// once poking at /debug directly on zzzendle.com then shadows real data
-// forever, with no visible sign anything is wrong. Gating all of this
-// panel's localStorage reads/writes to local origins only means the
-// deployed site's /debug always shows plain, correct server truth.
-function isLocalOrigin(): boolean {
-  if (typeof window === 'undefined') return false
-  return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-}
 
 // Every upcoming scheduled day, however far out — no artificial cutoff, so a
 // day you just added never silently falls out of view.
