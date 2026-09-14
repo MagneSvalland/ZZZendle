@@ -122,6 +122,7 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
                       src={(agent.icon_image ?? agent.splash_image)!}
                       alt={agent.name}
                       fill
+                      loading="lazy"
                       className="object-cover object-top"
                       sizes="32px"
                       onError={(e) => {

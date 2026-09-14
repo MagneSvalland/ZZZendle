@@ -80,6 +80,7 @@ function AgentAvatar({ name, src }: { name: string; src: string | null }) {
           src={src}
           alt={name}
           fill
+          loading="lazy"
           className="object-cover object-top"
           sizes="40px"
           onError={(e) => {
