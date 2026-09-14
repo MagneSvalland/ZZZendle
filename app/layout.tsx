@@ -5,7 +5,6 @@ import { DevAuthProvider } from "@/contexts/DevAuthContext";
 import DevPanel from "@/components/DevPanel";
 import { Analytics } from "@vercel/analytics/next";
 import Footer from "@/components/Footer";
-import KofiBanner from "@/components/KofiBanner";
 import BackgroundManager from "@/components/BackgroundManager";
 
 const geistSans = Geist({
@@ -59,7 +58,6 @@ export default function RootLayout({
           </div>
           <Footer />
           <DevPanel />
-          <KofiBanner />
           <BackgroundManager />
         </DevAuthProvider>
         <Analytics />

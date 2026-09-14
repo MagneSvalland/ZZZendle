@@ -17,6 +17,7 @@ import ModeNav from './ModeNav'
 import DailyCountdown from './DailyCountdown'
 import ZZZdleLogo from './ZZZdleLogo'
 import StatsModal from './StatsModal'
+import { KOFI_URL } from './KofiBanner'
 
 const allAgents = agentsRaw as Agent[]
 
@@ -455,6 +456,18 @@ function ResultPanel({
           >
             📊 Stats
           </button>
+          {/* Only on a win — right after solving is the best-goodwill moment
+              to ask, unlike a generic timed popup shown regardless of context. */}
+          {won && (
+            <a
+              href={KOFI_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-1.5 rounded-lg text-sm border border-amber-500/40 text-amber-400 hover:border-amber-400 hover:text-amber-300 transition-colors"
+            >
+              ☕ Support on Ko-fi
+            </a>
+          )}
         </div>
       </div>
     </div>

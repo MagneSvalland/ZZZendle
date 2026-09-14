@@ -95,10 +95,14 @@ export function buildShareText(opts: {
   let grid: string
   if (comparisons && comparisons.length > 0) {
     grid = comparisons.map(c => {
-      const { attribute, faction, specialty, rank, gender } = c.results
-      return [attribute, faction, specialty, rank, gender]
+      const { attribute, faction, specialty, rank, gender, release } = c.results
+      const squares = [attribute, faction, specialty, rank, gender]
         .map(r => r === 'exact' ? '🟩' : r === 'partial' ? '🟨' : '⬛')
-        .join('')
+      // Release only ever compares exact/earlier/later/none (no 'partial'),
+      // and the in-game tile colors earlier/later the same as no-match
+      // (differentiated only by an arrow glyph) — mirrored here the same way.
+      squares.push(release === 'exact' ? '🟩' : '⬛')
+      return squares.join('')
     }).join('\n')
   } else {
     const squares = Array(guessCount).fill('⬛')

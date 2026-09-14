@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { getEffectiveDate } from '@/lib/date'
 
-const KOFI_URL = 'https://ko-fi.com/magnen'
+export const KOFI_URL = 'https://ko-fi.com/magnen'
 
 export default function KofiBanner() {
   const [visible, setVisible] = useState(false)

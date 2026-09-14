@@ -132,16 +132,29 @@ describe('buildShareText', () => {
     expect(lines[lines.length - 1]).toBe('⬛⬛⬛⬛⬛⬛⬛⬛')
   })
 
-  it('renders one emoji row per comparison when comparisons are given', () => {
+  it('renders one 6-square emoji row per comparison, including release', () => {
     const comparisons = [
       { agent: {} as never, isCorrect: false, results: { faction: 'exact', attribute: 'partial', specialty: 'none', rank: 'exact', gender: 'none', release: 'exact' } as never },
       { agent: {} as never, isCorrect: true, results: { faction: 'exact', attribute: 'exact', specialty: 'exact', rank: 'exact', gender: 'exact', release: 'exact' } as never },
     ]
     const text = buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'won', guessCount: 2, comparisons })
     const lines = text.trim().split('\n')
-    // Square order per row is [attribute, faction, specialty, rank, gender].
-    expect(lines[lines.length - 2]).toBe('🟨🟩⬛🟩⬛')
-    expect(lines[lines.length - 1]).toBe('🟩🟩🟩🟩🟩')
+    // Square order per row is [attribute, faction, specialty, rank, gender, release] —
+    // 6 tiles, matching the 6 tiles GuessRow actually shows in-game (the
+    // release/version tile was missing from this grid for a while).
+    expect(lines[lines.length - 2]).toBe('🟨🟩⬛🟩⬛🟩')
+    expect(lines[lines.length - 1]).toBe('🟩🟩🟩🟩🟩🟩')
+  })
+
+  it('renders a black square for release when it is earlier or later, not just when it mismatches', () => {
+    const comparisons = [
+      { agent: {} as never, isCorrect: false, results: { faction: 'exact', attribute: 'exact', specialty: 'exact', rank: 'exact', gender: 'exact', release: 'earlier' } as never },
+      { agent: {} as never, isCorrect: false, results: { faction: 'exact', attribute: 'exact', specialty: 'exact', rank: 'exact', gender: 'exact', release: 'later' } as never },
+    ]
+    const text = buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'lost', guessCount: 2, comparisons })
+    const lines = text.trim().split('\n')
+    expect(lines[lines.length - 2]).toBe('🟩🟩🟩🟩🟩⬛')
+    expect(lines[lines.length - 1]).toBe('🟩🟩🟩🟩🟩⬛')
   })
 
   it('picks the right icon and name per mode', () => {
