@@ -11,6 +11,12 @@ interface Props {
   onGuess: (agentId: string) => void
 }
 
+// A broad query (e.g. a single common letter) can match dozens of agents —
+// each rendered row loads its own icon image. Capping how many actually
+// render keeps a normal search session from firing off a burst of image
+// requests large enough to trip a per-IP rate limit meant for scrapers.
+const MAX_RESULTS = 8
+
 export default function SearchInput({ agents, guessedIds, disabled, onGuess }: Props) {
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
@@ -23,6 +29,8 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
       !guessedIds.includes(agent.id) &&
       agent.name.toLowerCase().includes(query.toLowerCase()),
   )
+  const displayed = filtered.slice(0, MAX_RESULTS)
+  const hiddenCount = filtered.length - displayed.length
 
   useEffect(() => {
     setHighlighted(0)
@@ -46,7 +54,7 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (!open || filtered.length === 0) {
+    if (!open || displayed.length === 0) {
       if (e.key === 'Enter' && filtered.length === 1) {
         select(filtered[0])
       }
@@ -54,13 +62,13 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
     }
     if (e.key === 'ArrowDown') {
       e.preventDefault()
-      setHighlighted((h) => Math.min(h + 1, filtered.length - 1))
+      setHighlighted((h) => Math.min(h + 1, displayed.length - 1))
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
       setHighlighted((h) => Math.max(h - 1, 0))
     } else if (e.key === 'Enter') {
       e.preventDefault()
-      if (filtered[highlighted]) select(filtered[highlighted])
+      if (displayed[highlighted]) select(displayed[highlighted])
     } else if (e.key === 'Escape') {
       setOpen(false)
     }
@@ -90,9 +98,9 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
         "
       />
 
-      {open && query.length > 0 && filtered.length > 0 && !disabled && (
+      {open && query.length > 0 && displayed.length > 0 && !disabled && (
         <ul className="absolute z-50 mt-1.5 w-full rounded-xl border border-zinc-700/50 bg-zinc-900/95 shadow-2xl shadow-black/60 max-h-64 overflow-y-auto backdrop-blur-md">
-          {filtered.map((agent, i) => (
+          {displayed.map((agent, i) => (
             <li key={agent.id}>
               <button
                 type="button"
@@ -151,6 +159,11 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
               </button>
             </li>
           ))}
+          {hiddenCount > 0 && (
+            <li className="px-4 py-2 text-[11px] text-zinc-600 text-center">
+              +{hiddenCount} more — keep typing to narrow it down
+            </li>
+          )}
         </ul>
       )}
     </div>
