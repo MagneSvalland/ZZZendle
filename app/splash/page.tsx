@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function SplashPage() {
   return (
-    <main className="min-h-screen">
+    <main className="flex-1 flex flex-col">
       <SplashGame />
     </main>
   )

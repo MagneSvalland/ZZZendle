@@ -139,7 +139,7 @@ export default function GenericModeGame({
 
   if (targetAgent === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex flex-1 items-center justify-center">
         <div className="text-zinc-500 text-sm animate-pulse">Loading…</div>
       </div>
     )
@@ -147,7 +147,7 @@ export default function GenericModeGame({
 
   if (targetAgent === null) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-4">
+      <div className="flex flex-1 flex-col items-center justify-center gap-4 px-4">
         <ZZZdleLogo />
         <p className="text-zinc-400 text-center">
           No agent scheduled for today ({todayStr}).
@@ -166,7 +166,7 @@ export default function GenericModeGame({
     : undefined
 
   return (
-    <div className="min-h-screen flex items-start justify-center px-4 py-8 sm:py-12">
+    <div className="flex-1 flex items-start justify-center px-4 py-8 sm:py-12">
       <div className="
         w-full max-w-5xl flex flex-col gap-5
         rounded-2xl border border-yellow-500/10

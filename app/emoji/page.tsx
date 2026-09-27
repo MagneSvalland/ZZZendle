@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function EmojiPage() {
   return (
-    <main className="min-h-screen">
+    <main className="flex-1 flex flex-col">
       <EmojiGame />
     </main>
   )

@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function QuotePage() {
   return (
-    <main className="min-h-screen">
+    <main className="flex-1 flex flex-col">
       <QuoteGame />
     </main>
   )

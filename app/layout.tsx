@@ -53,7 +53,7 @@ export default function RootLayout({
         </div>
 
         <DevAuthProvider>
-          <div className="relative z-10 flex flex-col min-h-full">
+          <div className="relative z-10 flex flex-col flex-1">
             {children}
           </div>
           <Footer />
