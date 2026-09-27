@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import type { StatsData } from '@/lib/stats'
+import ShareButtons from './ShareButtons'
 import type { StreakData } from '@/lib/types'
 
 interface Props {
@@ -24,23 +24,8 @@ function StatBox({ value, label }: { value: string | number; label: string }) {
 }
 
 export default function StatsModal({ mode, stats, streakData, shareText, onClose }: Props) {
-  const [copied, setCopied] = useState(false)
-
   const winPct = stats.played > 0 ? Math.round((stats.won / stats.played) * 100) : 0
   const maxCount = Math.max(1, ...Object.values(stats.distribution))
-
-  function handleCopy() {
-    if (!shareText) return
-    navigator.clipboard.writeText(shareText).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    })
-  }
-
-  function handleTwitter() {
-    if (!shareText) return
-    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`, '_blank')
-  }
 
   return (
     <div
@@ -100,20 +85,7 @@ export default function StatsModal({ mode, stats, streakData, shareText, onClose
             <div className="flex flex-col gap-2 pt-1 border-t border-zinc-800">
               <div className="text-[9px] text-zinc-700 font-mono whitespace-pre leading-relaxed">{shareText}</div>
               <div className="flex gap-2">
-                <button
-                  onClick={handleCopy}
-                  className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 ${
-                    copied ? 'bg-green-600 text-white' : 'bg-yellow-500 text-black hover:bg-yellow-400'
-                  }`}
-                >
-                  {copied ? '✓ Copied!' : 'Copy'}
-                </button>
-                <button
-                  onClick={handleTwitter}
-                  className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-black border border-zinc-700 text-white hover:bg-zinc-900 transition-colors"
-                >
-                  𝕏 Share
-                </button>
+                <ShareButtons shareText={shareText} large />
               </div>
             </div>
           )}

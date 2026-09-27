@@ -39,11 +39,14 @@ function pickRandom(exclude: Set<string>): Agent {
   return from[Math.floor(Math.random() * from.length)]
 }
 
+const WIN_REVEAL_MS = 1000
+
 export default function EndlessGame() {
   const [targetAgent, setTargetAgent] = useState<Agent | null | undefined>(undefined)
   const [guesses, setGuesses] = useState<string[]>([])
   const [status, setStatus] = useState<'playing' | 'won' | 'revealed'>('playing')
   const [solvedCount, setSolvedCount] = useState(0)
+  const [revealPending, setRevealPending] = useState(false)
   const [stats, setStats] = useState<EndlessStats>({ solved: 0, bestGuesses: null })
   const [tileScheme, setTileScheme] = useState<TileColorScheme>(DEFAULT_TILE_SCHEME)
   const recentRef = useRef<string[]>([])
@@ -101,6 +104,10 @@ export default function EndlessGame() {
     setGuesses(newGuesses)
 
     if (agentId === targetAgent.id) {
+      // Same win build-up as Classic: let the all-green row pop in before
+      // the Next panel replaces the input.
+      setRevealPending(true)
+      setTimeout(() => setRevealPending(false), WIN_REVEAL_MS)
       setStatus('won')
       setSolvedCount((c) => c + 1)
       const best =
@@ -145,6 +152,7 @@ export default function EndlessGame() {
     compareAgents(allAgents.find((a) => a.id === id)!, targetAgent),
   )
   const isOver = status !== 'playing'
+  const showResult = isOver && !revealPending
 
   return (
     <div className="flex-1 flex items-start justify-center px-4 py-8 sm:py-12">
@@ -188,7 +196,7 @@ export default function EndlessGame() {
         <div className="w-full h-px bg-gradient-to-r from-transparent via-zinc-700/60 to-transparent" />
 
         {/* Prompt */}
-        {!isOver && (
+        {!showResult && (
           <div className="text-center">
             <p className="text-zinc-300 text-sm">
               Guess a{' '}
@@ -199,15 +207,15 @@ export default function EndlessGame() {
         )}
 
         {/* Search input */}
-        {!isOver && (
+        {!showResult && (
           <div className="w-full flex flex-col items-center gap-3">
             <SearchInput
               agents={allAgents}
               guessedIds={guesses}
-              disabled={false}
+              disabled={isOver}
               onGuess={handleGuess}
             />
-            {guesses.length > 0 && (
+            {guesses.length > 0 && !isOver && (
               <button
                 onClick={giveUp}
                 className="text-[11px] text-zinc-600 hover:text-red-400 transition-colors"
@@ -219,7 +227,7 @@ export default function EndlessGame() {
         )}
 
         {/* Result panel */}
-        {isOver && (
+        {showResult && (
           <NextPanel
             targetAgent={targetAgent}
             status={status}

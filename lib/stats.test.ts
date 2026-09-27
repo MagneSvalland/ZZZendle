@@ -11,6 +11,9 @@ import {
   computeNextStreak,
   getPuzzleNumber,
   buildShareText,
+  buildDailySummary,
+  loadDailyResults,
+  gameStorageKey,
 } from './stats'
 import type { StreakData } from './types'
 
@@ -111,12 +114,14 @@ describe('getPuzzleNumber', () => {
 })
 
 describe('buildShareText', () => {
-  it('shows the guess count and a green square on the final row for a win', () => {
+  const lines = (text: string) => text.trim().split('\n')
+
+  it('puts the header first, the grid in the middle and the site URL last', () => {
     const text = buildShareText({ mode: 'classic', puzzleNumber: 42, status: 'won', guessCount: 3 })
-    expect(text).toContain('#ZZZendle 🎯 #42 — 3 guesses')
-    const lines = text.trim().split('\n')
-    const gridLine = lines[lines.length - 1]
-    expect(gridLine).toBe('⬛⬛🟩')
+    const l = lines(text)
+    expect(l[0]).toBe('#ZZZendle 🎯 #42 — 3 guesses')
+    expect(l[1]).toBe('🟥🟥🟩')
+    expect(l[2]).toBe('https://www.zzzendle.com')
   })
 
   it('uses singular "guess" for a one-guess win', () => {
@@ -125,11 +130,10 @@ describe('buildShareText', () => {
     expect(text).not.toContain('1 guesses')
   })
 
-  it('shows X and an all-black row for a loss', () => {
+  it('shows X and an all-miss row for a loss', () => {
     const text = buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'lost', guessCount: 8 })
     expect(text).toContain('— X guesses')
-    const lines = text.trim().split('\n')
-    expect(lines[lines.length - 1]).toBe('⬛⬛⬛⬛⬛⬛⬛⬛')
+    expect(lines(text)[1]).toBe('🟥🟥🟥🟥🟥🟥🟥🟥')
   })
 
   it('renders one 6-square emoji row per comparison, including release', () => {
@@ -138,26 +142,31 @@ describe('buildShareText', () => {
       { agent: {} as never, isCorrect: true, results: { faction: 'exact', attribute: 'exact', specialty: 'exact', rank: 'exact', gender: 'exact', release: 'exact' } as never },
     ]
     const text = buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'won', guessCount: 2, comparisons })
-    const lines = text.trim().split('\n')
     // Square order per row is [attribute, faction, specialty, rank, gender, release] —
-    // 6 tiles, matching the 6 tiles GuessRow actually shows in-game (the
-    // release/version tile was missing from this grid for a while).
-    expect(lines[lines.length - 2]).toBe('🟨🟩⬛🟩⬛🟩')
-    expect(lines[lines.length - 1]).toBe('🟩🟩🟩🟩🟩🟩')
+    // 6 tiles, matching the 6 tiles GuessRow actually shows in-game.
+    expect(lines(text)[1]).toBe('🟧🟩🟥🟩🟥🟩')
+    expect(lines(text)[2]).toBe('🟩🟩🟩🟩🟩🟩')
   })
 
-  it('renders a black square for release when it is earlier or later, not just when it mismatches', () => {
+  it('renders a miss square for release when it is earlier or later, not just when it mismatches', () => {
     const comparisons = [
       { agent: {} as never, isCorrect: false, results: { faction: 'exact', attribute: 'exact', specialty: 'exact', rank: 'exact', gender: 'exact', release: 'earlier' } as never },
       { agent: {} as never, isCorrect: false, results: { faction: 'exact', attribute: 'exact', specialty: 'exact', rank: 'exact', gender: 'exact', release: 'later' } as never },
     ]
     const text = buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'lost', guessCount: 2, comparisons })
-    const lines = text.trim().split('\n')
-    expect(lines[lines.length - 2]).toBe('🟩🟩🟩🟩🟩⬛')
-    expect(lines[lines.length - 1]).toBe('🟩🟩🟩🟩🟩⬛')
+    expect(lines(text)[1]).toBe('🟩🟩🟩🟩🟩🟥')
+    expect(lines(text)[2]).toBe('🟩🟩🟩🟩🟩🟥')
   })
 
-  it('picks the right icon and name per mode', () => {
+  it('uses the classic yellow/orange/gray squares when that tile scheme is picked', () => {
+    const comparisons = [
+      { agent: {} as never, isCorrect: false, results: { faction: 'exact', attribute: 'partial', specialty: 'none', rank: 'exact', gender: 'none', release: 'later' } as never },
+    ]
+    const text = buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'lost', guessCount: 1, comparisons, scheme: 'classic' })
+    expect(lines(text)[1]).toBe('🟧🟨⬛🟨⬛⬛')
+  })
+
+  it('picks the right icon per mode', () => {
     expect(buildShareText({ mode: 'splash', puzzleNumber: 1, status: 'won', guessCount: 1 })).toContain('🖼️')
     expect(buildShareText({ mode: 'emoji', puzzleNumber: 1, status: 'won', guessCount: 1 })).toContain('😊')
     expect(buildShareText({ mode: 'quote', puzzleNumber: 1, status: 'won', guessCount: 1 })).toContain('💬')
@@ -167,16 +176,43 @@ describe('buildShareText', () => {
     expect(buildShareText({ mode: 'mystery', puzzleNumber: 1, status: 'won', guessCount: 1 })).toContain('🎮')
   })
 
-  it('includes a stats line only when stats, streak and bestStreak are all provided', () => {
-    const withoutStats = buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'won', guessCount: 1 })
-    expect(withoutStats).not.toContain('My Classic stats')
+  it('adds a streak to the header only when there is one', () => {
+    expect(buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'won', guessCount: 1 })).not.toContain('🔥')
+    expect(buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'lost', guessCount: 1, streak: 0 })).not.toContain('🔥')
+    const text = buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'won', guessCount: 1, streak: 5 })
+    expect(lines(text)[0]).toBe('#ZZZendle 🎯 #1 — 1 guess · 🔥 5')
+  })
+})
 
-    const stats = { played: 5, won: 4, distribution: { ...defaultStats().distribution, '2': 2, '3': 2 } }
-    const withStats = buildShareText({
-      mode: 'classic', puzzleNumber: 1, status: 'won', guessCount: 1, stats, streak: 3, bestStreak: 5,
-    })
-    expect(withStats).toContain('My Classic stats')
-    expect(withStats).toContain('4 wins')
-    expect(withStats).toContain('3 streak')
+describe('loadDailyResults / buildDailySummary', () => {
+  it('reads finished games from each mode, skipping unplayed and in-progress ones', () => {
+    localStorage.setItem(gameStorageKey('classic', '2026-09-27'), JSON.stringify({ status: 'won', guesses: ['a', 'b', 'c'] }))
+    localStorage.setItem(gameStorageKey('quote', '2026-09-27'), JSON.stringify({ status: 'lost', guesses: ['a'] }))
+    localStorage.setItem(gameStorageKey('emoji', '2026-09-27'), JSON.stringify({ status: 'playing', guesses: ['a'] }))
+    localStorage.setItem(gameStorageKey('splash', '2026-09-26'), JSON.stringify({ status: 'won', guesses: ['a'] }))
+
+    expect(loadDailyResults('2026-09-27')).toEqual([
+      { mode: 'classic', status: 'won', guessCount: 3 },
+      { mode: 'quote', status: 'lost', guessCount: 1 },
+    ])
+  })
+
+  it('uses the legacy key for classic and per-mode keys for the rest', () => {
+    expect(gameStorageKey('classic', '2026-09-27')).toBe('zzzendle-game-2026-09-27')
+    expect(gameStorageKey('splash', '2026-09-27')).toBe('zzzendle-splash-game-2026-09-27')
+  })
+
+  it('lists every daily mode, with a dash for unplayed ones', () => {
+    const text = buildDailySummary(92, [
+      { mode: 'classic', status: 'won', guessCount: 3 },
+      { mode: 'quote', status: 'won', guessCount: 1 },
+      { mode: 'emoji', status: 'lost', guessCount: 5 },
+    ])
+    expect(text.split('\n')).toEqual([
+      '#ZZZendle #92 — 2/4 solved',
+      '🎯 Classic 3 · 💬 Quote 1',
+      '😊 Emoji X · 🖼️ Splash —',
+      'https://www.zzzendle.com',
+    ])
   })
 })

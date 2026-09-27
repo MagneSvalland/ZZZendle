@@ -11,6 +11,8 @@ import SocialLinks from './SocialLinks'
 import { SPLASH_SCHEDULE_EXT_KEY } from './SplashConfigurator'
 import ZZZdleLogo from './ZZZdleLogo'
 import StatsModal from './StatsModal'
+import ShareButtons from './ShareButtons'
+import { loadTileScheme } from '@/lib/tileColorScheme'
 import DailyCountdown from './DailyCountdown'
 import agentsRaw from '@/data/agents.json'
 import SearchInput from './SearchInput'
@@ -162,7 +164,7 @@ export default function GenericModeGame({
   const revealedHints = hints.slice(0, wrongGuesses)
   const puzzleNumber = todayStr ? getPuzzleNumber(todayStr) : 1
   const shareText = isOver
-    ? buildShareText({ mode, puzzleNumber, status: status as 'won' | 'lost', guessCount: guesses.length, stats, streak: streakData.streak, bestStreak: streakData.bestStreak })
+    ? buildShareText({ mode, puzzleNumber, status: status as 'won' | 'lost', guessCount: guesses.length, streak: streakData.streak, scheme: loadTileScheme() })
     : undefined
 
   return (
@@ -264,7 +266,7 @@ export default function GenericModeGame({
               return (
                 <div
                   key={id}
-                  className={`flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-colors ${
+                  className={`row-slide-in flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-colors ${
                     isCorrect
                       ? 'border-yellow-500/30 bg-yellow-950/10 shadow-[0_0_12px_rgba(250,204,21,0.06)]'
                       : 'border-zinc-700/30 bg-zinc-900/40'
@@ -276,7 +278,7 @@ export default function GenericModeGame({
                   <span className={`text-sm font-medium ${isCorrect ? 'text-yellow-300' : 'text-zinc-300'}`}>
                     {agent.name}
                   </span>
-                  <span className="ml-auto text-base">{isCorrect ? '✅' : '❌'}</span>
+                  <span className="tile-pop ml-auto text-base" style={{ animationDelay: '150ms' }}>{isCorrect ? '✅' : '❌'}</span>
                 </div>
               )
             })}
@@ -341,16 +343,7 @@ function ModeResultPanel({
   shareText?: string
   onOpenStats: () => void
 }) {
-  const [copied, setCopied] = useState(false)
   const won = status === 'won'
-
-  function handleShare() {
-    if (!shareText) return
-    navigator.clipboard.writeText(shareText).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    })
-  }
 
   return (
     <div
@@ -404,20 +397,7 @@ function ModeResultPanel({
         )}
         <p className="text-zinc-400 text-xs mt-0.5">Come back tomorrow!</p>
         <div className="flex gap-2 mt-2 flex-wrap">
-          <button
-            onClick={handleShare}
-            className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all duration-150 ${
-              copied ? 'bg-green-600 text-white' : 'bg-yellow-500 text-black hover:bg-yellow-400'
-            }`}
-          >
-            {copied ? '✓ Copied!' : 'Copy'}
-          </button>
-          <button
-            onClick={() => shareText && window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`, '_blank')}
-            className="px-4 py-1.5 rounded-lg text-sm font-semibold bg-black border border-zinc-700 text-white hover:bg-zinc-900 transition-colors"
-          >
-            𝕏 Share
-          </button>
+          {shareText && <ShareButtons shareText={shareText} />}
           <button
             onClick={onOpenStats}
             className="px-4 py-1.5 rounded-lg text-sm border border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200 transition-colors"

@@ -17,6 +17,7 @@ import ModeNav from './ModeNav'
 import DailyCountdown from './DailyCountdown'
 import ZZZdleLogo from './ZZZdleLogo'
 import StatsModal from './StatsModal'
+import ShareButtons from './ShareButtons'
 import { KOFI_URL } from './KofiBanner'
 
 const allAgents = agentsRaw as Agent[]
@@ -48,6 +49,8 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
+const WIN_REVEAL_MS = 1000
+
 export default function Game() {
   const { isDevAuth } = useDevAuth()
   const [todayStr, setTodayStr] = useState<string | null>(null)
@@ -58,6 +61,7 @@ export default function Game() {
   const [streakData, setStreakData] = useState<StreakData>(getDefaultStreak())
   const [stats, setStats] = useState<StatsData>(defaultStats())
   const [statsOpen, setStatsOpen] = useState(false)
+  const [revealPending, setRevealPending] = useState(false)
   const [isDebug, setIsDebug] = useState(false)
   const [tileScheme, setTileScheme] = useState<TileColorScheme>(DEFAULT_TILE_SCHEME)
   const gameKeyRef = useRef<string>('')
@@ -113,6 +117,11 @@ export default function Game() {
     setGuesses(newGuesses)
 
     if (agentId === targetAgent.id) {
+      // Let the all-green row finish popping in (last tile starts at 350ms,
+      // animates 320ms) before swapping the input for the result panel, so
+      // the win gets the same tile-by-tile build-up as every other guess.
+      setRevealPending(true)
+      setTimeout(() => setRevealPending(false), WIN_REVEAL_MS)
       setStatus('won')
       updateStreak(true, streakData, todayStr)
       if (!isDebug && !statsRecordedRef.current) {
@@ -170,9 +179,10 @@ export default function Game() {
   })
 
   const isOver = status !== 'playing'
+  const showResult = isOver && !revealPending
   const puzzleNumber = todayStr ? getPuzzleNumber(todayStr) : 1
   const shareText = isOver
-    ? buildShareText({ mode: 'classic', puzzleNumber, status: status as 'won' | 'lost', guessCount: guesses.length, comparisons, stats, streak: streakData.streak, bestStreak: streakData.bestStreak })
+    ? buildShareText({ mode: 'classic', puzzleNumber, status: status as 'won' | 'lost', guessCount: guesses.length, comparisons, streak: streakData.streak, scheme: tileScheme })
     : undefined
 
   return (
@@ -225,7 +235,7 @@ export default function Game() {
         <div className="w-full h-px bg-gradient-to-r from-transparent via-zinc-700/60 to-transparent" />
 
         {/* Prompt */}
-        {!isOver && (
+        {!showResult && (
           <div className="text-center">
             <p className="text-zinc-300 text-sm">
               Guess today&apos;s{' '}
@@ -235,7 +245,7 @@ export default function Game() {
         )}
 
         {/* Search input */}
-        {!isOver && (
+        {!showResult && (
           <SearchInput
             agents={allAgents}
             guessedIds={guesses}
@@ -245,7 +255,7 @@ export default function Game() {
         )}
 
         {/* Win / Loss panel */}
-        {isOver && (
+        {showResult && (
           <ResultPanel
             targetAgent={targetAgent}
             status={status}
@@ -257,7 +267,7 @@ export default function Game() {
         )}
 
         {/* Related agents */}
-        {isOver && relatedAgents && (
+        {showResult && relatedAgents && (
           <RelatedAgentsPanel targetAgent={targetAgent} related={relatedAgents} />
         )}
 
@@ -354,16 +364,7 @@ function ResultPanel({
   shareText?: string
   onOpenStats: () => void
 }) {
-  const [copied, setCopied] = useState(false)
   const won = status === 'won'
-
-  function handleShare() {
-    if (!shareText) return
-    navigator.clipboard.writeText(shareText).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    })
-  }
 
   return (
     <div
@@ -436,20 +437,7 @@ function ResultPanel({
 
         <p className="text-zinc-400 text-xs mt-1">Come back tomorrow for the next agent!</p>
         <div className="flex gap-2 mt-2 flex-wrap">
-          <button
-            onClick={handleShare}
-            className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all duration-150 ${
-              copied ? 'bg-green-600 text-white' : 'bg-yellow-500 text-black hover:bg-yellow-400'
-            }`}
-          >
-            {copied ? '✓ Copied!' : 'Copy'}
-          </button>
-          <button
-            onClick={() => shareText && window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`, '_blank')}
-            className="px-4 py-1.5 rounded-lg text-sm font-semibold bg-black border border-zinc-700 text-white hover:bg-zinc-900 transition-colors"
-          >
-            𝕏 Share
-          </button>
+          {shareText && <ShareButtons shareText={shareText} />}
           <button
             onClick={onOpenStats}
             className="px-4 py-1.5 rounded-lg text-sm border border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200 transition-colors"

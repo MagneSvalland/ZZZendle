@@ -1,4 +1,5 @@
 import type { GuessComparison, StreakData } from './types'
+import { DEFAULT_TILE_SCHEME, type TileColorScheme } from './tileColorScheme'
 
 const START_DATE = '2026-06-20'
 
@@ -77,49 +78,93 @@ const MODE_NAMES: Record<string, string> = {
   quote: 'Quote',
 }
 
+const SITE_URL = 'https://www.zzzendle.com'
+
+// Share squares mirror the in-game tile colors of the player's chosen scheme
+// (lib/tileColorScheme.ts) so the pasted grid looks like what they saw.
+const SHARE_SQUARES: Record<TileColorScheme, { exact: string; partial: string; none: string }> = {
+  vivid: { exact: '🟩', partial: '🟧', none: '🟥' },
+  classic: { exact: '🟨', partial: '🟧', none: '⬛' },
+}
+
 export function buildShareText(opts: {
   mode: string
   puzzleNumber: number
   status: 'won' | 'lost'
   guessCount: number
   comparisons?: GuessComparison[]
-  stats?: StatsData
   streak?: number
-  bestStreak?: number
+  scheme?: TileColorScheme
 }): string {
-  const { mode, puzzleNumber, status, guessCount, comparisons, stats, streak, bestStreak } = opts
+  const { mode, puzzleNumber, status, guessCount, comparisons, streak, scheme = DEFAULT_TILE_SCHEME } = opts
+  const sq = SHARE_SQUARES[scheme]
   const icon = MODE_ICONS[mode] ?? '🎮'
   const score = status === 'won' ? `${guessCount}` : 'X'
-  const modeName = MODE_NAMES[mode] ?? mode
 
   let grid: string
   if (comparisons && comparisons.length > 0) {
     grid = comparisons.map(c => {
       const { attribute, faction, specialty, rank, gender, release } = c.results
       const squares = [attribute, faction, specialty, rank, gender]
-        .map(r => r === 'exact' ? '🟩' : r === 'partial' ? '🟨' : '⬛')
+        .map(r => r === 'exact' ? sq.exact : r === 'partial' ? sq.partial : sq.none)
       // Release only ever compares exact/earlier/later/none (no 'partial'),
       // and the in-game tile colors earlier/later the same as no-match
       // (differentiated only by an arrow glyph) — mirrored here the same way.
-      squares.push(release === 'exact' ? '🟩' : '⬛')
+      squares.push(release === 'exact' ? sq.exact : sq.none)
       return squares.join('')
     }).join('\n')
   } else {
-    const squares = Array(guessCount).fill('⬛')
-    if (status === 'won') squares[squares.length - 1] = '🟩'
+    const squares = Array(guessCount).fill(sq.none)
+    if (status === 'won') squares[squares.length - 1] = sq.exact
     grid = squares.join('')
   }
 
-  let statsLine = ''
-  if (stats && streak !== undefined && bestStreak !== undefined) {
-    const avg = stats.won > 0
-      ? (Object.entries(stats.distribution)
-          .filter(([k]) => k !== 'X')
-          .reduce((sum, [k, v]) => sum + Number(k) * v, 0) / stats.won).toFixed(1)
-      : '—'
-    const oneShots = stats.distribution['1'] ?? 0
-    statsLine = `\nMy ${modeName} stats: 🎮 ${stats.won} wins · 🤓 ${avg} avg · 🥇 ${oneShots} one shots · 🔥 ${streak} streak`
-  }
+  const streakPart = streak && streak > 0 ? ` · 🔥 ${streak}` : ''
+  const header = `#ZZZendle ${icon} #${puzzleNumber} — ${score} guess${score === '1' ? '' : 'es'}${streakPart}`
+  return `${header}\n${grid}\n${SITE_URL}`
+}
 
-  return `#ZZZendle ${icon} #${puzzleNumber} — ${score} guess${score === '1' ? '' : 'es'}${statsLine}\nhttps://www.zzzendle.com\n${grid}`
+export const DAILY_MODES = ['classic', 'quote', 'emoji', 'splash'] as const
+
+export interface DailyResult {
+  mode: string
+  status: 'won' | 'lost'
+  guessCount: number
+}
+
+// Classic predates the per-mode key naming, hence the special case.
+export function gameStorageKey(mode: string, date: string): string {
+  return mode === 'classic' ? `zzzendle-game-${date}` : `zzzendle-${mode}-game-${date}`
+}
+
+/** Finished daily games for `date`, read from the per-mode saved game state. */
+export function loadDailyResults(date: string): DailyResult[] {
+  const results: DailyResult[] = []
+  for (const mode of DAILY_MODES) {
+    try {
+      const raw = localStorage.getItem(gameStorageKey(mode, date))
+      if (!raw) continue
+      const { status, guesses } = JSON.parse(raw)
+      if ((status === 'won' || status === 'lost') && Array.isArray(guesses)) {
+        results.push({ mode, status, guessCount: guesses.length })
+      }
+    } catch { /* ignore */ }
+  }
+  return results
+}
+
+export function buildDailySummary(puzzleNumber: number, results: DailyResult[]): string {
+  const byMode = new Map(results.map(r => [r.mode, r]))
+  const solved = results.filter(r => r.status === 'won').length
+  const parts = DAILY_MODES.map(mode => {
+    const r = byMode.get(mode)
+    const score = !r ? '—' : r.status === 'won' ? String(r.guessCount) : 'X'
+    return `${MODE_ICONS[mode]} ${MODE_NAMES[mode]} ${score}`
+  })
+  return [
+    `#ZZZendle #${puzzleNumber} — ${solved}/${DAILY_MODES.length} solved`,
+    `${parts[0]} · ${parts[1]}`,
+    `${parts[2]} · ${parts[3]}`,
+    SITE_URL,
+  ].join('\n')
 }
