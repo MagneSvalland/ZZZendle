@@ -2,7 +2,9 @@
 
 A daily guessing game for **Zenless Zone Zero** agents, in the spirit of Wordle and Loldle.
 
-Play it at **[zzzendle.com](https://www.zzzendle.com)**.
+Play it at **[zzzendle.com](https://www.zzzendle.com)**. 150+ daily users.
+
+![ZZZendle Classic mode](docs/Classic-mode.png)
 
 ## Game modes
 
@@ -15,6 +17,21 @@ Play it at **[zzzendle.com](https://www.zzzendle.com)**.
 | ♾️ Endless | `/endless` | Unlimited rounds, not tied to the daily agent. |
 
 A new daily agent unlocks every day. Stats and streaks are kept in the browser's `localStorage`.
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/Quote-mode.png" alt="Quote mode"><br><b>Quote</b></td>
+    <td align="center"><img src="docs/Emoji-mode.png" alt="Emoji mode"><br><b>Emoji</b></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/Splash-mode.png" alt="Splash mode"><br><b>Splash</b></td>
+    <td align="center"><img src="docs/Endless-mode.png" alt="Endless mode"><br><b>Endless</b></td>
+  </tr>
+</table>
+
+The background changes between ZZZ artworks:
+
+![Different background example](docs/Different-backgrounds-example.png)
 
 ## Tech stack
 
