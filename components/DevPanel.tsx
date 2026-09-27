@@ -67,8 +67,8 @@ export default function DevPanel() {
     window.location.reload()
   }
 
-  function handleLogin() {
-    if (login(pw)) { setPw(''); setPwError(false); setOpen(true) }
+  async function handleLogin() {
+    if (await login(pw)) { setPw(''); setPwError(false); setOpen(true) }
     else { setPwError(true); setPw('') }
   }
 

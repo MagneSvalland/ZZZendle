@@ -19,8 +19,8 @@ export default function DevLoginButton() {
     }
   }, [open, isDevAuth])
 
-  function handleLogin() {
-    if (login(pw)) {
+  async function handleLogin() {
+    if (await login(pw)) {
       setOpen(false)
       setPw('')
       setError(false)

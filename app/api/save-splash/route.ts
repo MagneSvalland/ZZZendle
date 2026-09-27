@@ -5,10 +5,14 @@ import path from 'path'
 import { promisify } from 'util'
 import { compactFutureSchedule, remapDates } from '@/lib/scheduleLogic'
 import { getEffectiveDate } from '@/lib/date'
+import { isDevRequest } from '@/lib/devAuth'
 
 const execAsync = promisify(exec)
 
 export async function POST(req: NextRequest) {
+  if (!isDevRequest(req)) {
+    return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
+  }
   const { splashConfig, extSchedule, removeDates, agentOverride } = await req.json()
   const toRemove: string[] = Array.isArray(removeDates) ? removeDates : []
   const overrides: Record<string, string> = agentOverride ?? {}
