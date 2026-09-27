@@ -95,7 +95,7 @@ export default function BackgroundManager() {
         type="button"
         onClick={() => setOpen(o => !o)}
         title="Change background"
-        className="rounded-lg border border-zinc-800 bg-zinc-900/80 px-2.5 py-1.5 text-[10px] text-zinc-600 backdrop-blur-sm transition-colors hover:text-zinc-300"
+        className="rounded-lg border border-zinc-800 bg-zinc-900/80 px-2.5 py-1.5 text-[10px] text-yellow-500/80 backdrop-blur-sm transition-colors hover:text-yellow-300"
       >
         🖼 background
       </button>
