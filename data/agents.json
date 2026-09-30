@@ -1396,5 +1396,28 @@
       "👑"
     ],
     "available_from": "2026-09-09"
+  },
+  {
+    "id": "roxy",
+    "name": "Roxy Ifrita Pryce",
+    "faction": "Flint Workshop",
+    "attribute": "Wind",
+    "specialty": "Stun",
+    "rank": "S",
+    "gender": "Female",
+    "release_date": "2026-09-30",
+    "release_version": "3.2",
+    "icon_image": "/images/agents/Agent_Roxy_Ifrita_Pryce_Icon.png",
+    "splash_image": "/images/agents/Agent_Roxy_Ifrita_Pryce_Portrait.png",
+    "splash_focus": "center 20%",
+    "quote": "Milady, you said everything was going according to plan... I assume 'getting lost' is also a part of that plan, too.",
+    "emojis": [
+      "⚰️",
+      "🌪️",
+      "🥱",
+      "🫀",
+      "🤓"
+    ],
+    "available_from": "2026-09-30"
   }
 ]

@@ -5,19 +5,20 @@ import { useState, useEffect, useRef } from 'react'
 type BackgroundOption = { key: string; label: string; url: string }
 
 const BACKGROUNDS: BackgroundOption[] = [
+  { key: 'roxy', label: 'Roxy', url: '/roxy_background.jpeg' },
   { key: 'claret', label: 'Claret', url: '/claret_background.png' },
   { key: 'wise', label: 'Wise', url: '/wise_background.jpeg' },
   { key: 'remielle', label: 'Remielle', url: '/remielle_background.jpeg' },
   { key: 'original', label: 'Original', url: '/dhs8uis-2c9f5bda-287e-42a7-8d63-a51df778ead7.png' },
 ]
-const DEFAULT_KEY = 'claret'
+const DEFAULT_KEY = 'roxy'
 const LS_KEY = 'zzzendle-background'
 // Bumped whenever a new background should be force-shown to everyone once,
 // even visitors who already saved a different preference — otherwise a
 // returning visitor's old choice silently wins and they never see that a
 // new background exists unless they open the picker themselves. Set to the
 // new background's key so bumping it and adding the option happen together.
-const FORCE_VERSION = 'claret'
+const FORCE_VERSION = 'roxy'
 const FORCE_KEY = 'zzzendle-background-force-version'
 
 function applyBg(key: string) {
