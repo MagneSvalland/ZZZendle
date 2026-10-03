@@ -7,6 +7,8 @@ import { Analytics } from "@vercel/analytics/next";
 import Footer from "@/components/Footer";
 import BackgroundManager from "@/components/BackgroundManager";
 import { DEFAULT_BG_URL } from "@/lib/backgrounds";
+import { preload } from "react-dom";
+import sprite from "@/data/agent-icon-sprite.json";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +34,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Start fetching the agent icon sprite with the page, so icons in search
+  // results and guess rows are already there on the first keystroke.
+  preload(sprite.url, { as: "image" });
+
   return (
     <html
       lang="en"
