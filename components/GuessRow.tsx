@@ -104,9 +104,10 @@ export default function GuessRow({ comparison, guessNumber, scheme = DEFAULT_TIL
 
   return (
     <div
-      className={`row-slide-in flex items-center gap-3 p-3 rounded-xl border transition-colors ${
+      className={`row-slide-in flex items-center gap-3 p-3 rounded-xl border transition-colors overflow-x-auto sm:overflow-x-visible ${
         isCorrect ? preset.correctRow : 'border-zinc-700/40 bg-zinc-900/40'
       }`}
+      style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'thin', scrollbarColor: '#52525b transparent' }}
     >
       {/* Agent info — fixed width so tiles always start at the same position */}
       <div className="flex items-center gap-2 shrink-0">
@@ -124,10 +125,10 @@ export default function GuessRow({ comparison, guessNumber, scheme = DEFAULT_TIL
         </div>
       </div>
 
-      {/* Horizontally scrollable tiles */}
+      {/* Tiles — on mobile the whole row scrolls (name included); on sm+ only the tiles scroll */}
       <div
-        className="flex-1 min-w-0 overflow-x-auto"
-        style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'thin', scrollbarColor: '#52525b transparent' }}
+        className="shrink-0 sm:shrink sm:flex-1 sm:min-w-0 sm:overflow-x-auto"
+        style={{ scrollbarWidth: 'thin', scrollbarColor: '#52525b transparent' }}
       >
         <div className="flex sm:justify-end gap-2 pb-1">
           <Tile label="Faction"   value={agent.faction}           result={results.faction}    scheme={scheme} delay={0} />
