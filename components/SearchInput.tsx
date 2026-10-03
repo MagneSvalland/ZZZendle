@@ -11,11 +11,17 @@ interface Props {
   onGuess: (agentId: string) => void
 }
 
-// A broad query (e.g. a single common letter) can match dozens of agents —
-// each rendered row loads its own icon image. Capping how many actually
-// render keeps a normal search session from firing off a burst of image
-// requests large enough to trip a per-IP rate limit meant for scrapers.
-const MAX_RESULTS = 8
+// Matches agents whose name, or any word in it, starts with the query —
+// "a" lists the A-names rather than every name containing an "a", while
+// "anby" still finds "Soldier 0 - Anby". Names that start with the query
+// sort first. Prefix matching keeps even a single letter to about ten
+// results, so every match is shown (and only that many icons load) without
+// needing a result cap.
+function matchRank(name: string, query: string): number {
+  const n = name.toLowerCase()
+  if (n.startsWith(query)) return 0
+  return n.split(/[\s-]+/).some(word => word.startsWith(query)) ? 1 : -1
+}
 
 export default function SearchInput({ agents, guessedIds, disabled, onGuess }: Props) {
   const [query, setQuery] = useState('')
@@ -24,13 +30,13 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const filtered = agents.filter(
-    (agent) =>
-      !guessedIds.includes(agent.id) &&
-      agent.name.toLowerCase().includes(query.toLowerCase()),
-  )
-  const displayed = filtered.slice(0, MAX_RESULTS)
-  const hiddenCount = filtered.length - displayed.length
+  const q = query.trim().toLowerCase()
+  const displayed = !q ? [] : agents
+    .filter((agent) => !guessedIds.includes(agent.id))
+    .map((agent) => ({ agent, rank: matchRank(agent.name, q) }))
+    .filter((m) => m.rank >= 0)
+    .sort((a, b) => a.rank - b.rank)
+    .map((m) => m.agent)
 
   useEffect(() => {
     setHighlighted(0)
@@ -55,8 +61,8 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
 
   function handleKeyDown(e: React.KeyboardEvent) {
     if (!open || displayed.length === 0) {
-      if (e.key === 'Enter' && filtered.length === 1) {
-        select(filtered[0])
+      if (e.key === 'Enter' && displayed.length === 1) {
+        select(displayed[0])
       }
       return
     }
@@ -159,11 +165,6 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
               </button>
             </li>
           ))}
-          {hiddenCount > 0 && (
-            <li className="px-4 py-2 text-[11px] text-zinc-600 text-center">
-              +{hiddenCount} more — keep typing to narrow it down
-            </li>
-          )}
         </ul>
       )}
     </div>
