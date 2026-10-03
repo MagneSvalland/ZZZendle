@@ -13,6 +13,7 @@ import SocialLinks from './SocialLinks'
 import agentsRaw from '@/data/agents.json'
 import SearchInput from './SearchInput'
 import GuessRow from './GuessRow'
+import AgentIcon from './AgentIcon'
 import ModeNav from './ModeNav'
 import DailyCountdown from './DailyCountdown'
 import ZZZdleLogo from './ZZZdleLogo'
@@ -491,16 +492,7 @@ function RelatedAgentsPanel({
                     <span className="absolute inset-0 flex items-center justify-center text-[8px] font-bold text-zinc-500">
                       {agent.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
                     </span>
-                    {(agent.icon_image ?? agent.splash_image) && (
-                      <Image
-                        src={(agent.icon_image ?? agent.splash_image)!}
-                        alt={agent.name}
-                        fill
-                        className="object-cover object-top"
-                        sizes="28px"
-                        onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
-                      />
-                    )}
+                    <AgentIcon agent={agent} sizes="28px" />
                   </div>
                   <span className="text-xs text-zinc-300 truncate">{agent.name}</span>
                   <span className="ml-auto text-[10px] text-zinc-600 shrink-0">{agent.rank}</span>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import Image from 'next/image'
+import AgentIcon from './AgentIcon'
 import type { Agent } from '@/lib/types'
 
 interface Props {
@@ -131,19 +131,7 @@ export default function SearchInput({ agents, guessedIds, disabled, onGuess }: P
                       .join('')
                       .slice(0, 2)}
                   </span>
-                  {(agent.icon_image ?? agent.splash_image) && (
-                    <Image
-                      src={(agent.icon_image ?? agent.splash_image)!}
-                      alt={agent.name}
-                      fill
-                      loading="lazy"
-                      className="object-cover object-top"
-                      sizes="32px"
-                      onError={(e) => {
-                        ;(e.currentTarget as HTMLImageElement).style.display = 'none'
-                      }}
-                    />
-                  )}
+                  <AgentIcon agent={agent} sizes="32px" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium truncate">{agent.name}</div>

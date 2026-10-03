@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image'
-import type { GuessComparison, MatchResult } from '@/lib/types'
+import AgentIcon from './AgentIcon'
+import type { Agent, GuessComparison, MatchResult } from '@/lib/types'
 import { TILE_SCHEMES, DEFAULT_TILE_SCHEME, type TileColorScheme } from '@/lib/tileColorScheme'
 
 const TILE_BASE =
@@ -65,29 +65,17 @@ function ReleaseTile({
   )
 }
 
-function AgentAvatar({ name, src }: { name: string; src: string | null }) {
+function AgentAvatar({ agent }: { agent: Agent }) {
   return (
     <div className="relative w-10 h-10 rounded-full overflow-hidden bg-zinc-800 flex items-center justify-center shrink-0 border border-zinc-700/50">
       <span className="text-xs font-bold text-zinc-500 z-0">
-        {name
+        {agent.name
           .split(' ')
           .map((w) => w[0])
           .join('')
           .slice(0, 2)}
       </span>
-      {src && (
-        <Image
-          src={src}
-          alt={name}
-          fill
-          loading="lazy"
-          className="object-cover object-top"
-          sizes="40px"
-          onError={(e) => {
-            ;(e.currentTarget as HTMLImageElement).style.display = 'none'
-          }}
-        />
-      )}
+      <AgentIcon agent={agent} sizes="40px" />
     </div>
   )
 }
@@ -112,7 +100,7 @@ export default function GuessRow({ comparison, guessNumber, scheme = DEFAULT_TIL
       {/* Agent info — fixed width so tiles always start at the same position */}
       <div className="flex items-center gap-2 shrink-0">
         <span className="text-zinc-400 text-sm w-4 shrink-0">{guessNumber}.</span>
-        <AgentAvatar name={agent.name} src={agent.icon_image ?? agent.splash_image} />
+        <AgentAvatar agent={agent} />
         <div className="flex flex-col">
           <span
             className={`text-sm font-semibold leading-tight whitespace-nowrap ${
