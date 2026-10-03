@@ -2,9 +2,10 @@
 // and guess rows can show icons instantly from a single cached image instead
 // of one request per agent.
 //
-// Run after adding or changing agent icons:  npm run sprite
+// Runs automatically before `npm run dev` and `npm run build` (so on every
+// Vercel deploy). Can also be run by hand: npm run sprite
 // Agents missing from the sprite still work — they fall back to loading
-// their own icon file — but run this so they get the instant path too.
+// their own icon file.
 
 import sharp from 'sharp'
 import { createHash } from 'crypto'
