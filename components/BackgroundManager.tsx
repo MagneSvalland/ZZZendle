@@ -1,17 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { BACKGROUNDS, DEFAULT_KEY } from '@/lib/backgrounds'
 
-type BackgroundOption = { key: string; label: string; url: string }
-
-const BACKGROUNDS: BackgroundOption[] = [
-  { key: 'roxy', label: 'Roxy', url: '/roxy_background_2.jpeg' },
-  { key: 'claret', label: 'Claret', url: '/claret_background.png' },
-  { key: 'wise', label: 'Wise', url: '/wise_background.jpeg' },
-  { key: 'remielle', label: 'Remielle', url: '/remielle_background.jpeg' },
-  { key: 'original', label: 'Original', url: '/dhs8uis-2c9f5bda-287e-42a7-8d63-a51df778ead7.png' },
-]
-const DEFAULT_KEY = 'roxy'
 const LS_KEY = 'zzzendle-background'
 // Bumped whenever a new background should be force-shown to everyone once,
 // even visitors who already saved a different preference — otherwise a

@@ -6,6 +6,13 @@ import { DEBUG_DATE_KEY } from '@/lib/date'
 // The password check happens server-side in /api/dev-auth (see lib/devAuth.ts)
 // so the password never ships in the client bundle. This context only mirrors
 // whether the httpOnly session cookie is valid.
+//
+// The httpOnly cookie can't be read from JS, so a plain localStorage hint
+// records "this browser has logged in before". Only browsers with the hint
+// ask the server, which keeps regular players from triggering an
+// /api/dev-auth call (edge request + function invocation) on every page
+// load. The hint grants nothing — the server still verifies the cookie.
+const DEV_HINT_KEY = 'zzzendle-dev-hint'
 
 interface DevAuthCtx {
   isDevAuth: boolean
@@ -25,9 +32,14 @@ export function DevAuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Legacy client-side flag from the old hardcoded-password version
     localStorage.removeItem('zzzendle-dev-auth')
+    if (localStorage.getItem(DEV_HINT_KEY) !== '1') return
     fetch('/api/dev-auth', { cache: 'no-store' })
       .then(r => r.json())
-      .then(d => setIsDevAuth(d.isDevAuth === true))
+      .then(d => {
+        const ok = d.isDevAuth === true
+        setIsDevAuth(ok)
+        if (!ok) localStorage.removeItem(DEV_HINT_KEY)
+      })
       .catch(() => {})
   }, [])
 
@@ -38,6 +50,7 @@ export function DevAuthProvider({ children }: { children: React.ReactNode }) {
       body: JSON.stringify({ password: pw }),
     }).catch(() => null)
     if (!res?.ok) return false
+    localStorage.setItem(DEV_HINT_KEY, '1')
     setIsDevAuth(true)
     return true
   }
@@ -45,6 +58,7 @@ export function DevAuthProvider({ children }: { children: React.ReactNode }) {
   async function logout() {
     await fetch('/api/dev-auth', { method: 'DELETE' }).catch(() => {})
     localStorage.removeItem(DEBUG_DATE_KEY)
+    localStorage.removeItem(DEV_HINT_KEY)
     setIsDevAuth(false)
     window.location.reload()
   }
