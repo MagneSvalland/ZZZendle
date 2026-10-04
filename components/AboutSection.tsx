@@ -39,22 +39,31 @@ const INTRO: Record<AboutMode, { heading: string; text: string }> = {
 
 export default function AboutSection({ mode }: { mode: AboutMode }) {
   const intro = INTRO[mode]
+  // Collapsed by default to keep the page minimal: a single footer-sized
+  // "About" line. The text stays in the HTML (search engines index content
+  // in collapsed <details>), unlike display:none text, which Google treats
+  // as hidden-text spam.
   return (
-    <section className="relative z-10 mx-4 sm:mx-auto mt-6 mb-2 sm:w-full max-w-2xl rounded-xl border border-zinc-800/60 bg-zinc-950/70 px-4 py-3.5 text-xs leading-relaxed text-zinc-400 backdrop-blur-sm">
-      <h2 className="text-sm font-semibold text-zinc-300">{intro.heading}</h2>
-      <p className="mt-1.5">{intro.text}</p>
-      <h3 className="mt-4 font-semibold text-zinc-300">Game modes</h3>
-      <ul className="mt-1.5 space-y-1">
-        {MODES.map((m) => (
-          <li key={m.mode}>
-            <Link href={m.href} prefetch={false} className="text-yellow-500/80 hover:text-yellow-300 transition-colors">
-              {m.label}
-            </Link>
-            {' – '}
-            {m.blurb}
-          </li>
-        ))}
-      </ul>
-    </section>
+    <details className="group relative z-10 mx-4 sm:mx-auto mt-6 sm:w-full max-w-2xl text-center">
+      <summary className="cursor-pointer list-none text-[10px] text-yellow-500/70 hover:text-yellow-300 transition-colors [&::-webkit-details-marker]:hidden">
+        About ZZZendle <span className="inline-block transition-transform group-open:rotate-180">▾</span>
+      </summary>
+      <section className="mt-2 rounded-xl border border-zinc-800/60 bg-zinc-950/70 px-4 py-3.5 text-left text-xs leading-relaxed text-zinc-400 backdrop-blur-sm">
+        <h2 className="text-sm font-semibold text-zinc-300">{intro.heading}</h2>
+        <p className="mt-1.5">{intro.text}</p>
+        <h3 className="mt-4 font-semibold text-zinc-300">Game modes</h3>
+        <ul className="mt-1.5 space-y-1">
+          {MODES.map((m) => (
+            <li key={m.mode}>
+              <Link href={m.href} prefetch={false} className="text-yellow-500/80 hover:text-yellow-300 transition-colors">
+                {m.label}
+              </Link>
+              {' – '}
+              {m.blurb}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </details>
   )
 }
