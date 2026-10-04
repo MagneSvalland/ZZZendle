@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { SITE_URL } from '@/lib/links'
 
 // /debug is a dev-only tool — before this, its image galleries rendered
 // unconditionally for anyone (see DebugImageGrid.tsx), so a crawler hitting
@@ -13,5 +14,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/debug', '/api/'],
     },
+    sitemap: `${SITE_URL}/sitemap.xml`,
   }
 }

@@ -9,6 +9,8 @@ import BackgroundManager from "@/components/BackgroundManager";
 import { DEFAULT_BG_URL } from "@/lib/backgrounds";
 import { preload } from "react-dom";
 import sprite from "@/data/agent-icon-sprite.json";
+import { SITE_URL } from "@/lib/links";
+import { SITE_NAME, DEFAULT_TITLE, DEFAULT_DESCRIPTION } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,13 +22,39 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Pages set their own title/canonical/Open Graph via pageMetadata (lib/seo.ts).
 export const metadata: Metadata = {
-  title: 'ZZZendle - Daily Zenless Zone Zero Guessing Game',
-  description: 'Guess the daily Zenless Zone Zero agent across 4 game modes: Classic attribute comparison, Quote guessing, Emoji hints, and Splash art reveal. New agent every day. Free to play!',
+  metadataBase: new URL(SITE_URL),
+  title: { default: DEFAULT_TITLE, template: `%s | ${SITE_NAME}` },
+  description: DEFAULT_DESCRIPTION,
+  applicationName: SITE_NAME,
   icons: {
     icon: '/icon.png',
     apple: '/icon.png',
   },
+};
+
+// Structured data so Google knows the site's name (also as "ZZZ Wordle") and
+// that it's a free browser game.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      alternateName: ["ZZZ Wordle", "Zenless Zone Zero Wordle"],
+      url: SITE_URL,
+    },
+    {
+      "@type": "WebApplication",
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: DEFAULT_DESCRIPTION,
+      applicationCategory: "GameApplication",
+      operatingSystem: "Any",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -44,6 +72,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {/* Full-page background image + dark overlay */}
         <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0">
           <div

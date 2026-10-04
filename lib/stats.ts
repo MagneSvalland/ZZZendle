@@ -1,5 +1,6 @@
 import type { GuessComparison, StreakData } from './types'
 import { DEFAULT_TILE_SCHEME, type TileColorScheme } from './tileColorScheme'
+import { SITE_URL } from './links'
 
 const START_DATE = '2026-06-20'
 
@@ -77,8 +78,6 @@ const MODE_NAMES: Record<string, string> = {
   emoji: 'Emoji',
   quote: 'Quote',
 }
-
-const SITE_URL = 'https://www.zzzendle.com'
 
 // Share squares mirror the in-game tile colors of the player's chosen scheme
 // (lib/tileColorScheme.ts) so the pasted grid looks like what they saw.

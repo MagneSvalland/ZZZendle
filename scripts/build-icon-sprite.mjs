@@ -50,6 +50,11 @@ const map = {
   rows,
   index: Object.fromEntries(withIcon.map((a, i) => [a.id, i])),
 }
-await writeFile(path.join(ROOT, OUT_MAP), JSON.stringify(map, null, 2) + '\n')
+// Skip rewriting an unchanged map: on Windows git checks it out with CRLF,
+// and rewriting it with LF would show it as modified after every build.
+const mapPath = path.join(ROOT, OUT_MAP)
+const mapJson = JSON.stringify(map, null, 2) + '\n'
+const existing = await readFile(mapPath, 'utf-8').catch(() => '')
+if (existing.replace(/\r\n/g, '\n') !== mapJson) await writeFile(mapPath, mapJson)
 
 console.log(`${withIcon.length} icons → ${OUT_IMAGE} (${(image.length / 1024).toFixed(0)} KB, ${COLS}x${rows}), map → ${OUT_MAP}`)
