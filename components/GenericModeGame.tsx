@@ -18,6 +18,7 @@ import agentsRaw from '@/data/agents.json'
 import SearchInput from './SearchInput'
 import ModeNav from './ModeNav'
 import { KOFI_URL } from './KofiBanner'
+import GlobalStatsLine from './GlobalStatsLine'
 
 const allAgents = agentsRaw as Agent[]
 
@@ -245,6 +246,9 @@ export default function GenericModeGame({
         {/* Result panel */}
         {isOver && (
           <ModeResultPanel
+            mode={mode}
+            date={todayStr}
+            isDebug={isDebug}
             targetAgent={targetAgent}
             status={status}
             guessCount={guesses.length}
@@ -329,6 +333,9 @@ export default function GenericModeGame({
 }
 
 function ModeResultPanel({
+  mode,
+  date,
+  isDebug,
   targetAgent,
   status,
   guessCount,
@@ -336,6 +343,9 @@ function ModeResultPanel({
   shareText,
   onOpenStats,
 }: {
+  mode: string
+  date: string | null
+  isDebug: boolean
   targetAgent: Agent
   status: 'won' | 'lost'
   guessCount: number
@@ -383,6 +393,7 @@ function ModeResultPanel({
               <span className="text-yellow-400 font-semibold">{guessCount}</span>{' '}
               {guessCount === 1 ? 'guess' : 'guesses'}
             </div>
+            <GlobalStatsLine mode={mode} date={date} guessCount={guessCount} disabled={isDebug} />
             {streak > 1 && (
               <div className="text-amber-400 text-sm font-semibold">{streak}-day streak! 🔥</div>
             )}
