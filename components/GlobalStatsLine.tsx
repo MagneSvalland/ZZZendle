@@ -26,8 +26,19 @@ export default function GlobalStatsLine({
 
   useEffect(() => {
     if (disabled || !date || guessCount < 1) return
+    // Claim the submission before the request goes out, not after it
+    // returns: a second run of this effect (React Strict Mode in dev, or a
+    // remount) would otherwise POST again before the cookie exists and count
+    // the result twice. Released if the POST doesn't go through.
+    const k = sentKey(mode, date)
     let sent = false
-    try { sent = localStorage.getItem(sentKey(mode, date)) === '1' } catch { /* ignore */ }
+    try {
+      sent = localStorage.getItem(k) === '1'
+      if (!sent) localStorage.setItem(k, '1')
+    } catch { /* ignore */ }
+    const release = () => {
+      if (!sent) try { localStorage.removeItem(k) } catch { /* ignore */ }
+    }
 
     const req = sent
       ? fetch(`/api/stats?${new URLSearchParams({ mode, date, guesses: String(guessCount) })}`)
@@ -41,13 +52,11 @@ export default function GlobalStatsLine({
     req
       .then(r => (r.ok ? r.json() : null))
       .then(d => {
+        if (!d?.enabled) release()
         if (cancelled || !d?.enabled) return
-        if (!sent) {
-          try { localStorage.setItem(sentKey(mode, date), '1') } catch { /* ignore */ }
-        }
         setSummary(d.summary ?? null)
       })
-      .catch(() => {})
+      .catch(release)
     return () => { cancelled = true }
   }, [mode, date, guessCount, disabled])
 
