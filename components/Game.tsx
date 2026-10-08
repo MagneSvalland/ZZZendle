@@ -20,6 +20,7 @@ import ZZZdleLogo from './ZZZdleLogo'
 import StatsModal from './StatsModal'
 import ShareButtons from './ShareButtons'
 import { KOFI_URL } from './KofiBanner'
+import GlobalStatsLine from './GlobalStatsLine'
 
 const allAgents = agentsRaw as Agent[]
 
@@ -264,6 +265,8 @@ export default function Game() {
             streak={streakData.streak}
             shareText={shareText}
             onOpenStats={() => setStatsOpen(true)}
+            date={todayStr}
+            isDebug={isDebug}
           />
         )}
 
@@ -357,6 +360,8 @@ function ResultPanel({
   streak,
   shareText,
   onOpenStats,
+  date,
+  isDebug,
 }: {
   targetAgent: Agent
   status: 'won' | 'lost'
@@ -364,6 +369,8 @@ function ResultPanel({
   streak: number
   shareText?: string
   onOpenStats: () => void
+  date: string | null
+  isDebug: boolean
 }) {
   const won = status === 'won'
 
@@ -405,6 +412,7 @@ function ResultPanel({
               <span className="text-yellow-400 font-semibold">{guessCount}</span>{' '}
               {guessCount === 1 ? 'guess' : 'guesses'}!
             </div>
+            <GlobalStatsLine mode="classic" date={date} guessCount={guessCount} disabled={isDebug} />
             {streak > 1 && (
               <div className="text-amber-400 text-sm font-semibold">{streak}-day streak! 🔥</div>
             )}
