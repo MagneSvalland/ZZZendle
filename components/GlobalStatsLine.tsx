@@ -21,8 +21,7 @@ export default function GlobalStatsLine({
   guessCount: number
   disabled?: boolean
 }) {
-  // undefined = nothing to show, null = not enough results yet
-  const [summary, setSummary] = useState<GlobalSummary | null | undefined>(undefined)
+  const [summary, setSummary] = useState<GlobalSummary | null>(null)
 
   useEffect(() => {
     if (disabled || !date || guessCount < 1) return
@@ -60,16 +59,15 @@ export default function GlobalStatsLine({
     return () => { cancelled = true }
   }, [mode, date, guessCount, disabled])
 
-  if (summary === undefined) return null
+  if (!summary) return null
 
-  if (summary === null) {
-    return <p className="text-zinc-500 text-xs">Global stats appear once more players have finished — check back later!</p>
+  if (summary.first) {
+    return <p className="text-yellow-400 text-xs font-semibold">You&apos;re the first to solve today&apos;s puzzle! 🎉</p>
   }
 
-  const label = summary.scope === 'today' ? "Today's average" : "This week's average"
   return (
     <p className="text-zinc-400 text-xs">
-      {label}: <span className="text-zinc-200 font-semibold">{summary.average.toFixed(1)}</span> guesses
+      Today&apos;s average: <span className="text-zinc-200 font-semibold">{summary.average.toFixed(1)}</span> guesses
       {summary.topPercent <= 50 && (
         <>
           {' · '}You&apos;re in the <span className="text-yellow-400 font-semibold">top {summary.topPercent}%</span>

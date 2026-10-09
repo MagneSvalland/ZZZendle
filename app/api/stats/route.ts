@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { redisEnabled, redisPipeline } from '@/lib/redis'
-import { HISTORY_DAYS, parseHash, pickSummary } from '@/lib/globalStats'
+import { parseHash, summarize } from '@/lib/globalStats'
 import { DAILY_MODES } from '@/lib/stats'
 import agents from '@/data/agents.json'
 
@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 // Global stats for the result screen.
 // POST: record a finished daily game (once per browser, mode and day) and
 //       return the summary. GET: just the summary, for revisits.
-// Only { average, topPercent, scope } is ever returned, never player counts.
+// Only { average, topPercent, first } is ever returned, never player counts.
 
 const KEY_TTL_SECONDS = 60 * 60 * 24 * 30
 const MAX_GUESSES = agents.length
@@ -39,19 +39,12 @@ function validate(mode: unknown, date: unknown, guesses: unknown): Input | null 
   return { mode, date: date as string, guesses: g }
 }
 
-// The free Upstash tier is metered per command, so the week of history is
-// only read when today alone is too thin to show anything.
 async function summary({ mode, date, guesses }: Input, record: boolean) {
   const writes = record
     ? [['HINCRBY', key(mode, date), guesses, 1], ['EXPIRE', key(mode, date), KEY_TTL_SECONDS]]
     : []
   const results = await redisPipeline([...writes, ['HGETALL', key(mode, date)]])
-  const today = parseHash(results[writes.length])
-  const fromToday = pickSummary(today, [], guesses)
-  if (fromToday) return fromToday
-
-  const history = Array.from({ length: HISTORY_DAYS - 1 }, (_, i) => ['HGETALL', key(mode, shiftDate(date, -(i + 1)))])
-  return pickSummary(today, (await redisPipeline(history)).map(parseHash), guesses)
+  return summarize(parseHash(results[writes.length]), guesses)
 }
 
 export async function GET(req: NextRequest) {
