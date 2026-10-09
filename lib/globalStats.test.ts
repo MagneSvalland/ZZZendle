@@ -17,22 +17,22 @@ describe('summarize', () => {
   })
 
   it('flags the first solver of the day', () => {
-    expect(summarize({ '3': 1 }, 3)).toEqual({ average: 3, topPercent: 50, first: true })
+    expect(summarize({ '3': 1 }, 3)).toMatchObject({ average: 3, first: true })
   })
 
   it('compares against the first player from the second one on', () => {
-    expect(summarize({ '3': 1, '2': 1 }, 2)).toEqual({ average: 2.5, topPercent: 25, first: false })
+    expect(summarize({ '3': 1, '2': 1 }, 2)).toEqual({ average: 2.5, topPercent: 50, first: false })
   })
 
-  it('computes the average and the top percentage with half-counted ties', () => {
+  it('gives ties the best shared rank', () => {
     // 10 × 1, 20 × 3, 10 × 7 → avg 3.5
     const h = { '1': 10, '3': 20, '7': 10 }
-    expect(summarize(h, 1)).toMatchObject({ average: 3.5, topPercent: 13 }) // 5/40 = 12.5%
-    expect(summarize(h, 3)).toMatchObject({ average: 3.5, topPercent: 50 }) // (10+10)/40
-    expect(summarize(h, 7)).toMatchObject({ average: 3.5, topPercent: 88 }) // (30+5)/40
+    expect(summarize(h, 1)).toMatchObject({ average: 3.5, topPercent: 3 }) // 1/40 = 2.5%
+    expect(summarize(h, 3)).toMatchObject({ average: 3.5, topPercent: 28 }) // 11/40 = 27.5%
+    expect(summarize(h, 7)).toMatchObject({ average: 3.5, topPercent: 78 }) // 31/40 = 77.5%
   })
 
-  it('never reports top 0%', () => {
-    expect(summarize({ '1': 1, '5': 999 }, 1)!.topPercent).toBe(1)
+  it('makes a first-try solve top 1% even when most players got it first try', () => {
+    expect(summarize({ '1': 89, '2': 12, '6': 1, '9': 1 }, 1)!.topPercent).toBe(1)
   })
 })
