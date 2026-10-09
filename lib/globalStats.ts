@@ -26,8 +26,9 @@ export function parseHash(flat: unknown): Histogram {
 }
 
 /**
- * Average guesses and the player's "top X%" in `h`. Ties count half, so
- * everyone who solved it on the first try doesn't land in "top 0%".
+ * Average guesses and the player's "top X%" in `h`. Ties share the best
+ * rank: X is (players who did strictly better + 1) / all, so a first-try
+ * solve is "top 1%" even when most players also got it first try.
  */
 export function summarize(h: Histogram, guessCount: number): GlobalSummary | null {
   let n = 0
@@ -40,10 +41,9 @@ export function summarize(h: Histogram, guessCount: number): GlobalSummary | nul
     if (g < guessCount) better += count
   }
   if (n === 0) return null
-  const ties = h[String(guessCount)] ?? 0
   return {
     average: Math.round((sum / n) * 10) / 10,
-    topPercent: Math.min(100, Math.max(1, Math.round(((better + ties / 2) / n) * 100))),
+    topPercent: Math.min(100, Math.max(1, Math.round(((better + 1) / n) * 100))),
     first: n === 1,
   }
 }
