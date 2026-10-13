@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 // Global stats for the result screen.
 // POST: record a finished daily game (once per browser, mode and day) and
 //       return the summary. GET: just the summary, for revisits.
-// Only { average, topPercent, first } is ever returned, never player counts.
+// Only the GlobalSummary (average and percentages) is returned, never player counts.
 
 const KEY_TTL_SECONDS = 60 * 60 * 24 * 30
 const MAX_GUESSES = agents.length
