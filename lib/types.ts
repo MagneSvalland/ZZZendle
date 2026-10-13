@@ -17,7 +17,10 @@ export interface Agent {
   splash_focus: string | null
   alt_splash_images?: string[]
   alt_splash_names?: string[]
-  quote: string
+  /** Voice lines for quote mode; the first is the one used before QUOTE_VARIANTS_FROM. */
+  quotes: string[]
+  /** First date the agent can be the quote-mode answer (for agents given quotes later). */
+  quotes_from?: string
   emojis: string[]
   available_from?: string
 }

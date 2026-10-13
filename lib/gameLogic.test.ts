@@ -16,7 +16,7 @@ function makeAgent(overrides: Partial<Agent>): Agent {
     icon_image: null,
     splash_image: null,
     splash_focus: null,
-    quote: '',
+    quotes: [],
     emojis: [],
     ...overrides,
   }

@@ -12,7 +12,11 @@
     "icon_image": "/images/agents/Agent_Alexandrina_Sebastiane_Icon.png",
     "splash_image": "/images/agents/Agent_Alexandrina_Sebastiane_Portrait.png",
     "splash_focus": "center 60%",
-    "quote": "Are you the new master? Rina from Victoria Housekeeping, at your service.",
+    "quotes": [
+      "Are you the new master? Rina from Victoria Housekeeping, at your service.",
+      "Shopping is a required skill for a professional maid.",
+      "Don't worry, I'll gracefully avoid any physical contact with pedestrians~"
+    ],
     "emojis": [
       "⚡",
       "👻",
@@ -37,7 +41,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Alice_Thymefield_Sea_of_Thyme_Portrait.png"
     ],
-    "quote": "T—This... A Thymefield descendant would never back down from a challenge of this level!",
+    "quotes": [
+      "T—This... A Thymefield descendant would never back down from a challenge of this level!",
+      "Today, you shall be my knight. Sound good?",
+      "Oh! Did you want to take a photo? Sure... But make sure things look symmetrical!"
+    ],
     "emojis": [
       "👻",
       "⚖️",
@@ -62,7 +70,11 @@
     "icon_image": "/images/agents/Agent_Anby_Demara_Icon.png",
     "splash_image": "/images/agents/Agent_Anby_Demara_Portrait.png",
     "splash_focus": "center 60%",
-    "quote": "This isn't true, I never take fictional stories seriously. For example, I know the Starlight Knight isn't real, putting on their belts and shouting 'Transform!' to gain superpowers... Obviously you'd need to be bitten by a mutant insect for that.",
+    "quotes": [
+      "This isn't true, I never take fictional stories seriously. For example, I know the Starlight Knight isn't real, putting on their belts and shouting 'Transform!' to gain superpowers... Obviously you'd need to be bitten by a mutant insect for that.",
+      "I'm currently replaying the movie I watched last night in my head.",
+      "Nicole hates it when I spend money."
+    ],
     "emojis": [
       "🗡️",
       "😐",
@@ -84,7 +96,11 @@
     "icon_image": "/images/agents/Agent_Anton_Ivanov_Icon.png",
     "splash_image": "/images/agents/Agent_Anton_Ivanov_Portrait.png",
     "splash_focus": "center 50%",
-    "quote": "Got a job you can't handle? Leave it to me!",
+    "quotes": [
+      "Got a job you can't handle? Leave it to me!",
+      "Where are we going? How about we do push-ups all the way there!",
+      "What do you think, I've got the face of a real bro, right?!"
+    ],
     "emojis": [
       "⚡",
       "🚧",
@@ -109,7 +125,12 @@
     "alt_splash_images": [
       "/images/agents/Agent_Aria_Discordant_Note_Portrait.png"
     ],
-    "quote": "",
+    "quotes": [
+      "Together, let's create the most bea~utiful stage in the world!",
+      "So leave your worries at the door! Follow me, and let's dive into the world of music~",
+      "When delusion spreads, everything around you turns into a hazy kaleidoscope of colors..."
+    ],
+    "quotes_from": "2026-10-14",
     "emojis": [
       "✨",
       "🎀",
@@ -134,7 +155,11 @@
     "icon_image": "/images/agents/Agent_Asaba_Harumasa_Icon.png",
     "splash_image": "/images/agents/Agent_Asaba_Harumasa_Portrait.png",
     "splash_focus": "center 52%",
-    "quote": "Nice to meet you, unless you're here to make me work overtime.",
+    "quotes": [
+      "Nice to meet you, unless you're here to make me work overtime.",
+      "Don't worry. I have a very consistent ability to withstand pressure — consistently weak, that is.",
+      "Oh, you aren't possibly thinking of making poor, frail me carry anything heavy, are you?"
+    ],
     "emojis": [
       "⚡",
       "💉",
@@ -159,7 +184,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Astra_Yao_Chandelier_Portrait.png"
     ],
-    "quote": "It's too late! You're now officially invited to join me on my one-day escape plan. I'm gonna ditch work, run away, and make my way to Reverb Arena!",
+    "quotes": [
+      "It's too late! You're now officially invited to join me on my one-day escape plan. I'm gonna ditch work, run away, and make my way to Reverb Arena!",
+      "There's no need for disguises. We're heading out into the world with confidence!",
+      "Sorry~ the spotlight is still mine!"
+    ],
     "emojis": [
       "🎵",
       "⭐",
@@ -184,7 +213,11 @@
     "icon_image": "/images/agents/Agent_Banyue_Icon.png",
     "splash_image": "/images/agents/Agent_Banyue_Portrait.png",
     "splash_focus": "center 62%",
-    "quote": "How dare you vile creatures tread upon the lands under my protection!",
+    "quotes": [
+      "How dare you vile creatures tread upon the lands under my protection!",
+      "I may be slow, but I still have two fists to swing.",
+      "The sun sets beyond distant mountains... Have you been well these days?"
+    ],
     "emojis": [
       "💥",
       "⚖️",
@@ -206,7 +239,11 @@
     "icon_image": "/images/agents/Agent_Ben_Bigger_Icon.png",
     "splash_image": "/images/agents/Agent_Ben_Bigger_Portrait.png",
     "splash_focus": "center 48%",
-    "quote": "Ahem, hello, I was invited to represent Belobog Industries' management in this interview. I'm Ben Bigger. Oh... I won't eat you, there's no need to play dead.",
+    "quotes": [
+      "Ahem, hello, I was invited to represent Belobog Industries' management in this interview. I'm Ben Bigger. Oh... I won't eat you, there's no need to play dead.",
+      "Do you need me to act tough and fierce while we're traveling later?",
+      "My fingers are too big. I doubt I'll have much luck with arcade games."
+    ],
     "emojis": [
       "🔥",
       "📋",
@@ -228,7 +265,11 @@
     "icon_image": "/images/agents/Agent_Billy_Kid_Icon.png",
     "splash_image": "/images/agents/Agent_Billy_Kid_Portrait.png",
     "splash_focus": "center 52%",
-    "quote": "The Starlight Knights never lose!",
+    "quotes": [
+      "The Starlight Knights never lose!",
+      "Guns are a guy's best friend. Uh, you don't think so?",
+      "Aw man, I should've bought that expression module."
+    ],
     "emojis": [
       "🤠",
       "🔫",
@@ -250,7 +291,11 @@
     "icon_image": "/images/agents/Agent_Burnice_White_Icon.png",
     "splash_image": "/images/agents/Agent_Burnice_White_Portrait.png",
     "splash_focus": "center 58%",
-    "quote": "Not bad, right? I made this Nitro-Fuel with a brand new flavor using a special ingredient that I got from the city.",
+    "quotes": [
+      "Not bad, right? I made this Nitro-Fuel with a brand new flavor using a special ingredient that I got from the city.",
+      "We can watch something burn... If you're free.",
+      "Just lean back and chug it in one go! You'll be fired up in no time!"
+    ],
     "emojis": [
       "🔥",
       "💥",
@@ -272,7 +317,11 @@
     "icon_image": "/images/agents/Agent_Caesar_King_Icon.png",
     "splash_image": "/images/agents/Agent_Caesar_King_Portrait.png",
     "splash_focus": "center 62%",
-    "quote": "I come, I see, I crash!",
+    "quotes": [
+      "I come, I see, I crash!",
+      "My power's not just to conquer, but also to protect.",
+      "I've still got a long way to become a strong Overlord..."
+    ],
     "emojis": [
       "🛡️",
       "🗡️",
@@ -294,7 +343,11 @@
     "icon_image": "/images/agents/Agent_Cissia_Icon.png",
     "splash_image": "/images/agents/Agent_Cissia_Portrait.png",
     "splash_focus": "center 60%",
-    "quote": "Who works for public security? Me? C'mon, quit it with the horror stories!",
+    "quotes": [
+      "Who works for public security? Me? C'mon, quit it with the horror stories!",
+      "You guys and your whole 'love' and 'responsibility' and whatnot... How complicated. I just know one thing — if I like it, I sink my teeth in and don't let go~",
+      "If things go south, you can bet I'll be the first one outta here!"
+    ],
     "emojis": [
       "⚡",
       "😋",
@@ -316,7 +369,11 @@
     "icon_image": "/images/agents/Agent_Corin_Wickes_Icon.png",
     "splash_image": "/images/agents/Agent_Corin_Wickes_Portrait.png",
     "splash_focus": "center 65%",
-    "quote": "Domestic work or not, leave everything to her! (Oh, uhh? B-but I'm not that good!)",
+    "quotes": [
+      "Domestic work or not, leave everything to her! (Oh, uhh? B-but I'm not that good!)",
+      "We stopped... I-is it because I was secretly peeling apples with my saw?",
+      "S-s-sorry! I thought I'd scared everyone off."
+    ],
     "emojis": [
       "⚙️",
       "🧸",
@@ -338,7 +395,11 @@
     "icon_image": "/images/agents/Agent_Dialyn_Icon.png",
     "splash_image": "/images/agents/Agent_Dialyn_Portrait.png",
     "splash_focus": "center 62%",
-    "quote": "A complaint? Hey, don't get too worked up~",
+    "quotes": [
+      "A complaint? Hey, don't get too worked up~",
+      "Keep staring, your discount's going up by the second.",
+      "Ding dong, your five-star customer service representative is online~ Cash or transfer?"
+    ],
     "emojis": [
       "📈",
       "💀",
@@ -363,7 +424,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Ellen_Joe_On_Campus_Portrait.png"
     ],
-    "quote": "Ah, another annoying commission... I should've taken a different shift.",
+    "quotes": [
+      "Ah, another annoying commission... I should've taken a different shift.",
+      "The sun's so bright... My tail's dehydrating...",
+      "Not sure why, but the more I look at the camera, the sleepier I feel..."
+    ],
     "emojis": [
       "🧊",
       "😴",
@@ -388,7 +453,11 @@
     "icon_image": "/images/agents/Agent_Evelyn_Chevalier_Icon.png",
     "splash_image": "/images/agents/Agent_Evelyn_Chevalier_Portrait.png",
     "splash_focus": "center 55%",
-    "quote": "10 o'clock, guy in black. He's suspicious. I'll take care of him.",
+    "quotes": [
+      "10 o'clock, guy in black. He's suspicious. I'll take care of him.",
+      "It's my duty to protect the asset.",
+      "Don't leave my line of sight. It's just a safety precaution..."
+    ],
     "emojis": [
       "👥",
       "🔥",
@@ -410,7 +479,12 @@
     "icon_image": "/images/agents/Agent_Grace_Howard_Icon.png",
     "splash_image": "/images/agents/Agent_Grace_Howard_Portrait.png",
     "splash_focus": "center 60%",
-    "quote": "",
+    "quotes": [
+      "Is there something odd going on with your microphone's audio? Hmm, it's possible that a stray hair got in... Mind if I check your inner parts for you?",
+      "You kinda look like a short-circuiting Bangboo right now.",
+      "What if I designed some mechanical parts to look like flowers? That could be pretty artistic~"
+    ],
+    "quotes_from": "2026-10-14",
     "emojis": [
       "🛠️",
       "🧨",
@@ -435,7 +509,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Hoshimi_Miyabi_Dignified_Blossom_Portrait.png"
     ],
-    "quote": "I'm busy — lots of meetings and reports to take care of. If there's nothing else, I need to get back to my sword practice.",
+    "quotes": [
+      "I'm busy — lots of meetings and reports to take care of. If there's nothing else, I need to get back to my sword practice.",
+      "Do you need me to kill... Oh, is that not it?",
+      "Suddenly reflecting on battles past... Oh, I forgot the next line."
+    ],
     "emojis": [
       "🔥",
       "🗡️",
@@ -460,7 +538,11 @@
     "icon_image": "/images/agents/Agent_Hugo_Vlad_Icon.png",
     "splash_image": "/images/agents/Agent_Hugo_Vlad_Portrait.png",
     "splash_focus": "center 50%",
-    "quote": "My dear friend, I'll be back, like an avalanche.",
+    "quotes": [
+      "My dear friend, I'll be back, like an avalanche.",
+      "Heads represents lies, and tails, death. Yet the result has long been decided.",
+      "Feeling up for something thrilling? How about... a vault heist?"
+    ],
     "emojis": [
       "🧊",
       "🌹",
@@ -485,7 +567,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Jane_Doe_Nocturne_of_Light_Portrait.png"
     ],
-    "quote": "Oh, Frank... He's definitely a one-of-a-kind gentleman. Even the way he eats instant noodles is elegant.",
+    "quotes": [
+      "Oh, Frank... He's definitely a one-of-a-kind gentleman. Even the way he eats instant noodles is elegant.",
+      "Wanna... He~ Be my research subject?",
+      "Hmm... Which alias should I use this time?"
+    ],
     "emojis": [
       "😏",
       "🔪",
@@ -510,7 +596,12 @@
     "icon_image": "/images/agents/Agent_Ju_Fufu_Icon.png",
     "splash_image": "/images/agents/Agent_Ju_Fufu_Portrait.png",
     "splash_focus": "center 60%",
-    "quote": "",
+    "quotes": [
+      "Fierce tigers prowl Yunkui Summit, where righteous heroes display their might!",
+      "I'm not an orange cat Thiren... and definitely not a tabby either!",
+      "I'll devour the little ones, the naughty and the sly! Not a bone left behind, not a soul to deny!"
+    ],
+    "quotes_from": "2026-10-14",
     "emojis": [
       "😋",
       "🔔",
@@ -532,7 +623,11 @@
     "icon_image": "/images/agents/Agent_Koleda_Belobog_Icon.png",
     "splash_image": "/images/agents/Agent_Koleda_Belobog_Portrait.png",
     "splash_focus": "center 52%",
-    "quote": "I'm Belobog Heavy Industries' president, Koleda!",
+    "quotes": [
+      "I'm Belobog Heavy Industries' president, Koleda!",
+      "Just so we're clear, don't squat for photos, okay?",
+      "Feels like PubSec's about to show up and ask where my parents are..."
+    ],
     "emojis": [
       "🔥",
       "⚒️",
@@ -557,7 +652,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Komano_Manato_White_Heart_Silhouette_Portrait.png"
     ],
-    "quote": "If any trouble comes up, just get behind me.",
+    "quotes": [
+      "If any trouble comes up, just get behind me.",
+      "If a teacher from the company school shows up, you didn't see nothin', got it?",
+      "If talking won't work, then fists will."
+    ],
     "emojis": [
       "🗡️",
       "🍜",
@@ -582,7 +681,11 @@
     "icon_image": "/images/agents/Agent_Lighter_Icon.png",
     "splash_image": "/images/agents/Agent_Lighter_Portrait.png",
     "splash_focus": "center 50%",
-    "quote": "Is anyone up for challenging the undefeated Champion?",
+    "quotes": [
+      "Is anyone up for challenging the undefeated Champion?",
+      "I'm always down for taking a break. Can the show really go on without me?",
+      "Too bad... I can't take 'em back to the Outer Ring."
+    ],
     "emojis": [
       "💪",
       "🕶️",
@@ -604,7 +707,11 @@
     "icon_image": "/images/agents/Agent_Lucia_Elowen_Icon.png",
     "splash_image": "/images/agents/Agent_Lucia_Elowen_Portrait.png",
     "splash_focus": "center 60%",
-    "quote": "Wanna hear a story about Ethereals? If you listen, we'll be friends! Listen to one more, and we'll be best friends!",
+    "quotes": [
+      "Wanna hear a story about Ethereals? If you listen, we'll be friends! Listen to one more, and we'll be best friends!",
+      "Hm? Were you looking at my horns? You can touch them if you want.",
+      "If you don't come over soon, the City Phantom is gonna whisk me away."
+    ],
     "emojis": [
       "✨",
       "📖",
@@ -626,7 +733,11 @@
     "icon_image": "/images/agents/Agent_Luciana_de_Montefio_Icon.png",
     "splash_image": "/images/agents/Agent_Luciana_de_Montefio_Portrait.png",
     "splash_focus": "center 62%",
-    "quote": "An honoured guest just arrived. Allow me, lady Lucy, to entertain you.",
+    "quotes": [
+      "An honoured guest just arrived. Allow me, lady Lucy, to entertain you.",
+      "I'm growing stronger... Soon, I'll be able to defeat Caesar!",
+      "Proxy, I know I'm gorgeous, but could you stop staring?"
+    ],
     "emojis": [
       "😤",
       "🔥",
@@ -651,7 +762,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Nangong_Yu_Rhapsody's_Muse_Portrait.png"
     ],
-    "quote": "Next, it's punishment time, reserved only for well-behaved kids~ Oh my, looks like someone's already getting excited?",
+    "quotes": [
+      "Next, it's punishment time, reserved only for well-behaved kids~ Oh my, looks like someone's already getting excited?",
+      "It's just a meet-and-greet, why so nervous? Worried you'll fall for me?",
+      "My biggest headache? It's gotta be 'keeping those two in check'... My greatest joy? I already told you that too~"
+    ],
     "emojis": [
       "✨",
       "🍀",
@@ -676,7 +791,11 @@
     "icon_image": "/images/agents/Agent_Nekomiya_Mana_Icon.png",
     "splash_image": "/images/agents/Agent_Nekomiya_Mana_Portrait.png",
     "splash_focus": "center 60%",
-    "quote": "The best mackerel is always the one you haven't eaten yet~",
+    "quotes": [
+      "The best mackerel is always the one you haven't eaten yet~",
+      "I'm bored out of my mind. Is there anything I can knock over?",
+      "You're staring at me like I'm food... I'm not a mackerel, you know!"
+    ],
     "emojis": [
       "⚔️",
       "🔔",
@@ -701,7 +820,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Nicole_Demara_Cunning_Cutie_Portrait.png"
     ],
-    "quote": "The Hollows are a disaster, but they're also a gold mine. It just depends on whether you're the miner or the dirt.",
+    "quotes": [
+      "The Hollows are a disaster, but they're also a gold mine. It just depends on whether you're the miner or the dirt.",
+      "It's on the house this time. Next time when you stare at me like this, I'm charging you by the minute.",
+      "*sigh* Look at these beautiful hands. They're clearly only suitable for high-reward, low-risk work."
+    ],
     "emojis": [
       "💼",
       "🤑",
@@ -726,7 +849,11 @@
     "icon_image": "/images/agents/Agent_Orphie_Magnusson_and_Magus_Icon.png",
     "splash_image": "/images/agents/Agent_Orphie_Magnusson_and_Magus_Portrait.png",
     "splash_focus": "center 60%",
-    "quote": "Stop staring at those flashy action figure ads! Or I'll confiscate all those ones you've got stashed in your drawer!",
+    "quotes": [
+      "Stop staring at those flashy action figure ads! Or I'll confiscate all those ones you've got stashed in your drawer!",
+      "Is this a \"you blink, you lose\" training drill?",
+      "Hm... This pot of flowers really matches Captain's barrel!"
+    ],
     "emojis": [
       "🔫",
       "💥",
@@ -751,7 +878,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Pan_Yinhu_Culinary_Jewel_Portrait.png"
     ],
-    "quote": "Fiber clears the murky air, protein guards the primal spirit.",
+    "quotes": [
+      "Fiber clears the murky air, protein guards the primal spirit.",
+      "Man is iron, rice is steel. I make a mean chittlins meal.",
+      "Take your time in dealing with tough cookies. But first, time to deal with these buns."
+    ],
     "emojis": [
       "💪",
       "🏷️",
@@ -776,7 +907,11 @@
     "icon_image": "/images/agents/Agent_Piper_Wheel_Icon.png",
     "splash_image": "/images/agents/Agent_Piper_Wheel_Portrait.png",
     "splash_focus": "center 65%",
-    "quote": "Ya need a lift? Then buckle up, buddy.",
+    "quotes": [
+      "Ya need a lift? Then buckle up, buddy.",
+      "Mind if I hop in Steeltusk and take a nap?",
+      "Surprised you'd wanna invite lil ol' me... Where we goin'?"
+    ],
     "emojis": [
       "💫",
       "😴",
@@ -798,7 +933,12 @@
     "icon_image": "/images/agents/Agent_Promeia_Icon.png",
     "splash_image": "/images/agents/Agent_Promeia_Portrait.png",
     "splash_focus": "center 62%",
-    "quote": "",
+    "quotes": [
+      "I've been prepared to crash and burn for a long time now.",
+      "Moths are destined to fade away in a lightless night... but I don't see that as tragic.",
+      "Death isn't my enemy, it's... my salvation."
+    ],
+    "quotes_from": "2026-10-14",
     "emojis": [
       "❄️",
       "😐",
@@ -820,7 +960,12 @@
     "icon_image": "/images/agents/Agent_Pulchra_Fellini_Icon.png",
     "splash_image": "/images/agents/Agent_Pulchra_Fellini_Portrait.png",
     "splash_focus": "center 62%",
-    "quote": "",
+    "quotes": [
+      "My loyalty lies with the winner. And the winner? That's always me.",
+      "If you want to take my picture it'll cost you. Five shots, 20% off.",
+      "Betrayal? No need to make it sound so harsh."
+    ],
+    "quotes_from": "2026-10-14",
     "emojis": [
       "💰",
       "😤",
@@ -842,7 +987,9 @@
     "icon_image": "/images/agents/Agent_Pyrois_Icon.png",
     "splash_image": "/images/agents/Agent_Pyrois_Portrait.png",
     "splash_focus": "center 60%",
-    "quote": "Grip tight the reins tempered by the light of dawn. What's scorched never fades beneath the skin — Until they step onto the promised golden chariot once more.",
+    "quotes": [
+      "Grip tight the reins tempered by the light of dawn. What's scorched never fades beneath the skin — Until they step onto the promised golden chariot once more."
+    ],
     "emojis": [
       "🗡️",
       "🌀",
@@ -864,7 +1011,11 @@
     "icon_image": "/images/agents/Agent_Qingyi_Icon.png",
     "splash_image": "/images/agents/Agent_Qingyi_Portrait.png",
     "splash_focus": "center 62%",
-    "quote": "Slacking off? I don't get it... There's still so much I have yet to learn about youth slang.",
+    "quotes": [
+      "Slacking off? I don't get it... There's still so much I have yet to learn about youth slang.",
+      "Do you want to have a staring contest? First one to blink loses. Then I expect to lose in 27 hours and 56 minutes.",
+      "What's the matter? Are you in energy-saving mode too?"
+    ],
     "emojis": [
       "🤖",
       "👮",
@@ -886,7 +1037,11 @@
     "icon_image": "/images/agents/Agent_Seed_Icon.png",
     "splash_image": "/images/agents/Agent_Seed_Portrait.png",
     "splash_focus": "center 52%",
-    "quote": "Proxies are like... our 'kindred spirits.' Just like four-leaf clovers and canola flowers.",
+    "quotes": [
+      "Proxies are like... our 'kindred spirits.' Just like four-leaf clovers and canola flowers.",
+      "Where should we go? Ooh! Wanna kidnap the mayor and make him extend our vacation?",
+      "Careful now~ This is how I sent a poor officer flying last time!"
+    ],
     "emojis": [
       "👥",
       "💪",
@@ -908,7 +1063,11 @@
     "icon_image": "/images/agents/Agent_Seth_Lowell_Icon.png",
     "splash_image": "/images/agents/Agent_Seth_Lowell_Portrait.png",
     "splash_focus": "center 50%",
-    "quote": "Captain, I'll apprehend the perp! First, gotta pretend to be completely harmless... Ah... saw right through me, huh? Well, whatever, guess it's time we talk with our fists instead!",
+    "quotes": [
+      "Captain, I'll apprehend the perp! First, gotta pretend to be completely harmless... Ah... saw right through me, huh? Well, whatever, guess it's time we talk with our fists instead!",
+      "Hmm... This kind of transaction... is outside Public Security's jurisdiction, right?",
+      "Must... prank... No, no, not while you're daydreaming."
+    ],
     "emojis": [
       "🛡️",
       "📋",
@@ -930,7 +1089,11 @@
     "icon_image": "/images/agents/Agent_Soldier_0_-_Anby_Icon.png",
     "splash_image": "/images/agents/Agent_Soldier_0_-_Anby_Portrait.png",
     "splash_focus": "center 62%",
-    "quote": "If Nicole asks, please cover for me.",
+    "quotes": [
+      "If Nicole asks, please cover for me.",
+      "If only the battlefield was just another scene in a movie.",
+      "Despite a bad ending, once the camera stops rolling, no one's really gone."
+    ],
     "emojis": [
       "👥",
       "⚡",
@@ -952,7 +1115,12 @@
     "icon_image": "/images/agents/Agent_Soldier_11_Icon.png",
     "splash_image": "/images/agents/Agent_Soldier_11_Portrait.png",
     "splash_focus": "center 62%",
-    "quote": "",
+    "quotes": [
+      "If you want me to act freely, please issue the command \"Act Freely\" first.",
+      "...My name? I gave it up long ago. It's only a reminder of my past.",
+      "Sorry, I didn't get the memo about your sudden nearsightedness."
+    ],
+    "quotes_from": "2026-10-14",
     "emojis": [
       "🔥",
       "🗡️",
@@ -974,7 +1142,11 @@
     "icon_image": "/images/agents/Agent_Soukaku_Icon.png",
     "splash_image": "/images/agents/Agent_Soukaku_Portrait.png",
     "splash_focus": "center 65%",
-    "quote": "I'm happy as long as I can always eat my fill~",
+    "quotes": [
+      "I'm happy as long as I can always eat my fill~",
+      "If I shout Pudding Slash, do you think I'll get some pudding?",
+      "Oh, this place... Nagi usually doesn't let me play here..."
+    ],
     "emojis": [
       "❄️",
       "🌪️",
@@ -996,7 +1168,10 @@
     "icon_image": "/images/agents/Agent_Starlight_-_Billy_Kid_Icon.png",
     "splash_image": "/images/agents/Agent_Starlight_-_Billy_Kid_Portrait.png",
     "splash_focus": "center 55%",
-    "quote": "Just a Starlight Knight passing through!",
+    "quotes": [
+      "Just a Starlight Knight passing through!",
+      "I bet you're dying to know who's riding this absolutely sick, insanely cool, straight-up illegal-levels-of-awesome motorcycle?"
+    ],
     "emojis": [
       "✨",
       "🔫",
@@ -1021,7 +1196,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Sunna_Afternoon_Tea_Break_Portrait.png"
     ],
-    "quote": "Aaaaaah! I'm so—so nervous... I just wish I could find a way... to make the entire audience disappear!",
+    "quotes": [
+      "Aaaaaah! I'm so—so nervous... I just wish I could find a way... to make the entire audience disappear!",
+      "Step left, spin to the right, raise my hand... Huh? Where did I start falling behind the beat again—",
+      "Ugh, stop laughing! My arms and legs just have a mind of their own..."
+    ],
     "emojis": [
       "😵",
       "🖥️",
@@ -1046,7 +1225,12 @@
     "icon_image": "/images/agents/Agent_Trigger_Icon.png",
     "splash_image": "/images/agents/Agent_Trigger_Portrait.png",
     "splash_focus": "center 65%",
-    "quote": "",
+    "quotes": [
+      "I may only have touch and scent to guide me, but that won't get in the way of how I arrange them.",
+      "I might be able to find you by your scent, but I'm not a dog... Could you maybe slow down?",
+      "I will find the true culprit behind the fall of the old capital and make them pay for what they've done."
+    ],
+    "quotes_from": "2026-10-14",
     "emojis": [
       "⚡",
       "🔫",
@@ -1068,7 +1252,11 @@
     "icon_image": "/images/agents/Agent_Tsukishiro_Yanagi_Icon.png",
     "splash_image": "/images/agents/Agent_Tsukishiro_Yanagi_Portrait.png",
     "splash_focus": "center 62%",
-    "quote": "One day, I was so hungry from working overtime that I nearly passed out, but luckily Asaba tossed me a 'lifeline,' and I managed to pull through.",
+    "quotes": [
+      "One day, I was so hungry from working overtime that I nearly passed out, but luckily Asaba tossed me a 'lifeline,' and I managed to pull through.",
+      "All good. This is much easier than having to watch Chief churn out reports.",
+      "You made the wrong choice — just kidding. Um... not funny?"
+    ],
     "emojis": [
       "⚡",
       "📋",
@@ -1093,7 +1281,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Ukinami_Yuzuha_Tanuki_in_Broad_Daylight_Portrait.png"
     ],
-    "quote": "Feeling down on your luck? Why not... ask the tanuki for some advice?",
+    "quotes": [
+      "Feeling down on your luck? Why not... ask the tanuki for some advice?",
+      "Look, a UFO—! ...Aw, why didn't you fall for it? I was gonna poke you!",
+      "Hey Kama, wanna draw a mustache on the Proxy's face?"
+    ],
     "emojis": [
       "👻",
       "😏",
@@ -1121,7 +1313,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Velina_Airgid_Shade_of_Leisure_Portrait.png"
     ],
-    "quote": "Welcome to Roscaelifer. I'm Velina, head of the External Strategy Department. I'll be your guide.",
+    "quotes": [
+      "Welcome to Roscaelifer. I'm Velina, head of the External Strategy Department. I'll be your guide.",
+      "If something's bugging me, I'll deal with it appropriately. If something's bugging me, heh...",
+      "So these Bangboo are refusing their routine annual inspection again... Don't worry, I'll handle it accordingly. After all, it's about time we threw another tea party."
+    ],
     "emojis": [
       "🌪️",
       "🍵",
@@ -1149,7 +1345,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Vivian_Banshee_Iris_of_the_Shore_Portrait.png"
     ],
-    "quote": "Do not close the window, for the birds will bring love and carry away death.",
+    "quotes": [
+      "Do not close the window, for the birds will bring love and carry away death.",
+      "Don't you know? Get my dress dirty and you'll pay.",
+      "Would you like to stand under my parasol with me~?"
+    ],
     "emojis": [
       "🟣",
       "😍",
@@ -1175,7 +1375,11 @@
     "icon_image": "/images/agents/Agent_Norma_Hollowell_Icon.png",
     "splash_image": "/images/agents/Agent_Norma_Hollowell_Portrait.png",
     "splash_focus": "center 50%",
-    "quote": "If a Hollow Raider and a Bangboo with the same mass both fell from Roscaelifer at the same time, which one would hit the ground first?",
+    "quotes": [
+      "If a Hollow Raider and a Bangboo with the same mass both fell from Roscaelifer at the same time, which one would hit the ground first?",
+      "Battle Sequence B: Ehn-nah Barrage! Battle Sequence A: Rumble Drill! Battle Sequence Z... You won't wanna know~",
+      "That time when you spun around like a top for three days straight was just a rare occurrence!"
+    ],
     "emojis": [
       "🤓",
       "🤖",
@@ -1197,7 +1401,11 @@
     "icon_image": "/images/agents/Agent_Von_Lycaon_Icon.png",
     "splash_image": "/images/agents/Agent_Von_Lycaon_Portrait.png",
     "splash_focus": "center 50%",
-    "quote": "Your personal attendant Lycaon, at your service.",
+    "quotes": [
+      "Your personal attendant Lycaon, at your service.",
+      "It is an attendant's responsibility to manage wealth prudently.",
+      "I'll bite your throat out!"
+    ],
     "emojis": [
       "🌙",
       "❄️",
@@ -1223,7 +1431,11 @@
       "/images/agents/Agent_Ye_Shunguang_Enlightened_Mind_Portrait.png",
       "/images/agents/Agent_Ye_Shunguang_Touch_of_Dawnlight_Portrait.png"
     ],
-    "quote": "So, you're Shifu's new apprentice. Since senior Fufu is your most senior sister, that makes me your second senior sister. Among all our fellow disciples, you're the only one who calls me senior sister! If you need any help, I'll be more than happy to lend a hand!",
+    "quotes": [
+      "So, you're Shifu's new apprentice. Since senior Fufu is your most senior sister, that makes me your second senior sister. Among all our fellow disciples, you're the only one who calls me senior sister! If you need any help, I'll be more than happy to lend a hand!",
+      "Wanna feel my ears? Hm... I guess that's okay...",
+      "The Qingming blade will always be raised against your enemies!"
+    ],
     "emojis": [
       "⚔️",
       "⛩️",
@@ -1249,7 +1461,11 @@
     "icon_image": "/images/agents/Agent_Yidhari_Murphy_Icon.png",
     "splash_image": "/images/agents/Agent_Yidhari_Murphy_Portrait.png",
     "splash_focus": "center 62%",
-    "quote": "I wish stories never end — then I'd have the courage to keep turning pages forever.",
+    "quotes": [
+      "I wish stories never end — then I'd have the courage to keep turning pages forever.",
+      "Now, I have something else to look forward to besides rainy days.",
+      "It's not raining today, but the air is still filled with my favorite scent."
+    ],
     "emojis": [
       "🔨",
       "😴",
@@ -1274,7 +1490,11 @@
     "alt_splash_images": [
       "/images/agents/Agent_Yixuan_Trails_of_Ink_Portrait.png"
     ],
-    "quote": "Once you enter these gates, leave your worldly concerns and formalities at the foot of the mountain.",
+    "quotes": [
+      "Once you enter these gates, leave your worldly concerns and formalities at the foot of the mountain.",
+      "Hm? Is your soul still with us?",
+      "The divination said today is a good day to travel with someone fated... It seems that someone is you."
+    ],
     "emojis": [
       "🤔",
       "📜",
@@ -1299,7 +1519,11 @@
     "icon_image": "/images/agents/Agent_Zhao_Icon.png",
     "splash_image": "/images/agents/Agent_Zhao_Portrait.png",
     "splash_focus": "center 50%",
-    "quote": "Since you're here, how about we cut a deal?",
+    "quotes": [
+      "Since you're here, how about we cut a deal?",
+      "Where'd you go? Abandoning a bunny is immoral, you know.",
+      "There's nothing in this world I'm not good at."
+    ],
     "emojis": [
       "🧊",
       "📈",
@@ -1321,7 +1545,11 @@
     "icon_image": "/images/agents/Agent_Zhu_Yuan_Icon.png",
     "splash_image": "/images/agents/Agent_Zhu_Yuan_Portrait.png",
     "splash_focus": "center 65%",
-    "quote": "Leader of Public Security's Criminal Investigation team, Zhu Yuan, standing by. You can come to me if you need any help.",
+    "quotes": [
+      "Leader of Public Security's Criminal Investigation team, Zhu Yuan, standing by. You can come to me if you need any help.",
+      "Phew! Manager, you'd certainly get high scores if you took a physical fitness test!",
+      "I—I'm wearing some makeup today... Does it look weird?"
+    ],
     "emojis": [
       "⚖️",
       "😵",
@@ -1341,6 +1569,11 @@
     "release_version": "3.1",
     "icon_image": "/images/agents/Agent_Remielle_Dan_Icon.png",
     "splash_image": "/images/agents/Agent_Remielle_Dan_Portrait.png",
+    "quotes": [
+      "So that makes us... 'accomplices'? Somehow that gets my heart racing way more than 'dance partners' ever could~",
+      "Being mysterious just leaves something to look forward to for the next reunion. Doesn't that make you happy?"
+    ],
+    "quotes_from": "2026-10-14",
     "emojis": [
       "✨",
       "😇",
@@ -1348,7 +1581,6 @@
       "🥤",
       "🕊️"
     ],
-    "quote": "",
     "available_from": "2026-07-30",
     "splash_focus": "center 30%"
   },
@@ -1365,7 +1597,11 @@
     "icon_image": "/images/agents/Agent_Sigrid_de_L'Azur_Icon.png",
     "splash_image": "/images/agents/Agent_Sigrid_de_L'Azur_Portrait.png",
     "splash_focus": "center 65%",
-    "quote": "Glory guides us onward!",
+    "quotes": [
+      "Glory guides us onward!",
+      "This thing's called an air fryer...? You can bake without an open flame?",
+      "It reminds me of Researcher Norma's hat... Hmm, maybe I'll stuff some dough in there next time and see what happens."
+    ],
     "emojis": [
       "🛡️",
       "💪",
@@ -1387,7 +1623,10 @@
     "icon_image": "/images/agents/Agent_Claret_Flint_Icon.png",
     "splash_image": "/images/agents/Agent_Claret_Flint_Portrait.png",
     "splash_focus": "center 60%",
-    "quote": "Let me educate you on something — the 'Flint' in front of Porcelloy isn't just there for show.",
+    "quotes": [
+      "Let me educate you on something — the 'Flint' in front of Porcelloy isn't just there for show.",
+      "You think some limited-edition dessert is gonna get you Porcelloy...? The same trick won't work on me twice, you know!"
+    ],
     "emojis": [
       "⚡",
       "🔨",
@@ -1410,7 +1649,10 @@
     "icon_image": "/images/agents/Agent_Roxy_Ifrita_Pryce_Icon.png",
     "splash_image": "/images/agents/Agent_Roxy_Ifrita_Pryce_Portrait.png",
     "splash_focus": "center 20%",
-    "quote": "Milady, you said everything was going according to plan... I assume 'getting lost' is also a part of that plan, too.",
+    "quotes": [
+      "Milady, you said everything was going according to plan... I assume 'getting lost' is also a part of that plan, too.",
+      "Coffins may serve a simple and single purpose, but their user reviews have always been consistent."
+    ],
     "emojis": [
       "⚰️",
       "🌪️",

@@ -2,10 +2,11 @@
 
 import type { Agent } from '@/lib/types'
 import { getQuoteSegments } from '@/lib/quoteRedaction'
+import { getQuoteForDay } from '@/lib/getAgentOfTheDay'
 import GenericModeGame, { type RenderChallengeProps } from './GenericModeGame'
 
-function QuoteChallenge({ targetAgent, isOver }: { targetAgent: Agent; isOver: boolean }) {
-  const segments = getQuoteSegments(targetAgent)
+function QuoteChallenge({ targetAgent, isOver, date }: { targetAgent: Agent; isOver: boolean; date: string }) {
+  const segments = getQuoteSegments(targetAgent, getQuoteForDay(targetAgent, date))
 
   return (
     <div className="w-full rounded-xl border border-zinc-700/50 bg-zinc-800/40 p-6 flex flex-col gap-4">
@@ -47,8 +48,8 @@ function getQuoteHints(agent: Agent): string[] {
   ]
 }
 
-function renderQuoteChallenge({ targetAgent, isOver }: RenderChallengeProps) {
-  return <QuoteChallenge targetAgent={targetAgent} isOver={isOver} />
+function renderQuoteChallenge({ targetAgent, isOver, date }: RenderChallengeProps) {
+  return <QuoteChallenge targetAgent={targetAgent} isOver={isOver} date={date} />
 }
 
 export default function QuoteGame() {
