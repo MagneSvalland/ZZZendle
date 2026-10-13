@@ -50,6 +50,19 @@ const COOLDOWN_DAYS = 30
 // Always start from launch so every date shares the same historical context.
 const LAUNCH_DATE = '2026-06-20'
 
+// Agents got several quotes on this date. Before it, each agent's first quote
+// is used, so earlier days keep the line they were played with.
+const QUOTE_VARIANTS_FROM = '2026-10-14'
+
+const hasQuoteOn = (a: Agent, d: string) => a.quotes.length > 0 && (!a.quotes_from || a.quotes_from <= d)
+
+/** The line quote mode shows for `agent` on `dateStr`. */
+export function getQuoteForDay(agent: Agent, dateStr: string): string {
+  if (agent.quotes.length === 0) return ''
+  if (dateStr < QUOTE_VARIANTS_FROM) return agent.quotes[0]
+  return agent.quotes[seedHash(dateStr + 'quote-line') % agent.quotes.length]
+}
+
 interface DayPicks { classic: Agent | null; emoji: Agent | null; quote: Agent | null }
 
 /**
@@ -87,8 +100,8 @@ function buildPickHistory(targetDate: string): Map<string, DayPicks> {
     const eFinal = ePool.length > 0 ? ePool : available.filter(a => a.id !== splashId && a.id !== classic?.id)
     const emoji  = eFinal[seedHash(d + 'emoji') % eFinal.length] ?? null
 
-    const qPool  = available.filter(a => a.quote && a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id && !quoteRecent.has(a.id))
-    const qFinal = qPool.length > 0 ? qPool : available.filter(a => a.quote && a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id)
+    const qPool  = available.filter(a => hasQuoteOn(a, d) && a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id && !quoteRecent.has(a.id))
+    const qFinal = qPool.length > 0 ? qPool : available.filter(a => hasQuoteOn(a, d) && a.id !== splashId && a.id !== classic?.id && a.id !== emoji?.id)
     const quote  = qFinal[seedHash(d + 'quote') % qFinal.length] ?? null
 
     history.set(d, { classic, emoji, quote })

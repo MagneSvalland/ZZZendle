@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getAgentOfTheDay, getAgentForMode } from './getAgentOfTheDay'
+import { getAgentOfTheDay, getAgentForMode, getQuoteForDay } from './getAgentOfTheDay'
 import agentsData from '@/data/agents.json'
 import scheduleData from '@/data/schedule.json'
 import classicOverridesData from '@/data/classic-overrides.json'
@@ -116,5 +116,41 @@ describe('getAgentForMode — classic/emoji/quote seeded picks', () => {
         expect(picks[i]).not.toBe(picks[j])
       }
     }
+  })
+})
+
+describe('quote mode with several quotes per agent', () => {
+  const nextDay = (d: string) => {
+    const n = new Date(d + 'T12:00:00')
+    n.setDate(n.getDate() + 1)
+    return n.toLocaleDateString('en-CA')
+  }
+
+  it('gives every agent at least one quote', () => {
+    for (const a of agents) expect(a.quotes.length, a.name).toBeGreaterThan(0)
+  })
+
+  it('keeps the first quote for days before the variants', () => {
+    for (const a of agents) expect(getQuoteForDay(a, '2026-10-13')).toBe(a.quotes[0])
+  })
+
+  it('never picks an agent before its quotes_from date', () => {
+    const late = new Map(agents.filter(a => a.quotes_from).map(a => [a.id, a.quotes_from!]))
+    expect(late.size).toBeGreaterThan(0)
+    for (let d = '2026-09-01'; d <= '2026-10-13'; d = nextDay(d)) {
+      const id = getAgentForMode('quote', d)?.id
+      if (id && late.has(id)) expect(d >= late.get(id)!).toBe(true)
+    }
+  })
+
+  it('rotates through the lines from the variants date on', () => {
+    const multi = agents.find(a => a.quotes.length >= 3)!
+    const seen = new Set<string>()
+    for (let d = '2026-10-14'; d <= '2026-12-31'; d = nextDay(d)) {
+      const q = getQuoteForDay(multi, d)
+      expect(multi.quotes).toContain(q)
+      seen.add(q)
+    }
+    expect(seen.size).toBe(multi.quotes.length)
   })
 })

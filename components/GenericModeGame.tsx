@@ -27,6 +27,8 @@ export interface RenderChallengeProps {
   targetAgent: Agent
   isOver: boolean
   status: 'playing' | 'won' | 'lost'
+  /** The puzzle's date (YYYY-MM-DD). */
+  date: string
 }
 
 interface Props {
@@ -209,7 +211,7 @@ export default function GenericModeGame({
 
         {/* Challenge content */}
         <div className="w-full flex justify-center">
-          {renderChallenge({ wrongGuesses, targetAgent, isOver, status })}
+          {renderChallenge({ wrongGuesses, targetAgent, isOver, status, date: todayStr ?? '' })}
         </div>
 
         {/* Progressive hints */}
