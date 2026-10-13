@@ -68,7 +68,16 @@ export default function GlobalStatsLine({
   return (
     <p className="text-zinc-400 text-xs">
       Today&apos;s average: <span className="text-zinc-200 font-semibold">{summary.average.toFixed(1)}</span> guesses
-      {summary.topPercent <= 50 && (
+      {summary.soloBest ? (
+        <>
+          {' · '}<span className="text-yellow-400 font-semibold">Best result today! 🏆</span>
+        </>
+      ) : summary.bestShare !== null ? (
+        <>
+          {' · '}You&apos;re among the <span className="text-yellow-400 font-semibold">{summary.bestShare}%</span> who
+          got it in {guessCount === 1 ? '1 guess' : `${guessCount} guesses`}
+        </>
+      ) : summary.topPercent <= 50 && (
         <>
           {' · '}You&apos;re in the <span className="text-yellow-400 font-semibold">top {summary.topPercent}%</span>
         </>
