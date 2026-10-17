@@ -2,7 +2,7 @@
 
 A daily guessing game for **Zenless Zone Zero** agents, in the spirit of Wordle and Loldle.
 
-Play it at **[zzzendle.com](https://www.zzzendle.com)**. 150+ daily users.
+Play it at **[zzzendle.com](https://www.zzzendle.com)**. 200+ daily users.
 
 ![ZZZendle Classic mode](docs/Classic-mode.png)
 
