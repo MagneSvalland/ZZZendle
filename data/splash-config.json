@@ -525,9 +525,9 @@
     "focusX": 50
   },
   "2026-10-22": {
-    "portrait": "/images/agents/Agent_Pulchra_Fellini_Portrait.png",
-    "focus": 62,
-    "focusX": 50
+    "portrait": "/images/agents/Agent_Billy_Kid_Portrait.png",
+    "focus": 25,
+    "focusX": 42
   },
   "2026-10-23": {
     "portrait": "/images/agents/Agent_Ju_Fufu_Portrait.png",
@@ -536,13 +536,13 @@
   },
   "2026-10-24": {
     "portrait": "/images/agents/Agent_Claret_Flint_Portrait.png",
-    "focus": 66,
-    "focusX": 54
+    "focus": 50,
+    "focusX": 75
   },
   "2026-10-25": {
-    "portrait": "/images/agents/Agent_Billy_Kid_Portrait.png",
-    "focus": 52,
-    "focusX": 50
+    "portrait": "/images/agents/Agent_Pyrois_Portrait.png",
+    "focus": 42,
+    "focusX": 33
   },
   "2026-10-26": {
     "portrait": "/images/agents/Agent_Qingyi_Portrait.png",
