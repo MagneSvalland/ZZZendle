@@ -151,11 +151,13 @@ function SplashChallenge({
           if (raw) {
             const cfg: SplashConfig = JSON.parse(raw)
             const day = cfg[today]
+            // Ignore a stale entry for some other agent entirely — its focus
+            // was picked for a different image.
             if (day?.portrait && allPortraitOptions.includes(day.portrait)) {
               src = day.portrait
+              if (day.focus != null) manualFocus = day.focus
+              if (day.focusX != null) manualFocusX = day.focusX
             }
-            if (day?.focus != null) manualFocus = day.focus
-            if (day?.focusX != null) manualFocusX = day.focusX
           }
         } catch { /* ignore */ }
       }
