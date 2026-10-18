@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addDays, contiguousExt, compactFutureSchedule, remapDates, type SplashConfig } from './scheduleLogic'
+import { addDays, contiguousExt, compactFutureSchedule, dropMismatchedSplash, remapDates, type SplashConfig } from './scheduleLogic'
 
 describe('addDays', () => {
   it('advances by the given number of days', () => {
@@ -149,5 +149,29 @@ describe('contiguousExt', () => {
     const configMap: SplashConfig = { '2026-09-21': { portrait: 'scheduled.png', focus: 50 } }
     const { config } = contiguousExt({}, configMap, {}, today)
     expect(config).toEqual(configMap)
+  })
+})
+
+describe('dropMismatchedSplash — swap arrows leaving stale focus behind', () => {
+  const today = '2026-10-18'
+  const owns = { a: ['/a.png', '/a_skin.png'], b: ['/b.png'] }
+  const cfg = (portrait: string) => ({ portrait, focus: 50 })
+
+  it('drops an entry left on a day whose agent was swapped away', () => {
+    // a (with config) swapped with b (none): client moves a's entry to day 2,
+    // but the merge keeps a's old entry on day 1 where b now sits.
+    const splash: SplashConfig = { '2026-10-18': cfg('/a.png'), '2026-10-19': cfg('/a.png') }
+    const schedule = { '2026-10-18': 'b', '2026-10-19': 'a' }
+    expect(dropMismatchedSplash(splash, schedule, owns, today)).toEqual({ '2026-10-19': cfg('/a.png') })
+  })
+
+  it('keeps skins that belong to the scheduled agent', () => {
+    const splash: SplashConfig = { '2026-10-20': cfg('/a_skin.png') }
+    expect(dropMismatchedSplash(splash, { '2026-10-20': 'a' }, owns, today)).toEqual(splash)
+  })
+
+  it('leaves past days and unscheduled days alone', () => {
+    const splash: SplashConfig = { '2026-10-17': cfg('/a.png'), '2026-12-01': cfg('/a.png') }
+    expect(dropMismatchedSplash(splash, { '2026-10-17': 'b' }, owns, today)).toEqual(splash)
   })
 })

@@ -4,9 +4,9 @@ import { useState, useEffect, useMemo, type MouseEvent } from 'react'
 import agentsData from '@/data/agents.json'
 import type { Agent } from '@/lib/types'
 import { useDevAuth } from '@/contexts/DevAuthContext'
-import { addDays, contiguousExt, type SplashDayConfig, type SplashConfig } from '@/lib/scheduleLogic'
+import { addDays, contiguousExt, dropMismatchedSplash, portraitsByAgent, type SplashDayConfig, type SplashConfig } from '@/lib/scheduleLogic'
 import { SPLASH_ZOOM_LEVELS } from '@/lib/splashZoom'
-import { isLocalOrigin } from '@/lib/date'
+import { getEffectiveDate, isLocalOrigin } from '@/lib/date'
 
 const agents = agentsData as Agent[]
 // Populated at runtime from /api/schedule-data (see the mount effect below)
@@ -452,7 +452,12 @@ export default function SplashConfigurator() {
 
         const cfgStr = canUseLocalStorage ? localStorage.getItem(SPLASH_CONFIG_KEY) : null
         const extStr = canUseLocalStorage ? localStorage.getItem(SPLASH_SCHEDULE_EXT_KEY) : null
-        const local: SplashConfig = cfgStr ? JSON.parse(cfgStr) : {}
+        // A local copy can outlive changes made to the file elsewhere (another
+        // machine, a manual edit) — drop entries that no longer match the
+        // agent scheduled on that day so they can't shadow the file's.
+        const local: SplashConfig = dropMismatchedSplash(
+          cfgStr ? JSON.parse(cfgStr) : {}, schedule, portraitsByAgent(agents), getEffectiveDate(),
+        )
         const cfg: SplashConfig = { ...base, ...local }
         const rawExt: Record<string, string> = extStr ? JSON.parse(extStr) : {}
         const norm = contiguousExtLocal(rawExt, cfg)
@@ -681,12 +686,24 @@ export default function SplashConfigurator() {
         persistExt({})
         persistPendingRemove(new Set())
         persistAgentOverride({})
+        // The file is now the truth — a lingering local copy would otherwise
+        // keep overriding it forever, including later edits made elsewhere.
+        if (isLocalOrigin()) localStorage.removeItem(SPLASH_CONFIG_KEY)
         // Reload so `baseDays` reflects the schedule.json we just wrote,
         // instead of showing stale ext/base cards until a manual refresh.
         setTimeout(() => window.location.reload(), 900)
       } else {
         setSaveError(data.error ?? 'Unknown error')
         setSaveState('error')
+        // The files were written and only git failed — the staged days are
+        // already in schedule.json, so drop them here too or the next save
+        // appends them a second time.
+        if (data.written) {
+          persistExt({})
+          persistPendingRemove(new Set())
+          persistAgentOverride({})
+          if (isLocalOrigin()) localStorage.removeItem(SPLASH_CONFIG_KEY)
+        }
       }
     } catch (e) {
       setSaveError(e instanceof Error ? e.message : String(e))

@@ -88,3 +88,34 @@ export function remapDates<T>(map: Record<string, T>, dateMap: DateMap): Record<
   }
   return result
 }
+
+// agent id -> every portrait (default + skins) that agent owns, for
+// dropMismatchedSplash.
+export function portraitsByAgent(
+  agents: { id: string; splash_image?: string | null; alt_splash_images?: string[] }[],
+): Record<string, string[]> {
+  return Object.fromEntries(agents.map(a => [
+    a.id, [a.splash_image, ...(a.alt_splash_images ?? [])].filter((s): s is string => !!s),
+  ]))
+}
+
+// Drops per-day splash-config entries (from `todayStr` onward) whose portrait
+// doesn't belong to the agent actually scheduled that day. save-splash merges
+// the client's config onto what's on disk, so a key the client deleted (e.g.
+// the ◀ ▶ swap clearing one side) never reaches the file — the old entry
+// stays put and the new agent inherits another agent's zoom focus. Dates
+// with no scheduled agent are kept as-is.
+export function dropMismatchedSplash(
+  splash: SplashConfig,
+  schedule: Record<string, string>,
+  portraitsByAgent: Record<string, string[]>,
+  todayStr: string,
+): SplashConfig {
+  const result: SplashConfig = {}
+  for (const [date, cfg] of Object.entries(splash)) {
+    const agentId = schedule[date]
+    if (date >= todayStr && agentId && !(portraitsByAgent[agentId] ?? []).includes(cfg.portrait)) continue
+    result[date] = cfg
+  }
+  return result
+}

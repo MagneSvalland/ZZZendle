@@ -3,9 +3,13 @@ import { exec } from 'child_process'
 import { writeFile } from 'fs/promises'
 import path from 'path'
 import { promisify } from 'util'
-import { compactFutureSchedule, remapDates } from '@/lib/scheduleLogic'
+import { compactFutureSchedule, dropMismatchedSplash, portraitsByAgent, remapDates } from '@/lib/scheduleLogic'
+import agentsData from '@/data/agents.json'
 import { getEffectiveDate } from '@/lib/date'
 import { isDevRequest } from '@/lib/devAuth'
+import type { Agent } from '@/lib/types'
+
+const agents = agentsData as Agent[]
 
 const execAsync = promisify(exec)
 
@@ -21,6 +25,9 @@ export async function POST(req: NextRequest) {
   const splashPath = path.join(root, 'data', 'splash-config.json')
   const schedulePath = path.join(root, 'data', 'schedule.json')
 
+  // Set once the data files are written — a later git failure must still
+  // tell the client its staged days landed, or a retry re-adds them.
+  let written = false
   try {
     const { readFile } = await import('fs/promises')
 
@@ -54,6 +61,9 @@ export async function POST(req: NextRequest) {
       mergedSplash = remapDates(mergedSplash, dateMap)
     }
 
+    const finalSchedule = compactedSchedule ?? JSON.parse(await readFile(schedulePath, 'utf-8'))
+    mergedSplash = dropMismatchedSplash(mergedSplash, finalSchedule, portraitsByAgent(agents), getEffectiveDate())
+
     const sortedSplash = Object.fromEntries(
       Object.entries(mergedSplash).sort(([a], [b]) => a.localeCompare(b))
     )
@@ -65,6 +75,7 @@ export async function POST(req: NextRequest) {
       )
       await writeFile(schedulePath, JSON.stringify(sorted, null, 2))
     }
+    written = true
 
     await execAsync('git add data/splash-config.json data/schedule.json', { cwd: root })
     await execAsync('git commit -m "data: sync splash config from admin panel"', { cwd: root })
@@ -72,8 +83,11 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true })
   } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err)
-    return NextResponse.json({ ok: false, error: msg }, { status: 500 })
+    // exec errors only say "Command failed: <cmd>" in their first line —
+    // git's actual reason is in stderr, which is what's worth showing.
+    const stderr = (err as { stderr?: string })?.stderr?.trim()
+    const msg = stderr || (err instanceof Error ? err.message : String(err))
+    return NextResponse.json({ ok: false, error: msg, written }, { status: 500 })
   }
 }
 
