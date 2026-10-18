@@ -695,6 +695,15 @@ export default function SplashConfigurator() {
       } else {
         setSaveError(data.error ?? 'Unknown error')
         setSaveState('error')
+        // The files were written and only git failed — the staged days are
+        // already in schedule.json, so drop them here too or the next save
+        // appends them a second time.
+        if (data.written) {
+          persistExt({})
+          persistPendingRemove(new Set())
+          persistAgentOverride({})
+          if (isLocalOrigin()) localStorage.removeItem(SPLASH_CONFIG_KEY)
+        }
       }
     } catch (e) {
       setSaveError(e instanceof Error ? e.message : String(e))

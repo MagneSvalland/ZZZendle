@@ -25,6 +25,9 @@ export async function POST(req: NextRequest) {
   const splashPath = path.join(root, 'data', 'splash-config.json')
   const schedulePath = path.join(root, 'data', 'schedule.json')
 
+  // Set once the data files are written — a later git failure must still
+  // tell the client its staged days landed, or a retry re-adds them.
+  let written = false
   try {
     const { readFile } = await import('fs/promises')
 
@@ -72,6 +75,7 @@ export async function POST(req: NextRequest) {
       )
       await writeFile(schedulePath, JSON.stringify(sorted, null, 2))
     }
+    written = true
 
     await execAsync('git add data/splash-config.json data/schedule.json', { cwd: root })
     await execAsync('git commit -m "data: sync splash config from admin panel"', { cwd: root })
@@ -83,7 +87,7 @@ export async function POST(req: NextRequest) {
     // git's actual reason is in stderr, which is what's worth showing.
     const stderr = (err as { stderr?: string })?.stderr?.trim()
     const msg = stderr || (err instanceof Error ? err.message : String(err))
-    return NextResponse.json({ ok: false, error: msg }, { status: 500 })
+    return NextResponse.json({ ok: false, error: msg, written }, { status: 500 })
   }
 }
 
