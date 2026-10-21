@@ -505,8 +505,8 @@
     "focusX": 44
   },
   "2026-10-18": {
-    "portrait": "/images/agents/Agent_Yidhari_Murphy_Portrait.png",
-    "focus": 62,
+    "portrait": "/images/agents/Agent_Nangong_Yu_Portrait.png",
+    "focus": 60,
     "focusX": 50
   },
   "2026-10-19": {
@@ -521,93 +521,93 @@
   },
   "2026-10-21": {
     "portrait": "/images/agents/Agent_Trigger_Portrait.png",
-    "focus": 33,
-    "focusX": 44
+    "focus": 65,
+    "focusX": 50
   },
   "2026-10-22": {
+    "portrait": "/images/agents/Agent_Claret_Flint_Portrait.png",
+    "focus": 58,
+    "focusX": 90
+  },
+  "2026-10-23": {
     "portrait": "/images/agents/Agent_Ju_Fufu_Portrait.png",
     "focus": 60,
     "focusX": 50
   },
-  "2026-10-23": {
+  "2026-10-24": {
     "portrait": "/images/agents/Agent_Billy_Kid_Portrait.png",
     "focus": 25,
     "focusX": 42
   },
-  "2026-10-24": {
+  "2026-10-25": {
     "portrait": "/images/agents/Agent_Qingyi_Portrait.png",
     "focus": 25,
     "focusX": 35
   },
-  "2026-10-25": {
-    "portrait": "/images/agents/Agent_Claret_Flint_Portrait.png",
-    "focus": 50,
-    "focusX": 75
-  },
   "2026-10-26": {
+    "portrait": "/images/agents/Agent_Phoenix_Reffaella_Portrait.png",
+    "focus": 53,
+    "focusX": 25
+  },
+  "2026-10-27": {
     "portrait": "/images/agents/Agent_Pyrois_Portrait.png",
     "focus": 42,
     "focusX": 33
   },
-  "2026-10-27": {
+  "2026-10-28": {
     "portrait": "/images/agents/Agent_Anton_Ivanov_Portrait.png",
     "focus": 27,
     "focusX": 33
   },
-  "2026-10-28": {
+  "2026-10-29": {
     "portrait": "/images/agents/Agent_Caesar_King_Portrait.png",
     "focus": 35,
     "focusX": 83
   },
-  "2026-10-29": {
+  "2026-10-30": {
     "portrait": "/images/agents/Agent_Norma_Hollowell_Portrait.png",
     "focus": 32,
     "focusX": 81
   },
-  "2026-10-30": {
+  "2026-10-31": {
     "portrait": "/images/agents/Agent_Astra_Yao_Portrait.png",
     "focus": 46,
     "focusX": 65
   },
-  "2026-10-31": {
+  "2026-11-01": {
     "portrait": "/images/agents/Agent_Dialyn_Portrait.png",
     "focus": 55,
     "focusX": 71
   },
-  "2026-11-01": {
+  "2026-11-02": {
     "portrait": "/images/agents/Agent_Zhu_Yuan_Portrait.png",
     "focus": 29,
     "focusX": 46
   },
-  "2026-11-02": {
-    "portrait": "/images/agents/Agent_Yixuan_Portrait.png",
-    "focus": 25,
-    "focusX": 29
-  },
   "2026-11-03": {
+    "portrait": "/images/agents/Agent_Yixuan_Portrait.png",
+    "focus": 65,
+    "focusX": 50
+  },
+  "2026-11-04": {
     "portrait": "/images/agents/Agent_Pan_Yinhu_Portrait.png",
     "focus": 41,
     "focusX": 46
   },
-  "2026-11-04": {
-    "portrait": "/images/agents/Agent_Seed_Portrait.png",
-    "focus": 37,
-    "focusX": 75
-  },
   "2026-11-05": {
+    "portrait": "/images/agents/Agent_Seed_Portrait.png",
+    "focus": 52,
+    "focusX": 50
+  },
+  "2026-11-06": {
     "portrait": "/images/agents/Agent_Orphie_Magnusson_and_Magus_Portrait.png",
     "focus": 25,
     "focusX": 58
   },
-  "2026-11-06": {
+  "2026-11-07": {
     "portrait": "/images/agents/Agent_Nekomiya_Mana_Portrait.png",
     "focus": 25,
     "focusX": 81
-  },
-  "2026-11-07": {
-    "portrait": "/images/agents/Agent_Koleda_Belobog_Portrait.png",
-    "focus": 27,
-    "focusX": 75
   },
   "2026-11-08": {
     "portrait": "/images/agents/Agent_Cissia_Portrait.png",
@@ -615,41 +615,46 @@
     "focusX": 25
   },
   "2026-11-09": {
+    "portrait": "/images/agents/Agent_Koleda_Belobog_Portrait.png",
+    "focus": 27,
+    "focusX": 75
+  },
+  "2026-11-10": {
     "portrait": "/images/agents/Agent_Soukaku_Portrait.png",
     "focus": 81,
     "focusX": 90
   },
-  "2026-11-10": {
+  "2026-11-11": {
     "portrait": "/images/agents/Agent_Burnice_White_Portrait.png",
     "focus": 66,
     "focusX": 50
   },
-  "2026-11-11": {
+  "2026-11-12": {
     "portrait": "/images/agents/Agent_Komano_Manato_White_Heart_Silhouette_Portrait.png",
     "focus": 25,
     "focusX": 65
   },
-  "2026-11-12": {
+  "2026-11-13": {
     "portrait": "/images/agents/Agent_Zhao_Portrait.png",
     "focus": 50,
     "focusX": 50
   },
-  "2026-11-13": {
+  "2026-11-14": {
     "portrait": "/images/agents/Agent_Vivian_Banshee_Iris_of_the_Shore_Portrait.png",
     "focus": 53,
     "focusX": 71
   },
-  "2026-11-14": {
+  "2026-11-15": {
     "portrait": "/images/agents/Agent_Alice_Thymefield_Portrait.png",
     "focus": 25,
     "focusX": 25
   },
-  "2026-11-15": {
+  "2026-11-16": {
     "portrait": "/images/agents/Agent_Sigrid_de_L'Azur_Portrait.png",
     "focus": 54,
     "focusX": 25
   },
-  "2026-11-16": {
+  "2026-11-17": {
     "portrait": "/images/agents/Agent_Remielle_Dan_Seashade_Pas_Seul_Portrait.png",
     "focus": 40,
     "focusX": 25
