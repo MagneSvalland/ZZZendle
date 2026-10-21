@@ -1669,5 +1669,30 @@
       "🤓"
     ],
     "available_from": "2026-09-30"
+  },
+  {
+    "id": "phoenix",
+    "name": "Phoenix Reffaella",
+    "faction": "Krampus Compliance Authority",
+    "attribute": "Fire",
+    "specialty": "Anomaly",
+    "rank": "S",
+    "gender": "Female",
+    "release_date": "2026-10-21",
+    "release_version": "3.3",
+    "icon_image": "/images/agents/Agent_Phoenix_Reffaella_Icon.png",
+    "splash_image": "/images/agents/Agent_Phoenix_Reffaella_Portrait.png",
+    "splash_focus": "center 20%",
+    "quotes": [
+      "I'm Phoenix, one of Krampus's... judge, of sorts. Standing around's a little tiring — mind if I sit?"
+    ],
+    "emojis": [
+      "🔥",
+      "🪶",
+      "❤️",
+      "💊",
+      "🎪"
+    ],
+    "available_from": "2026-10-21"
   }
 ]

@@ -9,7 +9,7 @@ const LS_KEY = 'zzzendle-background'
 // returning visitor's old choice silently wins and they never see that a
 // new background exists unless they open the picker themselves. Set to the
 // new background's key so bumping it and adding the option happen together.
-const FORCE_VERSION = 'roxy'
+const FORCE_VERSION = 'phoenix'
 const FORCE_KEY = 'zzzendle-background-force-version'
 
 function applyBg(key: string) {
