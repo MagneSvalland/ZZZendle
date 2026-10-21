@@ -119,20 +119,20 @@ describe('buildShareText', () => {
   it('puts the header first, the grid in the middle and the site URL last', () => {
     const text = buildShareText({ mode: 'classic', puzzleNumber: 42, status: 'won', guessCount: 3 })
     const l = lines(text)
-    expect(l[0]).toBe('#ZZZendle 🎯 #42 — 3 guesses')
+    expect(l[0]).toBe('#ZZZendle 🎯 #42 - 3 guesses')
     expect(l[1]).toBe('🟥🟥🟩')
     expect(l[2]).toBe('https://www.zzzendle.com')
   })
 
   it('uses singular "guess" for a one-guess win', () => {
     const text = buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'won', guessCount: 1 })
-    expect(text).toContain('— 1 guess')
+    expect(text).toContain('- 1 guess')
     expect(text).not.toContain('1 guesses')
   })
 
   it('shows X and an all-miss row for a loss', () => {
     const text = buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'lost', guessCount: 8 })
-    expect(text).toContain('— X guesses')
+    expect(text).toContain('- X guesses')
     expect(lines(text)[1]).toBe('🟥🟥🟥🟥🟥🟥🟥🟥')
   })
 
@@ -180,7 +180,7 @@ describe('buildShareText', () => {
     expect(buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'won', guessCount: 1 })).not.toContain('🔥')
     expect(buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'lost', guessCount: 1, streak: 0 })).not.toContain('🔥')
     const text = buildShareText({ mode: 'classic', puzzleNumber: 1, status: 'won', guessCount: 1, streak: 5 })
-    expect(lines(text)[0]).toBe('#ZZZendle 🎯 #1 — 1 guess · 🔥 5')
+    expect(lines(text)[0]).toBe('#ZZZendle 🎯 #1 - 1 guess · 🔥 5')
   })
 })
 
@@ -209,7 +209,7 @@ describe('loadDailyResults / buildDailySummary', () => {
       { mode: 'emoji', status: 'lost', guessCount: 5 },
     ])
     expect(text.split('\n')).toEqual([
-      '#ZZZendle #92 — 2/4 solved',
+      '#ZZZendle #92 - 2/4 solved',
       '🎯 Classic 3 · 💬 Quote 1',
       '😊 Emoji X · 🖼️ Splash —',
       'https://www.zzzendle.com',

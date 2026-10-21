@@ -206,6 +206,11 @@ function SplashChallenge({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetAgent.id])
 
+  // Portraits cropped to fit the zoom crop (e.g. Remielle's wings cut off)
+  // can name an uncropped version to show in full once the round is over.
+  const fullSrc = portraitSrc ? targetAgent.splash_full_images?.[portraitSrc] : undefined
+  const shownSrc = isOver && fullSrc ? fullSrc : portraitSrc
+
   const bgSize = isOver
     ? 'contain'
     : `${SPLASH_ZOOM_LEVELS[Math.min(wrongGuesses, SPLASH_ZOOM_LEVELS.length - 1)]}%`
@@ -239,6 +244,11 @@ function SplashChallenge({
         className="hidden"
         onError={() => setImageError(true)}
       />
+      {/* Preload the uncropped version so the reveal doesn't flash empty */}
+      {fullSrc && !isOver && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={fullSrc} alt="" className="hidden" />
+      )}
 
       <div
         className="w-72 h-72 rounded-xl overflow-hidden border border-zinc-700/50 bg-zinc-800 relative"
@@ -252,7 +262,7 @@ function SplashChallenge({
             // apostrophe, and encodeURI() doesn't escape it either (it's in
             // JS's "unreserved" set). Breaks portraits like
             // "Agent_Sigrid_de_L'Azur" otherwise.
-            backgroundImage: `url("${portraitSrc}")`,
+            backgroundImage: `url("${shownSrc}")`,
             backgroundSize: bgSize,
             backgroundPosition: focusPos,
             backgroundRepeat: 'no-repeat',

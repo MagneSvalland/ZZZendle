@@ -49,7 +49,9 @@ export default function ShareButtons({ shareText, large = false }: { shareText: 
     handle('all', buildDailySummary(getPuzzleNumber(today), loadDailyResults(today)))
   }
 
-  const size = large ? 'flex-1 py-2.5 rounded-xl' : 'px-4 py-1.5 rounded-lg'
+  const size = large ? 'flex-1 px-3 py-2.5 rounded-xl whitespace-nowrap' : 'px-4 py-1.5 rounded-lg'
+  // The 𝕏 button is just a glyph — don't let it claim an equal third of the row.
+  const xSize = large ? 'px-4 py-2.5 rounded-xl' : size
   const modeCopied = feedback?.key === 'mode'
   const allCopied = feedback?.key === 'all'
 
@@ -74,7 +76,7 @@ export default function ShareButtons({ shareText, large = false }: { shareText: 
       </button>
       <button
         onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`, '_blank')}
-        className={`${size} text-sm font-semibold bg-black border border-zinc-700 text-white hover:bg-zinc-900 transition-colors`}
+        className={`${xSize} text-sm font-semibold bg-black border border-zinc-700 text-white hover:bg-zinc-900 transition-colors`}
       >
         𝕏
       </button>

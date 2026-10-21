@@ -1587,6 +1587,10 @@
     ],
     "available_from": "2026-07-30",
     "splash_focus": "center 30%",
+    "splash_full_images": {
+      "/images/agents/Agent_Remielle_Dan_HD_Portrait.png": "/images/agents/Agent_Remielle_Dan_Full_Portrait.png",
+      "/images/agents/Agent_Remielle_Dan_Moonlight_Whispers_HD_Portrait.png": "/images/agents/Agent_Remielle_Dan_Moonlight_Whispers_Full_Portrait.png"
+    },
     "alt_splash_names": [
       "Moonlight Whispers",
       "Seashade Pas Seul"

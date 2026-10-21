@@ -83,7 +83,7 @@ export default function StatsModal({ mode, stats, streakData, shareText, onClose
 
           {shareText && (
             <div className="flex flex-col gap-2 pt-1 border-t border-zinc-800">
-              <div className="text-[9px] text-zinc-700 font-mono whitespace-pre leading-relaxed">{shareText}</div>
+              <div className="text-xs text-yellow-400 font-mono whitespace-pre-wrap break-words leading-relaxed">{shareText}</div>
               <div className="flex gap-2">
                 <ShareButtons shareText={shareText} large />
               </div>

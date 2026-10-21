@@ -119,7 +119,7 @@ export function buildShareText(opts: {
   }
 
   const streakPart = streak && streak > 0 ? ` · 🔥 ${streak}` : ''
-  const header = `#ZZZendle ${icon} #${puzzleNumber} — ${score} guess${score === '1' ? '' : 'es'}${streakPart}`
+  const header = `#ZZZendle ${icon} #${puzzleNumber} - ${score} guess${score === '1' ? '' : 'es'}${streakPart}`
   return `${header}\n${grid}\n${SITE_URL}`
 }
 
@@ -161,7 +161,7 @@ export function buildDailySummary(puzzleNumber: number, results: DailyResult[]):
     return `${MODE_ICONS[mode]} ${MODE_NAMES[mode]} ${score}`
   })
   return [
-    `#ZZZendle #${puzzleNumber} — ${solved}/${DAILY_MODES.length} solved`,
+    `#ZZZendle #${puzzleNumber} - ${solved}/${DAILY_MODES.length} solved`,
     `${parts[0]} · ${parts[1]}`,
     `${parts[2]} · ${parts[3]}`,
     SITE_URL,
