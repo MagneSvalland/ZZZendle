@@ -9,6 +9,7 @@
 export type BackgroundOption = { key: string; label: string; url: string }
 
 export const BACKGROUNDS: BackgroundOption[] = [
+  { key: 'phoenix', label: 'Phoenix', url: '/phoenix_background.jpeg' },
   { key: 'roxy', label: 'Roxy', url: '/roxy_background_2.jpeg' },
   { key: 'claret', label: 'Claret', url: '/claret_background.png' },
   { key: 'wise', label: 'Wise', url: '/wise_background.jpeg' },
@@ -16,6 +17,6 @@ export const BACKGROUNDS: BackgroundOption[] = [
   { key: 'original', label: 'Original', url: '/dhs8uis-2c9f5bda-287e-42a7-8d63-a51df778ead7.png' },
 ]
 
-export const DEFAULT_KEY = 'roxy'
+export const DEFAULT_KEY = 'phoenix'
 
 export const DEFAULT_BG_URL = (BACKGROUNDS.find(b => b.key === DEFAULT_KEY) ?? BACKGROUNDS[0]).url
