@@ -77,7 +77,12 @@ export async function POST(req: NextRequest) {
     }
     written = true
 
-    await execAsync('git add data/splash-config.json data/schedule.json', { cwd: root })
+    // Lock today's and tomorrow's classic/emoji/quote answers (from what is
+    // live on main) before this schedule change ships — a new splash agent
+    // reshuffles every unfrozen seeded pick.
+    await execAsync('npm run freeze-picks', { cwd: root })
+
+    await execAsync('git add data/splash-config.json data/schedule.json data/daily-picks.json', { cwd: root })
     await execAsync('git commit -m "data: sync splash config from admin panel"', { cwd: root })
     await execAsync('git push', { cwd: root })
 

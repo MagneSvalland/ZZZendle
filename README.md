@@ -59,7 +59,7 @@ Then open [http://localhost:3000](http://localhost:3000).
 | `npm run build` | Production build |
 | `npm run lint` | Run ESLint |
 | `npm test` | Run the Vitest suite |
-| `npm run freeze-picks` | Lock the classic/emoji/quote answers through tomorrow, using the data live on `main`. Run it before changing agents or the schedule, so a deploy can't change a day that players have already started |
+| `npm run freeze-picks` | Lock the classic/emoji/quote answers through tomorrow, using the data live on `main`. Runs automatically with `npm run dev` and the admin panel save; CI requires it on PRs that change agents or the schedule |
 
 No environment variables are needed to play the game. The maintainer-only dev tools (🔒 button) need `DEV_PASSWORD` in `.env.local`. Set any value there if you want to try them locally.
 

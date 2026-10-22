@@ -161,7 +161,9 @@ describe('quote mode with several quotes per agent', () => {
 describe('frozen daily picks', () => {
   const frozenDates = Object.keys(dailyPicks).sort()
 
-  it('covers today and tomorrow (ET) — run `npm run freeze-picks` before changing data', () => {
+  // CI sets CHECK_FROZEN_PICKS only on PRs that touch agents/schedule data —
+  // the file going a day stale is harmless until the data changes.
+  it.runIf(process.env.CHECK_FROZEN_PICKS)('covers today and tomorrow (ET) — run `npm run freeze-picks` before changing data', () => {
     const tomorrow = new Date(getEffectiveDate() + 'T12:00:00')
     tomorrow.setDate(tomorrow.getDate() + 1)
     expect(frozenDates.at(-1)! >= tomorrow.toLocaleDateString('en-CA')).toBe(true)

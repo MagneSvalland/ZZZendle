@@ -4,7 +4,7 @@
 // so freezing before a data change locks in today's puzzle as it is live.
 // Existing entries are never overwritten.
 //
-//   npm run freeze-picks
+//   npm run freeze-picks   (also runs as part of `npm run dev`)
 import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
@@ -15,13 +15,31 @@ const ROOT = path.resolve(__dirname, '..')
 const OUT = path.join(ROOT, 'data/daily-picks.json')
 const REF = 'origin/main'
 
-execSync('git fetch -q origin main', { cwd: ROOT, stdio: 'inherit' })
-const fromMain = (file: string, fallback: string) => {
+// Runs on every `npm run dev` and admin-panel save, so being offline or
+// outside a clone only skips the freeze — it never blocks the caller.
+try {
+  execSync('git fetch -q origin main', { cwd: ROOT, stdio: 'ignore' })
+} catch {
+  console.warn('freeze-picks: git fetch failed, using the last fetched origin/main')
+}
+const show = (file: string) =>
+  execSync(`git show ${REF}:data/${file}`, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+const fromMain = (file: string, fallback?: string) => {
   try {
-    return JSON.parse(execSync(`git show ${REF}:data/${file}`, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }))
-  } catch {
-    return JSON.parse(fallback)
+    return JSON.parse(show(file))
+  } catch (err) {
+    if (fallback !== undefined) return JSON.parse(fallback)
+    throw err
   }
+}
+
+let mainAgents, mainSchedule
+try {
+  mainAgents = fromMain('agents.json')
+  mainSchedule = fromMain('schedule.json')
+} catch {
+  console.warn(`freeze-picks: can't read ${REF}, skipping`)
+  process.exit(0)
 }
 
 const tomorrow = new Date(getEffectiveDate() + 'T12:00:00')
@@ -30,8 +48,8 @@ const through = tomorrow.toLocaleDateString('en-CA')
 
 const existing: FrozenPicks = JSON.parse(fs.readFileSync(OUT, 'utf8'))
 const live = computePickIds(through, {
-  agents: fromMain('agents.json', '[]'),
-  schedule: fromMain('schedule.json', '{}'),
+  agents: mainAgents,
+  schedule: mainSchedule,
   classicOverrides: fromMain('classic-overrides.json', '{}'),
   frozen: fromMain('daily-picks.json', '{}'),
 })

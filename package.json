@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "npm run sprite",
+    "predev": "npm run sprite && npm run freeze-picks",
     "dev": "next dev",
     "prebuild": "npm run sprite",
     "build": "next build",
