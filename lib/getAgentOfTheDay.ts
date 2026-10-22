@@ -1,6 +1,7 @@
 import scheduleData from '@/data/schedule.json'
 import agentsData from '@/data/agents.json'
 import classicOverridesData from '@/data/classic-overrides.json'
+import dailyPicksData from '@/data/daily-picks.json'
 import type { Agent } from './types'
 
 const schedule = scheduleData as Record<string, string>
@@ -9,6 +10,23 @@ const agents = agentsData as Agent[]
 // pick. Applied inside buildPickHistory (not layered on top of it) so the
 // pin still counts toward the 30-day cooldown for later dates.
 const classicOverrides = classicOverridesData as Record<string, string>
+
+export type FrozenPicks = Record<string, { classic: string | null; emoji: string | null; quote: string | null }>
+// Picks already shown to players (date -> agent ids), written by
+// scripts/freeze-picks.ts from what is live on main. Any change to the data
+// (a new agent, a splash schedule edit) reshuffles every later seeded pick,
+// so a frozen day is never recomputed — otherwise a mid-day deploy swaps the
+// puzzle under people who already solved it.
+const dailyPicks = dailyPicksData as FrozenPicks
+
+export interface PickData {
+  agents: Agent[]
+  schedule: Record<string, string>
+  classicOverrides: Record<string, string>
+  frozen: FrozenPicks
+}
+
+const liveData: PickData = { agents, schedule, classicOverrides, frozen: dailyPicks }
 
 export function getAgentOfTheDay(dateStr: string): Agent | null {
   const agentId = schedule[dateStr]
@@ -71,11 +89,20 @@ interface DayPicks { classic: Agent | null; emoji: Agent | null; quote: Agent | 
  * calling this for any target always produces the same pick for any given day.
  * O(days_since_launch × COOLDOWN_DAYS) — fast for years.
  */
-function buildPickHistory(targetDate: string): Map<string, DayPicks> {
+function buildPickHistory(targetDate: string, data: PickData = liveData): Map<string, DayPicks> {
+  const { agents, schedule, classicOverrides, frozen } = data
+  const byId = (id: string | null) => (id && agents.find(a => a.id === id)) || null
   const history = new Map<string, DayPicks>()
   let d = LAUNCH_DATE
 
   while (d <= targetDate) {
+    const f = frozen[d]
+    if (f) {
+      history.set(d, { classic: byId(f.classic), emoji: byId(f.emoji), quote: byId(f.quote) })
+      d = addDays(d, 1)
+      continue
+    }
+
     const splashId = schedule[d]
     const available = agents.filter(a => !a.available_from || a.available_from <= d)
 
@@ -109,6 +136,15 @@ function buildPickHistory(targetDate: string): Map<string, DayPicks> {
   }
 
   return history
+}
+
+/** Agent ids picked per date, launch through `targetDate`, from the given data. */
+export function computePickIds(targetDate: string, data: PickData): FrozenPicks {
+  const out: FrozenPicks = {}
+  for (const [d, p] of buildPickHistory(targetDate, data)) {
+    out[d] = { classic: p.classic?.id ?? null, emoji: p.emoji?.id ?? null, quote: p.quote?.id ?? null }
+  }
+  return out
 }
 
 /**

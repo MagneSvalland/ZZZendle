@@ -59,6 +59,7 @@ Then open [http://localhost:3000](http://localhost:3000).
 | `npm run build` | Production build |
 | `npm run lint` | Run ESLint |
 | `npm test` | Run the Vitest suite |
+| `npm run freeze-picks` | Lock the classic/emoji/quote answers through tomorrow, using the data live on `main`. Run it before changing agents or the schedule, so a deploy can't change a day that players have already started |
 
 No environment variables are needed to play the game. The maintainer-only dev tools (🔒 button) need `DEV_PASSWORD` in `.env.local`. Set any value there if you want to try them locally.
 
@@ -73,6 +74,7 @@ data/
   schedule.json          Which agent is the daily answer on each date
   splash-config.json     Per-day zoom focus for Splash mode
   classic-overrides.json Per-date overrides for Classic mode
+  daily-picks.json       Frozen classic/emoji/quote answers per date (written by `npm run freeze-picks`)
 public/images/agents/   Agent icons and portraits
 ```
 

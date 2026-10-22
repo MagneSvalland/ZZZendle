@@ -1,13 +1,16 @@
 import { describe, it, expect } from 'vitest'
-import { getAgentOfTheDay, getAgentForMode, getQuoteForDay } from './getAgentOfTheDay'
+import { getAgentOfTheDay, getAgentForMode, getQuoteForDay, computePickIds, type FrozenPicks } from './getAgentOfTheDay'
+import { getEffectiveDate } from './date'
 import agentsData from '@/data/agents.json'
 import scheduleData from '@/data/schedule.json'
 import classicOverridesData from '@/data/classic-overrides.json'
+import dailyPicksData from '@/data/daily-picks.json'
 import type { Agent } from './types'
 
 const agents = agentsData as Agent[]
 const schedule = scheduleData as Record<string, string>
 const classicOverrides = classicOverridesData as Record<string, string>
+const dailyPicks = dailyPicksData as FrozenPicks
 
 // A handful of real scheduled dates, sampled from actual data instead of
 // hardcoded, so this file keeps working as the schedule grows/rotates.
@@ -152,5 +155,47 @@ describe('quote mode with several quotes per agent', () => {
       seen.add(q)
     }
     expect(seen.size).toBe(multi.quotes.length)
+  })
+})
+
+describe('frozen daily picks', () => {
+  const frozenDates = Object.keys(dailyPicks).sort()
+
+  it('covers today and tomorrow (ET) — run `npm run freeze-picks` before changing data', () => {
+    const tomorrow = new Date(getEffectiveDate() + 'T12:00:00')
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    expect(frozenDates.at(-1)! >= tomorrow.toLocaleDateString('en-CA')).toBe(true)
+  })
+
+  it('serves exactly the frozen pick for every frozen date', () => {
+    for (const d of frozenDates) {
+      expect(getAgentForMode('classic', d)?.id ?? null).toBe(dailyPicks[d].classic)
+      expect(getAgentForMode('emoji', d)?.id ?? null).toBe(dailyPicks[d].emoji)
+      expect(getAgentForMode('quote', d)?.id ?? null).toBe(dailyPicks[d].quote)
+    }
+  })
+
+  it('only references agents that exist and never that day\'s splash agent', () => {
+    const ids = new Set(agents.map(a => a.id))
+    for (const d of frozenDates) {
+      for (const id of Object.values(dailyPicks[d])) {
+        if (!id) continue
+        expect(ids.has(id), `${d}: ${id}`).toBe(true)
+        expect(id, `${d} clashes with splash`).not.toBe(schedule[d])
+      }
+    }
+  })
+
+  it('stays put when an agent is added or the splash schedule changes', () => {
+    const last = frozenDates.at(-1)!
+    const newcomer = { ...agents[0], id: 'newcomer', available_from: frozenDates[0] }
+    const reshuffled = Object.fromEntries(Object.keys(schedule).map(d => [d, 'newcomer']))
+    const picks = computePickIds(last, {
+      agents: [...agents, newcomer],
+      schedule: reshuffled,
+      classicOverrides,
+      frozen: dailyPicks,
+    })
+    for (const d of frozenDates) expect(picks[d]).toEqual(dailyPicks[d])
   })
 })

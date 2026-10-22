@@ -10,7 +10,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "sprite": "node scripts/build-icon-sprite.mjs"
+    "sprite": "node scripts/build-icon-sprite.mjs",
+    "freeze-picks": "vite-node --config vitest.config.ts scripts/freeze-picks.ts"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
