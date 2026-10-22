@@ -13,10 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      # A data change reshuffles unfrozen daily picks, so a PR that makes one
+      # must freeze today and tomorrow first (npm run freeze-picks).
+      - name: Require frozen picks when data changes
+        if: github.event_name == 'pull_request'
+        run: |
+          if ! git diff --quiet origin/${{ github.base_ref }}...HEAD -- data/agents.json data/schedule.json data/classic-overrides.json; then
+            echo "CHECK_FROZEN_PICKS=1" >> "$GITHUB_ENV"
+          fi
       - run: npm test
       - run: npm run build
