@@ -1698,5 +1698,32 @@
       "🎪"
     ],
     "available_from": "2026-10-21"
+  },
+  {
+    "id": "severian",
+    "name": "Severian Lowell",
+    "faction": "Metropolitan Order Division",
+    "attribute": "Wind",
+    "specialty": "Attack",
+    "rank": "S",
+    "gender": "Male",
+    "release_date": "2026-11-11",
+    "release_version": "3.3",
+    "icon_image": "/images/agents/Agent_Severian_Lowell_Icon.png",
+    "splash_image": "/images/agents/Agent_Severian_Lowell_Portrait.png",
+    "splash_focus": "center 20%",
+    "quotes": [
+      "Public Security Commissioner, Severian Lowell. No need for pleasantries — what's the situation?",
+      "Looks bitter? I need the effect, not the taste.",
+      "Keep moving forward. It's the only solution."
+    ],
+    "emojis": [
+      "☕",
+      "💨",
+      "⚖️",
+      "🐆",
+      "💡"
+    ],
+    "available_from": "2026-11-11"
   }
 ]
