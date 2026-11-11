@@ -1,5 +1,5 @@
 {
-  "url": "/images/agent-icons.webp?v=d30462f6e7",
+  "url": "/images/agent-icons.webp?v=63e903ee85",
   "cols": 10,
   "rows": 7,
   "index": {
@@ -63,6 +63,7 @@
     "sigrid": 57,
     "claret": 58,
     "roxy": 59,
-    "phoenix": 60
+    "phoenix": 60,
+    "severian": 61
   }
 }
