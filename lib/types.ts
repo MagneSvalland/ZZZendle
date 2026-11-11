@@ -52,4 +52,8 @@ export interface GameState {
   date: string
   guesses: string[]
   status: 'playing' | 'won' | 'lost'
+  // The agent this game was played against. A redeploy can still change the
+  // computed pick for a date (e.g. an unfrozen day), so a saved game keeps
+  // its own target instead of being re-graded against a different agent.
+  targetId?: string
 }

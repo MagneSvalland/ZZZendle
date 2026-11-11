@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "npm run sprite",
+    "predev": "npm run sprite && npm run freeze-picks",
     "dev": "next dev",
     "prebuild": "npm run sprite",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "sprite": "node scripts/build-icon-sprite.mjs"
+    "sprite": "node scripts/build-icon-sprite.mjs",
+    "freeze-picks": "vite-node --config vitest.config.ts scripts/freeze-picks.ts"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

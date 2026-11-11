@@ -90,6 +90,8 @@ export default function Game() {
       const savedGame = localStorage.getItem(gk)
       if (savedGame) {
         const state: GameState = JSON.parse(savedGame)
+        const savedTarget = state.targetId && allAgents.find(a => a.id === state.targetId)
+        if (savedTarget) setTargetAgent(savedTarget)
         setGuesses(state.guesses)
         setStatus(state.status)
       }
@@ -101,7 +103,7 @@ export default function Game() {
 
   useEffect(() => {
     if (!todayStr || targetAgent === undefined || !gameKeyRef.current) return
-    const state: GameState = { date: todayStr, guesses, status }
+    const state: GameState = { date: todayStr, guesses, status, targetId: targetAgent?.id }
     localStorage.setItem(gameKeyRef.current, JSON.stringify(state))
   }, [guesses, status, todayStr, targetAgent])
 

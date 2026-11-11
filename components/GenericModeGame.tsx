@@ -91,6 +91,8 @@ export default function GenericModeGame({
       const saved = localStorage.getItem(gk)
       if (saved) {
         const state: GameState = JSON.parse(saved)
+        const savedTarget = state.targetId && allAgents.find(a => a.id === state.targetId)
+        if (savedTarget) setTargetAgent(savedTarget)
         setGuesses(state.guesses)
         setStatus(state.status)
       }
@@ -103,7 +105,7 @@ export default function GenericModeGame({
 
   useEffect(() => {
     if (!todayStr || targetAgent === undefined || !gameKeyRef.current) return
-    localStorage.setItem(gameKeyRef.current, JSON.stringify({ date: todayStr, guesses, status }))
+    localStorage.setItem(gameKeyRef.current, JSON.stringify({ date: todayStr, guesses, status, targetId: targetAgent?.id } satisfies GameState))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [guesses, status, todayStr, targetAgent, mode])
 
