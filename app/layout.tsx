@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { DevAuthProvider } from "@/contexts/DevAuthContext";
 import DevPanel from "@/components/DevPanel";
-import { Analytics } from "@vercel/analytics/next";
+import VisitorAnalytics from "@/components/VisitorAnalytics";
 import Footer from "@/components/Footer";
 import BackgroundManager from "@/components/BackgroundManager";
 import { DEFAULT_BG_URL } from "@/lib/backgrounds";
@@ -99,7 +99,7 @@ export default function RootLayout({
           <DevPanel />
           <BackgroundManager />
         </DevAuthProvider>
-        <Analytics />
+        {process.env.VERCEL_ENV === "production" && <VisitorAnalytics />}
       </body>
     </html>
   );
